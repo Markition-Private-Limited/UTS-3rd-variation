@@ -4,7 +4,7 @@ import { BookingPanel } from "@/components/booking";
 
 export function HeroSection() {
   return (
-    <section className="relative h-[95vh] overflow-hidden rounded-[32px]">
+    <section className="relative -mx-2 -mt-2 h-[98vh] overflow-hidden rounded-[32px]">
       <div className="absolute -inset-[10%]">
         <Image
           src="/hero-bg.jpg"
@@ -20,7 +20,7 @@ export function HeroSection() {
         className="absolute inset-0"
         style={{
           background:
-            "linear-gradient(to bottom, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.35) 22%, rgba(0,0,0,0.7) 55%, rgba(0,0,0,0.75) 100%)",
+            "linear-gradient(to bottom, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.35) 22%, rgba(0,0,0,0.6) 55%, rgba(0,0,0,0) 78%, rgba(0,0,0,0) 92%, rgba(0,0,0,0.55) 100%)",
         }}
       />
 
