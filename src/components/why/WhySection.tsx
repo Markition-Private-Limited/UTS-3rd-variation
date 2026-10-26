@@ -18,8 +18,7 @@ function ArrowIcon(props: React.SVGProps<SVGSVGElement>) {
 
 export function WhySection() {
   return (
-    <section className="px-4">
-      <div className="mx-auto max-w-[1280px] rounded-3xl bg-[#f4f4f4] p-3 md:p-4">
+    <section className="px-4 py-16">
       <div className="grid grid-cols-1 gap-[10px] md:h-[540px] md:grid-cols-3 md:grid-rows-[244px_286px]">
         <div className="flex flex-col rounded-[10px] bg-white px-[16px] pb-[14px] pt-[16px] md:row-span-2">
           <span className="text-[12px] font-light leading-none tracking-[0.32em] text-neutral-500">
@@ -91,7 +90,6 @@ export function WhySection() {
             <ArrowIcon className="h-[14px] w-[14px]" />
           </OriginButton>
         </div>
-      </div>
       </div>
     </section>
   );
