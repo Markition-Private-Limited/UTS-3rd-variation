@@ -3,7 +3,6 @@
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { motion, useScroll, useTransform } from "motion/react";
-import Image from "next/image";
 import { StatCounter } from "./StatCounter";
 import { OriginButton } from "@/components/ui/origin-button";
 
