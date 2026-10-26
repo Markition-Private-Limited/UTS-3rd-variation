@@ -4,7 +4,7 @@ import { ServicesSection } from "@/components/services";
 import { WhySection } from "@/components/why";
 import { FleetSection } from "@/components/fleet/FleetSection";
 import { TestimonialsSection } from "@/components/testimonials/TestimonialsSection";
-import { CTASection } from "@/components/cta/CTASection";
+import { CTASection } from "@/components/cta/CtaSection";
 import { FooterSection } from "@/components/footer/FooterSection";
 
 export default function Home() {
