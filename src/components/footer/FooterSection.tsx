@@ -32,7 +32,7 @@ export function FooterSection() {
         <div className="grid grid-cols-1 gap-12 md:grid-cols-2 lg:grid-cols-[1.6fr_1fr_1fr_1fr_1.8fr]">
 
           {/* Brand column */}
-          <div className="flex flex-col gap-5">
+          <div className="flex flex-col items-start gap-5">
             <Image
               src="/logo.png"
               alt="United Travel Services"
@@ -48,7 +48,7 @@ export function FooterSection() {
 
           {/* Services */}
           <div className="flex flex-col gap-5">
-            <h3 className="text-[11px] font-semibold tracking-[0.18em] text-white/90 uppercase">
+            <h3 style={{ fontFamily: "var(--font-inter), Inter, sans-serif", fontWeight: 600, fontSize: "14.19px", lineHeight: "100%", letterSpacing: "0.4em", textTransform: "uppercase", color: "rgba(255,255,255,0.9)" }}>
               Services
             </h3>
             <ul className="flex flex-col gap-3">
@@ -67,7 +67,7 @@ export function FooterSection() {
 
           {/* Our Fleet */}
           <div className="flex flex-col gap-5">
-            <h3 className="text-[11px] font-semibold tracking-[0.18em] text-white/90 uppercase">
+            <h3 style={{ fontFamily: "var(--font-inter), Inter, sans-serif", fontWeight: 600, fontSize: "14.19px", lineHeight: "100%", letterSpacing: "0.4em", textTransform: "uppercase", color: "rgba(255,255,255,0.9)" }}>
               Our Fleet
             </h3>
             <ul className="flex flex-col gap-3">
@@ -86,7 +86,7 @@ export function FooterSection() {
 
           {/* Contact */}
           <div className="flex flex-col gap-5">
-            <h3 className="text-[11px] font-semibold tracking-[0.18em] text-white/90 uppercase">
+            <h3 style={{ fontFamily: "var(--font-inter), Inter, sans-serif", fontWeight: 600, fontSize: "14.19px", lineHeight: "100%", letterSpacing: "0.4em", textTransform: "uppercase", color: "rgba(255,255,255,0.9)" }}>
               Contact
             </h3>
             <ul className="flex flex-col gap-3">
@@ -105,7 +105,7 @@ export function FooterSection() {
 
           {/* Ready to Book */}
           <div className="flex flex-col gap-5">
-            <h3 className="text-[11px] font-semibold tracking-[0.18em] text-white/90 uppercase">
+            <h3 style={{ fontFamily: "var(--font-inter), Inter, sans-serif", fontWeight: 600, fontSize: "14.19px", lineHeight: "100%", letterSpacing: "0.4em", textTransform: "uppercase", color: "rgba(255,255,255,0.9)" }}>
               Ready to Book
             </h3>
             <p className="text-[15px] leading-relaxed text-white/55" style={{ maxWidth: 280 }}>
