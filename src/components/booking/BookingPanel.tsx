@@ -83,7 +83,7 @@ export function BookingPanel() {
             </span>
           </div>
           <span className="flex items-center gap-1 text-sm font-light tracking-[-0.01em] text-white">
-            <StarIcon className="h-4 w-4 text-amber-400" /> 4.9 Rating across USA
+            <StarIcon className="h-4 w-4 text-amber-400" /> 4.9 Rating across the UK
           </span>
         </div>
       </div>

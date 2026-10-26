@@ -11,7 +11,7 @@ const inter = Inter({
 
 export const metadata: Metadata = {
   title: "United Travel Services — Executive Chauffeur",
-  description: "Luxury chauffeur services across the US.",
+  description: "Luxury chauffeur services across the UK.",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

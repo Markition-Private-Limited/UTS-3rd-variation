@@ -19,7 +19,7 @@ export function Footer() {
             className="-ml-2.5 h-14 w-auto"
           />
           <p className="mt-5 max-w-[290px] text-[18px] font-light leading-[34px] tracking-[-0.01em] text-neutral-300">
-            Executive chauffeur services across the US — designed for seamless travel, exceptional
+            Executive chauffeur services across the UK — designed for seamless travel, exceptional
             comfort, and effortless elegance.
           </p>
         </div>

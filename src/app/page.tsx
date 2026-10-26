@@ -13,7 +13,9 @@ export default function Home() {
       <main className="bg-white p-4">
         <HeroSection />
         <div className="h-16 md:h-24" />
-        <AboutSection />
+        <div className="-mx-4">
+          <AboutSection />
+        </div>
         <div className="h-16 md:h-24" />
         <ServicesSection />
         <div className="h-16 md:h-24" />
@@ -21,7 +23,7 @@ export default function Home() {
       </main>
       <FleetSection />
       <TestimonialsSection />
-      <div className="bg-white px-4 pb-4">
+      <div className="bg-white px-4 pt-4 pb-[56px]">
         <CTASection />
       </div>
       <div className="bg-white p-4">
