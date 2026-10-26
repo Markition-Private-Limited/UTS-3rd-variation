@@ -214,7 +214,7 @@ export function ServicesSection() {
           ref={pinnedContentRef}
           className={isPinned ? "sticky top-0 overflow-hidden" : undefined}
         >
-          <div className="relative mb-6 flex flex-col items-start justify-between gap-6 px-10 pt-8 md:flex-row md:items-end">
+          <div className="relative mb-6 flex flex-col items-start justify-between gap-6 px-10 pt-14 md:flex-row md:items-end">
             <div>
               <span className="ml-2 block text-[13px] font-normal tracking-[0.35em] text-neutral-300">
                 OUR SERVICES
