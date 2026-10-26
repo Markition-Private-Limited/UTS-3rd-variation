@@ -36,9 +36,9 @@ export function FooterSection() {
             <Image
               src="/logo.png"
               alt="United Travel Services"
-              width={180}
-              height={60}
-              className="h-14 w-auto object-contain"
+              width={200}
+              height={70}
+              className="h-14 w-auto"
             />
             <p className="text-[15px] leading-relaxed text-white/60" style={{ maxWidth: 260 }}>
               Executive chauffeur services across the US — designed for seamless travel,
