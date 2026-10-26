@@ -1,3 +1,4 @@
+"use client";
 import Image from "next/image";
 
 function ArrowIcon(props: React.SVGProps<SVGSVGElement>) {
@@ -8,11 +9,14 @@ function ArrowIcon(props: React.SVGProps<SVGSVGElement>) {
   );
 }
 
-export function CtaSection() {
+export function CTASection() {
   return (
-    <section className="relative mx-auto h-[480px] overflow-hidden rounded-[32px] bg-black md:mx-[1.5%]">
+    <section
+      className="relative overflow-hidden bg-black"
+      style={{ height: "560px", borderRadius: "30px" }}
+    >
       <Image
-        src="/cta/chauffeur-car.jpg"
+        src="/cta-bg.jpg"
         alt="Luxury chauffeur car"
         fill
         sizes="100vw"
@@ -22,21 +26,56 @@ export function CtaSection() {
       <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/25 to-black/40" />
       <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-transparent to-black/60" />
 
-      <div className="relative z-10 flex h-full flex-col justify-center px-8 md:px-20">
-        <span className="text-[17px] font-light leading-none tracking-[0.35em] text-white/90">
-          YOUR JOURNEY STARTS HERE
+      <div className="relative z-10 flex h-full flex-col justify-center px-14 py-16">
+        <span
+          className="uppercase text-white/90"
+          style={{
+            fontFamily: "var(--font-inter), sans-serif",
+            fontWeight: 400,
+            fontSize: "17.9px",
+            lineHeight: "100%",
+            letterSpacing: "0.4em",
+            marginBottom: "24px",
+          }}
+        >
+          Your Journey Starts Here
         </span>
-        <h2 className="mt-6 text-[38px] leading-[1.25] tracking-[-0.06em] text-white md:text-[50px] md:leading-[62px]">
-          <span className="block font-extralight">Ready to Experience</span>
-          <span className="block font-medium">Luxury Chauffeur Travel?</span>
+
+        <h2
+          className="text-white"
+          style={{
+            fontSize: "52px",
+            lineHeight: "1.21",
+            letterSpacing: "-0.06em",
+            marginBottom: "32px",
+          }}
+        >
+          <span className="block font-light">Ready to Experience</span>
+          <span className="block font-bold">Luxury Chauffeur Travel?</span>
         </h2>
-        <p className="mt-6 max-w-[500px] text-[17px] font-light leading-[32px] tracking-[-0.02em] text-white/90">
-          Wherever you&apos;re headed, enjoy a seamless journey with professional chauffeurs and
-          exceptional comfort.
+
+        <p
+          className="text-white/90"
+          style={{
+            fontSize: "17px",
+            fontWeight: 300,
+            lineHeight: "32px",
+            letterSpacing: "-0.02em",
+            maxWidth: "500px",
+            marginBottom: "40px",
+          }}
+        >
+          Wherever you&apos;re headed, enjoy a seamless journey with professional
+          chauffeurs and exceptional comfort.
         </p>
-        <button className="mt-6 flex h-[58px] w-fit items-center gap-4 border border-white/50 px-6 text-[16px] font-light tracking-[0.15em] text-white transition-colors hover:bg-white/10">
-          BOOK YOUR CHAUFFEUR
-          <ArrowIcon className="h-6 w-6" />
+
+        <button className="cta-btn w-fit border border-white/30 px-8 py-5 text-white">
+          <span className="btn-content text-[16px] font-light tracking-[0.15em] uppercase">
+            Book Your Chauffeur
+            <span className="arrow-icon">
+              <ArrowIcon className="h-5 w-5" />
+            </span>
+          </span>
         </button>
       </div>
     </section>
