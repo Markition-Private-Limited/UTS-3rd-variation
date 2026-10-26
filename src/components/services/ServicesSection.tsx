@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { motion, useScroll, useTransform } from "motion/react";
 import { StatCounter } from "./StatCounter";
@@ -169,7 +170,7 @@ export function ServicesSection() {
           ref={pinnedContentRef}
           className={isPinned ? "sticky top-0 overflow-hidden" : undefined}
         >
-          <div className="mb-6 flex flex-col items-start justify-between gap-6 px-10 pt-8 md:flex-row md:items-end">
+          <div className="relative mb-6 flex flex-col items-start justify-between gap-6 px-10 pt-8 md:flex-row md:items-end">
             <div>
               <span className="ml-2 block text-[13px] font-normal tracking-[0.35em] text-neutral-300">
                 OUR SERVICES
@@ -180,10 +181,14 @@ export function ServicesSection() {
               </h2>
             </div>
 
-            <p className="mb-1 max-w-[480px] text-[14px] font-light leading-[200%] tracking-[-0.02em] text-neutral-300">
+            <p className="relative z-10 mb-1 max-w-[480px] text-[14px] font-light leading-[200%] tracking-[-0.02em] text-neutral-300">
               From airport transfers to executive travel, explore our luxury chauffeur services
               designed around your comfort, convenience, and schedule.
             </p>
+
+            <div className="pointer-events-none absolute right-16 top-0 h-[260px] w-[260px] opacity-40 md:h-[320px] md:w-[320px]">
+              <Image src="/uts-mark.png" alt="" fill className="object-contain brightness-0 invert" aria-hidden />
+            </div>
           </div>
 
           <div
