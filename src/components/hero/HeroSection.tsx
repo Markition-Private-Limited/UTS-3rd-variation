@@ -5,21 +5,29 @@ import { BookingPanel } from "@/components/booking";
 export function HeroSection() {
   return (
     <section className="relative h-[95vh] overflow-hidden rounded-[32px]">
-      <Image
-        src="/hero-bg.jpg"
-        alt="Chauffeur opening car door"
-        fill
-        priority
-        sizes="100vw"
-        className="object-cover"
-        style={{ objectPosition: "center 0%", transform: "scale(1.3) translate(-3%, -10%)" }}
+      <div className="absolute -inset-[10%]">
+        <Image
+          src="/hero-bg.jpg"
+          alt="Chauffeur opening car door"
+          fill
+          priority
+          sizes="100vw"
+          className="object-cover"
+          style={{ objectPosition: "center 40%" }}
+        />
+      </div>
+      <div
+        className="absolute inset-0"
+        style={{
+          background:
+            "linear-gradient(to bottom, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.15) 22%, rgba(0,0,0,0.55) 55%, rgba(0,0,0,0.75) 100%)",
+        }}
       />
-      <div className="absolute inset-0 bg-gradient-to-b from-black/55 via-black/25 to-black/55" />
 
       <div className="relative z-10 flex h-full flex-col">
         <Navbar />
 
-        <div className="flex flex-1 items-end justify-between gap-10 px-10 pb-64">
+        <div className="flex flex-1 items-end justify-between gap-10 px-10 pb-60">
           <h1 className="max-w-[980px] shrink-0">
             <span className="block text-[72px] leading-[121%] tracking-[-0.06em] font-extralight text-white">
               Executive Chauffeur
