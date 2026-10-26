@@ -1,5 +1,6 @@
 "use client";
 import Image from "next/image";
+import { OriginButton } from "@/components/ui/origin-button";
 
 function ArrowIcon(props: React.SVGProps<SVGSVGElement>) {
   return (
@@ -69,14 +70,14 @@ export function CTASection() {
           chauffeurs and exceptional comfort.
         </p>
 
-        <button className="cta-btn w-fit border border-white/30 px-8 py-5 text-white">
-          <span className="btn-content text-[16px] font-light tracking-[0.15em] uppercase">
-            Book Your Chauffeur
-            <span className="arrow-icon">
-              <ArrowIcon className="h-5 w-5" />
-            </span>
-          </span>
-        </button>
+        <OriginButton
+          className="w-fit border border-white/30 px-8 py-5 text-[16px] font-light tracking-[0.15em] text-white uppercase"
+          fillColor="#ffffff"
+          fillTextColor="#111111"
+        >
+          Book Your Chauffeur
+          <ArrowIcon className="h-5 w-5" />
+        </OriginButton>
       </div>
     </section>
   );

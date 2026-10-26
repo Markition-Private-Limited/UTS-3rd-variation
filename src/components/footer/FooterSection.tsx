@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import { OriginButton } from "@/components/ui/origin-button";
 
 const SERVICES_LINKS = [
   { label: "Airport Transfers", href: "#" },
@@ -114,7 +115,7 @@ export function FooterSection() {
             </p>
 
             {/* Book Now button — exact Figma spec */}
-            <button
+            <OriginButton
               style={{
                 width: "148.96px",
                 height: "53.2px",
@@ -123,11 +124,9 @@ export function FooterSection() {
                 padding: "11.82px 18.92px",
                 gap: "11.82px",
                 background: "linear-gradient(180deg, #FFFFFF 0%, #999999 100%)",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                cursor: "pointer",
               }}
+              fillColor="#111111"
+              fillTextColor="#ffffff"
             >
               <span
                 style={{
@@ -137,12 +136,11 @@ export function FooterSection() {
                   lineHeight: "121%",
                   letterSpacing: "-0.05em",
                   textTransform: "uppercase",
-                  color: "#111111",
                 }}
               >
                 Book Now
               </span>
-            </button>
+            </OriginButton>
           </div>
         </div>
       </div>

@@ -1,4 +1,5 @@
-import Image from "next/image";
+import { OriginButton } from "@/components/ui/origin-button";
+import { ParallaxImage } from "@/components/ui/parallax-image";
 
 const FACTS = [
   { label: "Chauffeurs", value: "Professional" },
@@ -51,20 +52,18 @@ export function WhySection() {
         </div>
 
         <div className="relative min-h-[300px] md:min-h-0 overflow-hidden rounded-[10px] md:row-span-2">
-          <Image
+          <ParallaxImage
             src="/why/seated-client.jpg"
             alt="Passenger seated in a chauffeured car"
-            fill
             sizes="(max-width: 768px) 100vw, 33vw"
             className="object-cover"
           />
         </div>
 
         <div className="relative min-h-[200px] md:min-h-0 overflow-hidden rounded-[10px]">
-          <Image
+          <ParallaxImage
             src="/why/audi-front.jpg"
             alt="Luxury sedan front grille"
-            fill
             sizes="(max-width: 768px) 100vw, 33vw"
             className="object-cover"
             style={{ objectPosition: "center 55%" }}
@@ -83,10 +82,14 @@ export function WhySection() {
               Comfort, privacy and thoughtful service.
             </p>
           </div>
-          <button className="mt-auto flex h-[40px] w-fit items-center gap-[11px] border border-white/45 px-[11px] text-[10px] font-normal tracking-[0.2em] text-white transition-colors hover:bg-white/10">
+          <OriginButton
+            className="mt-auto h-[40px] w-fit gap-[11px] border border-white/45 px-[11px] text-[10px] font-normal tracking-[0.2em] text-white"
+            fillColor="#ffffff"
+            fillTextColor="#111111"
+          >
             EXPLORE OUR SERVICES
             <ArrowIcon className="h-[14px] w-[14px]" />
-          </button>
+          </OriginButton>
         </div>
       </div>
       </div>

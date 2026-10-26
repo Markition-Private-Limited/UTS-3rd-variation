@@ -81,21 +81,17 @@ export function TestimonialsSection() {
   return (
     <section className="bg-white py-16">
       {/* Header */}
-      <div className="mb-12 flex items-start justify-between px-8">
+      <div className="mb-14 flex flex-col items-start justify-between gap-8 px-8 md:flex-row md:items-end">
         <div>
-          <p className="mb-4 text-[11px] font-medium tracking-[0.2em] text-black/40 uppercase">
-            Client Testimonials
-          </p>
-          <h2 className="leading-[1.15]">
-            <span className="block text-[46px] font-light tracking-[-0.03em] text-black">
-              Trusted by Those Who
-            </span>
-            <span className="block text-[46px] font-bold tracking-[-0.03em] text-black">
-              Expect the Extraordinary.
-            </span>
+          <span className="ml-3 block text-xs font-medium tracking-[0.3em] text-neutral-400">
+            CLIENT TESTIMONIALS
+          </span>
+          <h2 className="mt-4 text-[58px] leading-[121%] tracking-[-0.06em] text-neutral-900">
+            <span className="block whitespace-nowrap font-extralight">Trusted by Those Who</span>
+            <span className="block font-normal">Expect the Extraordinary.</span>
           </h2>
         </div>
-        <p className="mt-auto max-w-[340px] pb-1 text-[14px] leading-relaxed text-black/50">
+        <p className="max-w-xl text-[16px] font-light leading-[200%] tracking-[-0.03em] text-neutral-500">
           Discover what our valued clients have to say about their journeys
           with us. From exceptional comfort to professional chauffeur service.
         </p>

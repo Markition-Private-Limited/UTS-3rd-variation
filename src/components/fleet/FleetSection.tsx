@@ -93,21 +93,17 @@ export function FleetSection() {
   return (
     <section className="bg-white px-8 py-16">
       {/* Header */}
-      <div className="mb-10 flex items-start justify-between">
+      <div className="mb-14 flex flex-col items-start justify-between gap-8 md:flex-row md:items-end">
         <div>
-          <p className="mb-4 text-[11px] font-medium tracking-[0.2em] text-black/40 uppercase">
-            Our Fleet
-          </p>
-          <h2 className="leading-[1.15]">
-            <span className="block text-[46px] font-light tracking-[-0.03em] text-black">
-              Discover Our Collection
-            </span>
-            <span className="block text-[46px] font-bold tracking-[-0.03em] text-black">
-              of Luxury Vehicles.
-            </span>
+          <span className="ml-3 block text-xs font-medium tracking-[0.3em] text-neutral-400">
+            OUR FLEET
+          </span>
+          <h2 className="mt-4 text-[58px] leading-[121%] tracking-[-0.06em] text-neutral-900">
+            <span className="block whitespace-nowrap font-extralight">Discover Our Collection</span>
+            <span className="block font-normal">of Luxury Vehicles.</span>
           </h2>
         </div>
-        <p className="mt-auto max-w-[320px] pb-1 text-[14px] leading-relaxed text-black/50">
+        <p className="max-w-xl text-[16px] font-light leading-[200%] tracking-[-0.03em] text-neutral-500">
           Explore our carefully selected fleet of premium vehicles, designed to deliver exceptional comfort, style, and sophistication for every journey.
         </p>
       </div>

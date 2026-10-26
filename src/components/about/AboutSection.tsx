@@ -1,4 +1,4 @@
-import Image from "next/image";
+import { ParallaxImage } from "@/components/ui/parallax-image";
 
 const GALLERY = [
   { src: "/about/car-sunglasses.jpg", position: "center 20%", offset: false },
@@ -38,10 +38,9 @@ export function AboutSection() {
               }`}
               style={{ boxShadow: "0px 0px 81.7px 0px #00000040" }}
             >
-              <Image
+              <ParallaxImage
                 src={item.src}
                 alt="United Travel Services"
-                fill
                 sizes="(max-width: 768px) 80vw, 360px"
                 className="object-cover"
                 style={{ objectPosition: item.position }}

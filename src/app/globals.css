@@ -17,47 +17,6 @@ body {
   animation: card-in 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
-/* CTA button — skewed fill hover animation */
-.cta-btn {
-  position: relative;
-  overflow: hidden;
-  isolation: isolate;
-}
-.cta-btn::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: -60%;
-  width: 0;
-  height: 100%;
-  background-color: #ffffff;
-  transform: skewX(-25deg);
-  z-index: 0;
-  transition: width 0.65s ease;
-}
-.cta-btn:hover::before {
-  width: 280%;
-}
-.cta-btn .btn-content {
-  position: relative;
-  z-index: 1;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  transition: color 0.65s ease;
-}
-.cta-btn:hover .btn-content {
-  color: #111111;
-}
-.cta-btn .arrow-icon {
-  display: inline-flex;
-  transition: transform 0.35s ease 0.25s;
-}
-.cta-btn:hover .arrow-icon {
-  transform: translateX(5px);
-}
-
-
 /* Hide native scrollbar */
 html,
 body,

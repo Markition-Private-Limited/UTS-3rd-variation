@@ -11,8 +11,9 @@ export function PlaneIcon(props: SVGProps<SVGSVGElement>) {
 export function SwapIcon(props: SVGProps<SVGSVGElement>) {
   return (
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" {...props}>
-      <path d="M4 7h14M14 3l4 4-4 4" />
-      <path d="M20 17H6m4 4-4-4 4-4" />
+      <circle cx="12" cy="12" r="8" />
+      <circle cx="12" cy="12" r="2" />
+      <path d="M12 4v4M12 16v4M4 12h4M16 12h4" />
     </svg>
   );
 }
@@ -20,10 +21,9 @@ export function SwapIcon(props: SVGProps<SVGSVGElement>) {
 export function ScaleIcon(props: SVGProps<SVGSVGElement>) {
   return (
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" {...props}>
-      <path d="M12 3v18M7 21h10" />
-      <path d="M4 7l4-1.5L12 7l4-1.5L20 7" />
-      <path d="M4 7l-2 5a3.5 3.5 0 007 0L7 7" />
-      <path d="M20 7l-2 5a3.5 3.5 0 007 0L22 7" />
+      <rect x="3" y="7" width="18" height="13" rx="2" />
+      <path d="M8 7V5a2 2 0 012-2h4a2 2 0 012 2v2" />
+      <path d="M3 12h18" />
     </svg>
   );
 }
@@ -39,10 +39,10 @@ export function ClockIcon(props: SVGProps<SVGSVGElement>) {
 
 export function DotsVerticalIcon(props: SVGProps<SVGSVGElement>) {
   return (
-    <svg viewBox="0 0 24 24" fill="currentColor" {...props}>
-      <circle cx="12" cy="5" r="1.6" />
-      <circle cx="12" cy="12" r="1.6" />
-      <circle cx="12" cy="19" r="1.6" />
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" {...props}>
+      <path d="M9 4L5 20" />
+      <path d="M15 4l4 16" />
+      <path d="M12 6v2M12 11v2M12 16v2" />
     </svg>
   );
 }
