@@ -10,8 +10,9 @@ export function HeroSection() {
         alt="Chauffeur opening car door"
         fill
         priority
+        sizes="100vw"
         className="object-cover"
-        style={{ objectPosition: "center 28%" }}
+        style={{ objectPosition: "center 0%", transform: "scale(1.3) translate(-3%, -10%)" }}
       />
       <div className="absolute inset-0 bg-gradient-to-b from-black/55 via-black/25 to-black/55" />
 
