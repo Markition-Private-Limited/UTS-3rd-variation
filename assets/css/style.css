@@ -1,0 +1,361 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  background: #000;
+  color: #fff;
+}
+
+/* ---------- Hero ---------- */
+.hero {
+  position: relative;
+  width: 100%;
+  min-height: 900px;
+  overflow: hidden;
+  padding: 24px 40px 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.hero__bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 0;
+}
+
+.hero__overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.55) 0%, rgba(0, 0, 0, 0.25) 35%, rgba(0, 0, 0, 0.55) 100%);
+  z-index: 1;
+}
+
+/* ---------- Navbar ---------- */
+.navbar {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+.navbar__logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.navbar__logo-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  border-radius: 6px;
+  font-weight: 700;
+  font-size: 16px;
+}
+
+.navbar__logo-text {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.1;
+}
+
+.navbar__logo-title {
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+
+.navbar__logo-subtitle {
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 2px;
+  color: rgba(255, 255, 255, 0.75);
+}
+
+.navbar__links {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+  list-style: none;
+  padding: 10px 28px;
+  border-radius: 999px;
+  background: #FFFFFF05;
+  border: 1px solid;
+  border-image-source: linear-gradient(180deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.16) 100%);
+  border-image-slice: 1;
+  backdrop-filter: blur(6px);
+}
+
+.navbar__links a {
+  color: #fff;
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.3px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  opacity: 0.9;
+}
+
+.navbar__dropdown .chevron {
+  font-size: 10px;
+}
+
+.navbar__actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.btn {
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  border: none;
+  border-radius: 999px;
+  padding: 12px 24px;
+  cursor: pointer;
+}
+
+.btn--ghost {
+  background: rgba(255, 255, 255, 0.08);
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+}
+
+.btn--white {
+  background: #fff;
+  color: #000;
+}
+
+/* ---------- Hero content ---------- */
+.hero__content {
+  position: relative;
+  z-index: 2;
+  flex: 1;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 40px;
+  padding: 0 16px 60px;
+}
+
+.hero__title {
+  max-width: 980px;
+}
+
+.hero__title-light,
+.hero__title-regular {
+  display: block;
+  font-size: 85px;
+  line-height: 121%;
+  letter-spacing: -6%;
+}
+
+.hero__title-light {
+  font-weight: 300;
+}
+
+.hero__title-regular {
+  font-weight: 400;
+}
+
+.hero__description {
+  max-width: 340px;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 200%;
+  letter-spacing: -3%;
+  color: rgba(255, 255, 255, 0.9);
+  padding-bottom: 10px;
+}
+
+/* ---------- Booking panel ---------- */
+.booking {
+  position: relative;
+  z-index: 2;
+  background: #fff;
+  color: #0d0d0d;
+  border-radius: 24px 24px 0 0;
+  margin: 0 -40px;
+  padding: 24px 40px 28px;
+}
+
+.booking__top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.booking__tabs {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.tab {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  border: none;
+  border-radius: 999px;
+  padding: 12px 18px;
+  background: #F4F4F4;
+  color: #0d0d0d;
+  cursor: pointer;
+}
+
+.tab--active {
+  background: #111;
+  color: #fff;
+}
+
+.tab__icon {
+  font-size: 14px;
+}
+
+.booking__rating {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.booking__avatars {
+  display: flex;
+}
+
+.avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 2px solid #fff;
+  background: #333;
+  margin-left: -10px;
+}
+
+.avatar:first-child {
+  margin-left: 0;
+}
+
+.avatar--1 { background: #1a1a1a; }
+.avatar--2 { background: #c89b6a; }
+.avatar--3 { background: #8a8a8a; }
+.avatar--4 { background: #3a3a3a; }
+
+.booking__rating-text {
+  font-size: 13px;
+  font-weight: 500;
+  color: #1a1a1a;
+}
+
+.star {
+  color: #f5c518;
+}
+
+.booking__divider {
+  height: 1px;
+  background: #eaeaea;
+  margin: 20px 0;
+}
+
+.booking__fields {
+  display: grid;
+  grid-template-columns: 1.2fr 1.2fr 1fr 1fr 0.7fr auto;
+  align-items: end;
+  gap: 20px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.field label {
+  font-size: 13px;
+  font-weight: 600;
+  color: #0d0d0d;
+}
+
+.field input,
+.field select {
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  color: #0d0d0d;
+  border: none;
+  border-bottom: 1px solid #e3e3e3;
+  padding: 6px 0;
+  background: transparent;
+  outline: none;
+}
+
+.field input::placeholder {
+  color: #b5b5b5;
+}
+
+.field__with-icon {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid #e3e3e3;
+}
+
+.field__with-icon input {
+  border-bottom: none;
+  flex: 1;
+}
+
+.field__with-icon .icon {
+  font-size: 14px;
+  color: #b5b5b5;
+}
+
+.field--passenger select {
+  border-bottom: 1px solid #e3e3e3;
+  appearance: none;
+}
+
+.btn-find {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  color: #fff;
+  background: #111;
+  border: none;
+  border-radius: 999px;
+  padding: 16px 28px;
+  white-space: nowrap;
+  cursor: pointer;
+  height: fit-content;
+}
+
+@media (max-width: 1100px) {
+  .navbar__links { display: none; }
+  .hero__title-light,
+  .hero__title-regular { font-size: 52px; }
+  .hero__content { flex-direction: column; align-items: flex-start; }
+  .booking__fields { grid-template-columns: 1fr 1fr; }
+}
