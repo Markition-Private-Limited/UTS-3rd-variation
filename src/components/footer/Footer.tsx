@@ -16,7 +16,7 @@ export function Footer() {
             alt="United Travel Services"
             width={200}
             height={70}
-            className="-ml-2.5 h-14 w-auto"
+            className="h-20 w-auto -mt-3"
           />
           <p className="mt-5 max-w-[290px] text-[18px] font-light leading-[34px] tracking-[-0.01em] text-neutral-300">
             Executive chauffeur services across the UK — designed for seamless travel, exceptional

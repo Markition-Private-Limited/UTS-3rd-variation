@@ -23,7 +23,7 @@ export default function Home() {
       </main>
       <FleetSection />
       <TestimonialsSection />
-      <div className="bg-white px-4 pt-4 pb-[56px]">
+      <div className="bg-white px-4 pt-16 pb-[96px]">
         <CTASection />
       </div>
       <div className="bg-white p-4">
