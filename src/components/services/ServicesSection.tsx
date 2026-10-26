@@ -101,7 +101,15 @@ function ServiceCard({
 
       <div className="absolute inset-x-0 bottom-0 p-5">
         <div className="flex items-center justify-between">
-          <span className="text-[11px] tracking-[0.25em] text-white/80">
+          <span
+            className="rounded-md px-3 py-1.5 text-[11px] tracking-[0.25em] text-white/90"
+            style={{
+              background: "rgba(255,255,255,0.12)",
+              backdropFilter: "blur(12px)",
+              WebkitBackdropFilter: "blur(12px)",
+              border: "1px solid rgba(255,255,255,0.18)",
+            }}
+          >
             {item.index} / {item.label}
           </span>
           <span className="rounded-sm border border-white/60 px-2 py-0.5 text-[11px] text-white">
