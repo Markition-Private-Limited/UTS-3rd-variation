@@ -1,9 +1,19 @@
+import {
+  PlaneIcon,
+  SwapIcon,
+  ScaleIcon,
+  ClockIcon,
+  DotsVerticalIcon,
+  CalendarIcon,
+  StarIcon,
+} from "./icons";
+
 const TABS = [
-  { label: "Airport Transfer", icon: "✈", active: true },
-  { label: "City to City", icon: "⇄" },
-  { label: "Cooperate Chauffeur", icon: "⚖" },
-  { label: "Hourly Basis", icon: "⏱" },
-  { label: "Intercity", icon: "⋮" },
+  { label: "Airport Transfer", icon: PlaneIcon, active: true },
+  { label: "City to City", icon: SwapIcon },
+  { label: "Cooperate Chauffeur", icon: ScaleIcon },
+  { label: "Hourly Basis", icon: ClockIcon },
+  { label: "Intercity", icon: DotsVerticalIcon },
 ];
 
 export function BookingPanel() {
@@ -23,7 +33,7 @@ export function BookingPanel() {
                   : "text-white hover:bg-white/10"
               }`}
             >
-              <span className="text-sm">{tab.icon}</span>
+              <tab.icon className="h-4 w-4" />
               {tab.label}
             </button>
           ))}
@@ -39,8 +49,8 @@ export function BookingPanel() {
               />
             ))}
           </div>
-          <span className="text-sm font-medium text-white">
-            <span className="text-amber-400">★</span> 4.9 Rating across USA
+          <span className="flex items-center gap-1 text-sm font-medium text-white">
+            <StarIcon className="h-4 w-4 text-amber-400" /> 4.9 Rating across USA
           </span>
         </div>
       </div>
@@ -74,7 +84,7 @@ export function BookingPanel() {
               placeholder="mm/dd/yyyy"
               className="w-full bg-transparent text-sm text-white placeholder-white/50 outline-none"
             />
-            <span className="text-sm text-white/50">📅</span>
+            <CalendarIcon className="h-4 w-4 text-white/50" />
           </div>
         </div>
 
@@ -86,7 +96,7 @@ export function BookingPanel() {
               placeholder="--:-- --"
               className="w-full bg-transparent text-sm text-white placeholder-white/50 outline-none"
             />
-            <span className="text-sm text-white/50">🕐</span>
+            <ClockIcon className="h-4 w-4 text-white/50" />
           </div>
         </div>
 

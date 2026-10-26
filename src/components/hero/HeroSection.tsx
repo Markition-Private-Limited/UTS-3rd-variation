@@ -28,10 +28,7 @@ export function HeroSection() {
             </span>
           </h1>
 
-          <p
-            className="max-w-[640px] pb-2.5 text-[16px] leading-[200%] tracking-[-0.03em] text-white/90"
-            style={{ fontFamily: "var(--font-inter), sans-serif" }}
-          >
+          <p className="max-w-[640px] pb-2.5 text-[16px] font-light leading-[200%] tracking-[-0.03em] text-white/90">
             We believe luxury is more than just reaching your destination. It&apos;s about
             enjoying every moment of the journey. Our premium chauffeur services are designed to
             provide exceptional comfort, reliability
