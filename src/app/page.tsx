@@ -6,6 +6,7 @@ import { FleetSection } from "@/components/fleet/FleetSection";
 import { TestimonialsSection } from "@/components/testimonials/TestimonialsSection";
 import { CTASection } from "@/components/cta/CTASection";
 import { FooterSection } from "@/components/footer/FooterSection";
+import { Reveal } from "@/components/ui/reveal";
 
 export default function Home() {
   return (
@@ -13,21 +14,31 @@ export default function Home() {
       <main className="bg-white p-4">
         <HeroSection />
         <div className="h-16 md:h-24" />
-        <div className="-mx-4">
+        <Reveal className="-mx-4">
           <AboutSection />
-        </div>
+        </Reveal>
         <div className="h-16 md:h-24" />
         <ServicesSection />
         <div className="h-16 md:h-24" />
-        <WhySection />
+        <Reveal>
+          <WhySection />
+        </Reveal>
       </main>
-      <FleetSection />
-      <TestimonialsSection />
+      <Reveal>
+        <FleetSection />
+      </Reveal>
+      <Reveal>
+        <TestimonialsSection />
+      </Reveal>
       <div className="bg-white px-4 pt-16 pb-[96px]">
-        <CTASection />
+        <Reveal>
+          <CTASection />
+        </Reveal>
       </div>
       <div className="bg-white p-4">
-        <FooterSection />
+        <Reveal>
+          <FooterSection />
+        </Reveal>
       </div>
     </>
   );
