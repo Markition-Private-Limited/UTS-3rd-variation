@@ -160,7 +160,7 @@ export function FleetSection() {
         {visible.map((car, i) => (
           <div
             key={`${car.id}-${activeTab}`}
-            className="fleet-card rounded-[20px] overflow-hidden flex flex-col"
+            className="fleet-card group rounded-[20px] overflow-hidden flex flex-col cursor-pointer transition-all duration-500 ease-in-out hover:-translate-y-2 hover:shadow-xl"
             style={{ animationDelay: `${i * 0.08}s` }}
           >
             {/* Car image — top of card */}
@@ -169,7 +169,7 @@ export function FleetSection() {
               <img
                 src={car.image}
                 alt={car.name}
-                className="w-full h-full object-cover select-none pointer-events-none"
+                className="w-full h-full object-cover select-none pointer-events-none transition-transform duration-700 ease-in-out group-hover:scale-110"
                 draggable={false}
               />
             </div>
@@ -178,7 +178,7 @@ export function FleetSection() {
             <div className="flex flex-col flex-1 px-5 py-5" style={{ background: "#EFEFEF" }}>
               {/* Name + seat/luggage */}
               <div className="flex items-start justify-between mb-2">
-                <h3 className="text-[17px] font-bold text-black">{car.name}</h3>
+                <h3 className="text-[17px] font-bold text-black transition-colors duration-300 group-hover:text-neutral-700">{car.name}</h3>
                 <div className="flex items-center gap-3 text-black/40">
                   <span className="flex items-center gap-1 text-[12px]">
                     <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
