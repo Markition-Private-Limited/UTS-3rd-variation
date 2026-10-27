@@ -27,10 +27,44 @@ export function BookingPanel() {
 
   return (
     <div
-      className="relative z-20 rounded-2xl border border-white/20 px-10 pb-5 pt-5 text-white backdrop-blur-xl backdrop-saturate-150"
-      style={{ background: "rgba(20,20,20,0.35)" }}
+      className="relative z-20 overflow-hidden rounded-2xl border border-white/20 px-10 pb-5 pt-5 text-white backdrop-blur-xl backdrop-saturate-150"
+      style={{
+        background: "rgba(20,20,20,0.35)",
+        boxShadow: "0 20px 60px rgba(0,0,0,0.35)",
+      }}
     >
-      <div className="flex flex-wrap items-center justify-between gap-4">
+      {/* gradient border: bright shine hugging the top-left and bottom-right edges only */}
+      <div
+        className="pointer-events-none absolute inset-0 z-0 rounded-2xl"
+        style={{
+          padding: "1px",
+          background:
+            "linear-gradient(135deg, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0.15) 18%, rgba(255,255,255,0) 42%, rgba(255,255,255,0) 58%, rgba(255,255,255,0.15) 82%, rgba(255,255,255,0.9) 100%)",
+          WebkitMask:
+            "linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0)",
+          WebkitMaskComposite: "xor",
+          maskComposite: "exclude",
+        }}
+      />
+      {/* soft outer glow echoing the two lit corners */}
+      <div
+        className="pointer-events-none absolute -left-10 -top-10 z-0 h-28 w-28 rounded-full opacity-70"
+        style={{
+          background:
+            "radial-gradient(circle, rgba(255,255,255,0.35), transparent 70%)",
+          filter: "blur(6px)",
+        }}
+      />
+      <div
+        className="pointer-events-none absolute -bottom-10 -right-10 z-0 h-28 w-28 rounded-full opacity-60"
+        style={{
+          background:
+            "radial-gradient(circle, rgba(255,255,255,0.3), transparent 70%)",
+          filter: "blur(6px)",
+        }}
+      />
+
+      <div className="relative z-10 flex flex-wrap items-center justify-between gap-4">
         <div className="flex flex-wrap items-center gap-2.5">
           {TABS.map((tab, index) => {
             const isActive = index === activeTab;
@@ -88,9 +122,9 @@ export function BookingPanel() {
         </div>
       </div>
 
-      <div className="my-4 h-px bg-white/15" />
+      <div className="relative z-10 my-4 h-px bg-white/15" />
 
-      <div className="grid grid-cols-1 items-end gap-5 sm:grid-cols-2 lg:grid-cols-6">
+      <div className="relative z-10 grid grid-cols-1 items-end gap-5 sm:grid-cols-2 lg:grid-cols-6">
         <div className="flex flex-col gap-2.5">
           <label className="text-[13px] font-light font-sans tracking-[-0.01em]">Pickup Location</label>
           <input
