@@ -17,8 +17,8 @@ export function Navbar() {
   const [active, setActive] = useState(0);
 
   return (
-    <nav className="relative z-20 flex items-center justify-between gap-6 px-10 pt-6">
-      <div className="flex items-center">
+    <nav className="relative z-20 flex items-center justify-center gap-6 px-10 pt-6">
+      <div className="absolute left-10 flex items-center">
         <Image
           src="/logo.png"
           alt="United Travel Services"
@@ -73,27 +73,6 @@ export function Navbar() {
         </ul>
       </div>
 
-      <div className="flex items-center gap-2.5">
-        <OriginButton
-          className="rounded-full px-6 py-3 text-sm font-medium text-white backdrop-blur-sm"
-          style={{ border: "0.5px solid #FFFFFF" }}
-          fillColor="#ffffff"
-          fillTextColor="#111111"
-        >
-          Sign up
-        </OriginButton>
-        <OriginButton
-          className="rounded-full px-6 py-3 text-sm font-medium text-[#111111]"
-          style={{
-            background: "linear-gradient(181.97deg, #FFFFFF 38.12%, #999999 98.34%)",
-            border: "0.5px solid #FFFFFF",
-          }}
-          fillColor="#111111"
-          fillTextColor="#ffffff"
-        >
-          Log In
-        </OriginButton>
-      </div>
     </nav>
   );
 }

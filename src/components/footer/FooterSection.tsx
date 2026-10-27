@@ -39,10 +39,10 @@ export function FooterSection() {
               alt="United Travel Services"
               width={200}
               height={70}
-              className="h-14 w-auto"
+              className="h-20 w-auto"
             />
             <p className="text-[15px] leading-relaxed text-white/60" style={{ maxWidth: 260 }}>
-              Executive chauffeur services across the US — designed for seamless travel,
+              Executive chauffeur services across the UK — designed for seamless travel,
               exceptional comfort, and effortless elegance.
             </p>
           </div>

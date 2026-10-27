@@ -1,88 +1,115 @@
 "use client";
 
-import Image from "next/image";
 import { useState } from "react";
 
-const TABS = ["All", "Saloon and Executive", "S-Class", "V-Class & MPV", "Mini Van & Sprinter"];
+const TABS = ["All", "Economy Saloon", "Business Class", "First Class", "First Class Van", "Van", "MPV", "Standard Van"];
 
 const FLEET = [
   {
-    id: "range-rover-1",
-    category: "Saloon and Executive",
-    name: "Range Rover",
-    description: "Luxury SUV chauffeur travel delivering comfort, confidence, and a refined on-road experience.",
-    image: "/fleet-1.png",
+    id: "economy-saloon",
+    category: "Economy Saloon",
+    name: "VW Passat / Kia Niro or similar",
+    description: "A comfortable and reliable saloon ideal for everyday executive transfers and airport runs.",
+    image: "/images/fleet/economy-saloon-vw-passat.webp",
     seats: 4,
     luggage: 3,
     pricing: [
-      { label: "Heathrow", value: "From $110" },
-      { label: "Hourly hire (min 4 hr)", value: "From $50" },
-      { label: "Waiting Charges", value: "From $35 per hr" },
+      { label: "Heathrow", value: "From £65" },
+      { label: "Hourly hire (min 4 hr)", value: "From £35" },
+      { label: "Waiting Charges", value: "From £25 per hr" },
     ],
   },
   {
-    id: "range-rover-2",
-    category: "S-Class",
-    name: "Range Rover",
-    description: "Luxury SUV chauffeur travel delivering comfort, confidence, and a refined on-road experience.",
-    image: "/fleet-2.png",
+    id: "business-class",
+    category: "Business Class",
+    name: "Mercedes-Benz E-Class or similar",
+    description: "Premium business travel in refined comfort, perfect for corporate clients and professional journeys.",
+    image: "/images/fleet/business-class-mercedes-e-class.webp",
     seats: 4,
     luggage: 3,
     pricing: [
-      { label: "Heathrow", value: "From $110" },
-      { label: "Hourly hire (min 4 hr)", value: "From $50" },
-      { label: "Waiting Charges", value: "From $35 per hr" },
+      { label: "Heathrow", value: "From £85" },
+      { label: "Hourly hire (min 4 hr)", value: "From £45" },
+      { label: "Waiting Charges", value: "From £30 per hr" },
     ],
   },
   {
-    id: "range-rover-3",
-    category: "V-Class & MPV",
-    name: "Range Rover",
-    description: "Luxury SUV chauffeur travel delivering comfort, confidence, and a refined on-road experience.",
-    image: "/fleet-3.png",
+    id: "first-class",
+    category: "First Class",
+    name: "Mercedes-Benz S-Class or similar",
+    description: "The pinnacle of luxury chauffeur travel — effortless elegance and superior comfort for every occasion.",
+    image: "/images/fleet/first-class-mercedes-s-class.webp",
     seats: 4,
     luggage: 3,
     pricing: [
-      { label: "Heathrow", value: "From $110" },
-      { label: "Hourly hire (min 4 hr)", value: "From $50" },
-      { label: "Waiting Charges", value: "From $35 per hr" },
+      { label: "Heathrow", value: "From £110" },
+      { label: "Hourly hire (min 4 hr)", value: "From £60" },
+      { label: "Waiting Charges", value: "From £40 per hr" },
+    ],
+  },
+  {
+    id: "first-class-van",
+    category: "First Class Van",
+    name: "Mercedes-Benz V-Class or similar",
+    description: "Spacious first-class van travel for groups seeking luxury, privacy, and ample luggage capacity.",
+    image: "/images/fleet/first-class-van-mercedes-v-class.webp",
+    seats: 6,
+    luggage: 6,
+    pricing: [
+      { label: "Heathrow", value: "From £130" },
+      { label: "Hourly hire (min 4 hr)", value: "From £70" },
+      { label: "Waiting Charges", value: "From £45 per hr" },
+    ],
+  },
+  {
+    id: "van-8-9",
+    category: "Van",
+    name: "8/9 - Seater Van",
+    description: "Large group transfers in a well-appointed van — ideal for families, teams, and events.",
+    image: "/images/fleet/van-8-9-seater.webp",
+    seats: 9,
+    luggage: 8,
+    pricing: [
+      { label: "Heathrow", value: "From £150" },
+      { label: "Hourly hire (min 4 hr)", value: "From £80" },
+      { label: "Waiting Charges", value: "From £50 per hr" },
+    ],
+  },
+  {
+    id: "mpv",
+    category: "MPV",
+    name: "VW Sharan / Ford Galaxy or similar",
+    description: "Versatile multi-purpose vehicle combining flexibility and comfort for groups of up to 7 passengers.",
+    image: "/images/fleet/mpv-vw-sharan.webp",
+    seats: 7,
+    luggage: 5,
+    pricing: [
+      { label: "Heathrow", value: "From £100" },
+      { label: "Hourly hire (min 4 hr)", value: "From £55" },
+      { label: "Waiting Charges", value: "From £35 per hr" },
+    ],
+  },
+  {
+    id: "standard-van",
+    category: "Standard Van",
+    name: "Hyundai i800 / VW Transporter or similar",
+    description: "Reliable and spacious standard van for larger groups and extended luggage requirements.",
+    image: "/images/fleet/standard-van-hyundai-i800.webp",
+    seats: 8,
+    luggage: 8,
+    pricing: [
+      { label: "Heathrow", value: "From £120" },
+      { label: "Hourly hire (min 4 hr)", value: "From £65" },
+      { label: "Waiting Charges", value: "From £40 per hr" },
     ],
   },
 ];
 
 const AMENITIES = [
-  {
-    label: "Wifi Available",
-    icon: (
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M5 12.55a11 11 0 0 1 14.08 0M1.42 9a16 16 0 0 1 21.16 0M8.53 16.11a6 6 0 0 1 6.95 0M12 20h.01" />
-      </svg>
-    ),
-  },
-  {
-    label: "GPS Tracking",
-    icon: (
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-        <circle cx="12" cy="12" r="3" /><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83" />
-      </svg>
-    ),
-  },
-  {
-    label: "Child seat",
-    icon: (
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M12 2a2 2 0 1 0 0 4 2 2 0 0 0 0-4zM6 20l2-8 4 2 4-2 2 8" />
-      </svg>
-    ),
-  },
-  {
-    label: "Water Available",
-    icon: (
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M12 2C6 9 4 13 4 16a8 8 0 0 0 16 0c0-3-2-7-8-14z" />
-      </svg>
-    ),
-  },
+  { label: "Wifi Available", icon: "/images/card icons/wifi-available.png" },
+  { label: "GPS Tracking", icon: "/images/card icons/gps-tracking.png" },
+  { label: "Water Available", icon: "/images/card icons/water-available.png" },
+  { label: "Child Seat Available", icon: "/images/card icons/child-seat-available.png" },
 ];
 
 export function FleetSection() {
@@ -137,12 +164,13 @@ export function FleetSection() {
             style={{ animationDelay: `${i * 0.08}s` }}
           >
             {/* Car image — top of card */}
-            <div className="relative h-[220px] w-full" style={{ background: "#f0f0f0" }}>
-              <Image
+            <div className="relative h-[220px] w-full overflow-hidden" style={{ background: "#f0f0f0" }}>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
                 src={car.image}
                 alt={car.name}
-                fill
-                className="object-contain"
+                className="w-full h-full object-cover select-none pointer-events-none"
+                draggable={false}
               />
             </div>
 
@@ -176,7 +204,8 @@ export function FleetSection() {
               <div className="grid grid-cols-4 gap-2 mb-4">
                 {AMENITIES.map((a) => (
                   <div key={a.label} className="flex flex-col items-center gap-1.5 text-center">
-                    <span className="text-black/50">{a.icon}</span>
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img src={a.icon} alt={a.label} className="w-5 h-5 object-contain" draggable={false} />
                     <span className="text-[10px] leading-tight text-black/40">{a.label}</span>
                   </div>
                 ))}

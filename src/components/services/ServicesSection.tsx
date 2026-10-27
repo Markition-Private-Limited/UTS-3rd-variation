@@ -5,7 +5,6 @@ import { useEffect, useRef, useState } from "react";
 import { motion, useScroll, useTransform } from "motion/react";
 import { StatCounter } from "./StatCounter";
 import { OriginButton } from "@/components/ui/origin-button";
-import { ParallaxImage } from "@/components/ui/parallax-image";
 
 const SERVICES = [
   {
@@ -14,9 +13,8 @@ const SERVICES = [
     badge: "Airport Travel",
     title: "Arrive in Comfort. Travel in Style.",
     description:
-      "Enjoy a seamless journey to or from the airport with private transportation planned around.",
+      "Enjoy a seamless journey to or from the airport with private transportation planned around your schedule.",
     src: "/services/airport-transfer.jpg",
-    position: "center 40%",
   },
   {
     index: "02",
@@ -24,39 +22,35 @@ const SERVICES = [
     badge: "Point to Point",
     title: "A Better Way Between Cities.",
     description:
-      "Travel between destinations in privacy and comfort, with a journey arranged around.",
+      "Travel between destinations in privacy and comfort, with a journey arranged around your timeline.",
     src: "/services/city-to-city.jpg",
-    position: "center 50%",
   },
   {
     index: "03",
-    label: "CORPORATE CHAUFFEUR",
-    badge: "Business Travel",
-    title: "Executive Travel, Seamlessly Managed.",
+    label: "INTER CITY",
+    badge: "Inter City",
+    title: "Seamless Travel Across Every Mile.",
     description:
-      "Professional transportation for business meetings, corporate events, and executive schedules.",
-    src: "/services/corporate-chauffeur.jpg",
-    position: "center 25%",
+      "From suburb to city center, our inter-city service ensures you travel without compromise.",
+    src: "/services/inter-city.jpg",
   },
   {
     index: "04",
     label: "HOURLY CHAUFFEUR",
-    badge: "Flexible Travel",
-    title: "Your Chauffeur. Your Schedule.",
+    badge: "Hourly",
+    title: "Your Time, Your Terms.",
     description:
-      "Enjoy a dedicated chauffeur for appointments, events, multiple stops, or a day planned your way.",
-    src: "/services/hourly-chauffeur.jpg",
-    position: "center 35%",
+      "Book a dedicated chauffeur by the hour for meetings, events, or wherever the day takes you.",
+    src: "/services/hourly-chauffer.jpg",
   },
   {
     index: "05",
-    label: "INTERCITY",
-    badge: "Long-Distance",
-    title: "Long-Distance Travel, Elevated.",
+    label: "CORPORATE CHAUFFEUR",
+    badge: "Corporate",
+    title: "Executive Travel, Refined.",
     description:
-      "Make longer journeys more comfortable with private transportation and a route planned.",
-    src: "/services/intercity.jpg",
-    position: "center 40%",
+      "Reliable, discreet, and professional — our corporate chauffeur service keeps your business moving.",
+    src: "/services/co-operate-chauffer.jpg",
   },
 ];
 
@@ -75,21 +69,47 @@ function ArrowIcon(props: React.SVGProps<SVGSVGElement>) {
   );
 }
 
-function ServiceCard({ item }: { item: (typeof SERVICES)[number] }) {
+function ServiceCard({
+  item,
+  cardRef,
+  imgRef,
+}: {
+  item: (typeof SERVICES)[number];
+  cardRef: (el: HTMLElement | null) => void;
+  imgRef: (el: HTMLDivElement | null) => void;
+}) {
   return (
-    <article className="relative h-[450px] w-[340px] flex-none overflow-hidden rounded-3xl md:w-[734px]">
-      <ParallaxImage
-        src={item.src}
-        alt={item.title}
-        sizes="(max-width: 768px) 340px, 734px"
-        className="object-cover"
-        style={{ objectPosition: item.position }}
-      />
+    <article
+      ref={cardRef}
+      className="relative h-[450px] w-[340px] flex-none overflow-hidden rounded-3xl md:w-[734px]"
+    >
+      {/* Oversized container gives the image room to shift without gaps */}
+      <div
+        ref={imgRef}
+        className="absolute will-change-transform"
+        style={{ inset: "-80px -120px" }}
+      >
+        <Image
+          src={item.src}
+          alt={item.title}
+          fill
+          unoptimized
+          className="object-cover object-center"
+        />
+      </div>
       <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-transparent" />
 
       <div className="absolute inset-x-0 bottom-0 p-5">
         <div className="flex items-center justify-between">
-          <span className="text-[11px] tracking-[0.25em] text-white/80">
+          <span
+            className="rounded-md px-3 py-1.5 text-[11px] tracking-[0.25em] text-white/90"
+            style={{
+              background: "rgba(255,255,255,0.12)",
+              backdropFilter: "blur(12px)",
+              WebkitBackdropFilter: "blur(12px)",
+              border: "1px solid rgba(255,255,255,0.18)",
+            }}
+          >
             {item.index} / {item.label}
           </span>
           <span className="rounded-sm border border-white/60 px-2 py-0.5 text-[11px] text-white">
@@ -121,6 +141,8 @@ export function ServicesSection() {
   const sectionRef = useRef<HTMLDivElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
   const pinnedContentRef = useRef<HTMLDivElement>(null);
+  const cardRefs = useRef<(HTMLElement | null)[]>([]);
+  const imgRefs = useRef<(HTMLDivElement | null)[]>([]);
   const [distance, setDistance] = useState(0);
   const [pinHeight, setPinHeight] = useState(650);
   const [isPinned, setIsPinned] = useState(false);
@@ -156,6 +178,28 @@ export function ServicesSection() {
 
   const x = useTransform(scrollYProgress, [0, 1], [0, -distance]);
 
+  useEffect(() => {
+    let rafId: number;
+    const updateParallax = () => {
+      // Use scrollYProgress.get() — accurate 0→1 through the entire pinned section
+      const vProgress = scrollYProgress.get();
+      const vOffset = (vProgress - 0.5) * 80;
+
+      cardRefs.current.forEach((card, i) => {
+        const img = imgRefs.current[i];
+        if (!card || !img) return;
+        const cRect = card.getBoundingClientRect();
+        const cardCenterX = cRect.left + cRect.width / 2;
+        const hOffset = Math.max(-100, Math.min(100, (cardCenterX - window.innerWidth / 2) * -0.18));
+        img.style.transform = `translateX(${hOffset}px)`;
+      });
+
+      rafId = requestAnimationFrame(updateParallax);
+    };
+    rafId = requestAnimationFrame(updateParallax);
+    return () => cancelAnimationFrame(rafId);
+  }, [scrollYProgress]);
+
   return (
     <section
       className="-mx-4 text-white"
@@ -170,7 +214,7 @@ export function ServicesSection() {
           ref={pinnedContentRef}
           className={isPinned ? "sticky top-0 overflow-hidden" : undefined}
         >
-          <div className="relative mb-6 flex flex-col items-start justify-between gap-6 px-10 pt-8 md:flex-row md:items-end">
+          <div className="relative mb-6 flex flex-col items-start justify-between gap-6 px-10 pt-14 md:flex-row md:items-end">
             <div>
               <span className="ml-2 block text-[13px] font-normal tracking-[0.35em] text-neutral-300">
                 OUR SERVICES
@@ -203,18 +247,23 @@ export function ServicesSection() {
               style={isPinned ? { x } : undefined}
               className="flex w-max gap-10 px-10"
             >
-              {SERVICES.map((item) => (
-                <ServiceCard key={item.index} item={item} />
+              {SERVICES.map((item, i) => (
+                <ServiceCard
+                  key={item.index}
+                  item={item}
+                  cardRef={(el) => { cardRefs.current[i] = el; }}
+                  imgRef={(el) => { imgRefs.current[i] = el; }}
+                />
               ))}
             </motion.div>
           </div>
         </div>
       </div>
 
-      <div className="mt-16 border-y border-white/15 bg-white/[0.04] py-10">
-        <div className="grid grid-cols-2 gap-10 px-10 text-center md:grid-cols-4 md:gap-0 md:divide-x md:divide-white/25 md:px-20">
+      <div className="mt-16 pb-14 pt-10">
+        <div className="flex flex-wrap justify-between gap-10 px-10 text-center">
           {STATS.map((stat) => (
-            <div key={stat.label} className="md:px-10">
+            <div key={stat.label}>
               <StatCounter
                 value={stat.value}
                 className="font-sans text-[44px] font-semibold leading-none tracking-[-0.04em] text-white"
