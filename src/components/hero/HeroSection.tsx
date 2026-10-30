@@ -191,7 +191,7 @@ export function HeroSection() {
         className="absolute inset-0 pointer-events-none"
         style={{
           background:
-            "linear-gradient(to bottom, rgba(0,0,0,0.28) 0%, rgba(0,0,0,0) 30%, rgba(0,0,0,0) 50%, rgba(0,0,0,0.65) 100%)",
+            "linear-gradient(to bottom, rgba(0,0,0,0.45) 0%, rgba(0,0,0,0.35) 30%, rgba(0,0,0,0.40) 50%, rgba(0,0,0,0.75) 100%)",
         }}
       />
 
@@ -199,7 +199,7 @@ export function HeroSection() {
       <div className="relative z-10 flex h-full flex-col justify-end px-10 pb-4 gap-6">
         {/* Heading + body — fades with slide */}
         <div
-          className="flex items-end justify-between gap-10"
+          className="flex items-end justify-between gap-10 mb-[61px]"
           style={{
             opacity: contentOpacity,
             transition: `opacity ${contentOpacity === 0 ? FADE_OUT_MS : FADE_IN_MS}ms ease-in-out`,
