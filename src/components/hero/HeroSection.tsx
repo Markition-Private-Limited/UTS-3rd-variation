@@ -2,6 +2,7 @@
 // hero
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
+import { AnimatePresence, motion } from "motion/react";
 
 const SLIDES = [
   {
@@ -49,8 +50,6 @@ const SERVICE_CARDS = [
 ];
 
 const SLIDE_MS = 5000;
-const FADE_OUT_MS = 500;
-const FADE_IN_MS = 700;
 
 function ServiceCard({ title, desc, image, href }: (typeof SERVICE_CARDS)[number]) {
   const cardRef = useRef<HTMLAnchorElement>(null);
@@ -142,23 +141,14 @@ function ServiceCard({ title, desc, image, href }: (typeof SERVICE_CARDS)[number
 }
 
 export function HeroSection() {
-  const [activeImage, setActiveImage] = useState(0);
-  const [displaySlide, setDisplaySlide] = useState(0);
-  const [contentOpacity, setContentOpacity] = useState(1);
+  const [index, setIndex] = useState(0);
 
   useEffect(() => {
-    const id = setInterval(() => {
-      setContentOpacity(0);
-      setTimeout(() => {
-        setDisplaySlide((i) => (i + 1) % SLIDES.length);
-        setActiveImage((i) => (i + 1) % SLIDES.length);
-        setContentOpacity(1);
-      }, FADE_OUT_MS);
-    }, SLIDE_MS);
+    const id = setInterval(() => setIndex((i) => (i + 1) % SLIDES.length), SLIDE_MS);
     return () => clearInterval(id);
   }, []);
 
-  const slide = SLIDES[displaySlide];
+  const slide = SLIDES[index];
 
   return (
     <section data-navbar-theme="dark" className="relative -mx-2 -mt-2 min-h-[calc(100vh-16px)] overflow-hidden rounded-[clamp(14px,1.5vw,20px)]">
@@ -169,8 +159,8 @@ export function HeroSection() {
             key={s.src}
             className="absolute -inset-[10%]"
             style={{
-              opacity: i === activeImage ? 1 : 0,
-              transition: "opacity 2000ms cubic-bezier(0.4, 0, 0.2, 1)",
+              opacity: i === index ? 1 : 0,
+              transition: "opacity 1.2s ease-in-out",
             }}
           >
             <Image
@@ -198,24 +188,28 @@ export function HeroSection() {
       {/* Content */}
       <div className="relative z-10 flex min-h-[calc(100vh-16px)] flex-col justify-start sm:justify-between px-6 pb-10 pt-20 sm:pt-[146px] sm:px-10 lg:px-16">
         {/* Heading + body — fades with slide */}
-        <div
-          className="max-w-xl pt-0 sm:pt-10 lg:max-w-3xl min-h-[330px]"
-          style={{
-            opacity: contentOpacity,
-            transition: `opacity ${contentOpacity === 0 ? FADE_OUT_MS : FADE_IN_MS}ms ease-in-out`,
-          }}
-        >
-          <h1 className="mb-4">
-            <span className="block text-[72px] leading-[121%] tracking-[-0.06em] font-extralight whitespace-nowrap text-white">
-              {slide.heading1}
-            </span>
-            <span className="block text-[72px] leading-[121%] tracking-[-0.06em] font-semibold whitespace-nowrap text-white">
-              {slide.heading2}
-            </span>
-          </h1>
-          <p className="max-w-xl lg:max-w-3xl text-[16px] font-light leading-[200%] tracking-[-0.03em] text-white/90">
-            {slide.body}
-          </p>
+        <div className="max-w-xl pt-0 sm:pt-10 lg:max-w-3xl min-h-[330px]">
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={index}
+              initial={{ opacity: 0, y: 14 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -14 }}
+              transition={{ duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] }}
+            >
+              <h1 className="mb-4">
+                <span className="block text-[72px] leading-[121%] tracking-[-0.06em] font-extralight whitespace-nowrap text-white">
+                  {slide.heading1}
+                </span>
+                <span className="block text-[72px] leading-[121%] tracking-[-0.06em] font-semibold whitespace-nowrap text-white">
+                  {slide.heading2}
+                </span>
+              </h1>
+              <p className="max-w-xl lg:max-w-3xl text-[16px] font-light leading-[200%] tracking-[-0.03em] text-white/90">
+                {slide.body}
+              </p>
+            </motion.div>
+          </AnimatePresence>
         </div>
 
         {/* Service cards */}
