@@ -84,7 +84,7 @@ export function Navbar() {
             alt="United Travel Services"
             width={200}
             height={70}
-            className={`h-[59px] w-auto object-contain transition-[filter] duration-300 ${
+            className={`h-[62px] w-auto object-contain transition-[filter] duration-300 ${
               isDark ? "" : "invert"
             }`}
             priority
