@@ -161,7 +161,7 @@ export function HeroSection() {
   const slide = SLIDES[displaySlide];
 
   return (
-    <section data-navbar-theme="dark" className="relative -mx-2 -mt-2 h-[98vh] overflow-hidden rounded-[32px]">
+    <section data-navbar-theme="dark" className="relative -mx-2 -mt-2 min-h-[calc(100vh-16px)] overflow-hidden rounded-[clamp(14px,1.5vw,20px)]">
       {/* Rotating background images */}
       <div className="absolute inset-0 bg-black">
         {SLIDES.map((s, i) => (
@@ -196,16 +196,16 @@ export function HeroSection() {
       />
 
       {/* Content */}
-      <div className="relative z-10 flex h-full flex-col justify-end px-10 pb-4 gap-6">
+      <div className="relative z-10 flex min-h-[calc(100vh-16px)] flex-col justify-start sm:justify-between px-6 pb-10 pt-20 sm:pt-32 sm:px-10 lg:px-16">
         {/* Heading + body — fades with slide */}
         <div
-          className="flex items-end justify-between gap-10 mb-[61px]"
+          className="max-w-xl pt-0 sm:pt-10 lg:max-w-3xl"
           style={{
             opacity: contentOpacity,
             transition: `opacity ${contentOpacity === 0 ? FADE_OUT_MS : FADE_IN_MS}ms ease-in-out`,
           }}
         >
-          <h1 className="max-w-[980px] shrink-0">
+          <h1 className="mb-4">
             <span className="block text-[72px] leading-[121%] tracking-[-0.06em] font-extralight text-white">
               {slide.heading1}
             </span>
@@ -213,13 +213,13 @@ export function HeroSection() {
               {slide.heading2}
             </span>
           </h1>
-          <p className="max-w-[640px] pb-2.5 text-[16px] font-light leading-[200%] tracking-[-0.03em] text-white/90">
+          <p className="max-w-xl lg:max-w-3xl text-[16px] font-light leading-[200%] tracking-[-0.03em] text-white/90">
             {slide.body}
           </p>
         </div>
 
         {/* Service cards */}
-        <div className="grid grid-cols-3 gap-4">
+        <div className="mt-10 sm:mt-16 grid grid-cols-1 gap-4 sm:gap-3 sm:grid-cols-3">
           {SERVICE_CARDS.map((card) => (
             <ServiceCard key={card.title} {...card} />
           ))}

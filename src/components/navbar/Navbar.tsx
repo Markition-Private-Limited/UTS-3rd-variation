@@ -76,7 +76,7 @@ export function Navbar() {
             : "backdrop-blur-sm bg-white/30 border border-black/5",
       ].join(" ")}
     >
-      <nav className="w-full px-10 py-[5px] flex items-center justify-between">
+      <nav className="w-full px-10 py-1.5 flex items-center justify-between">
         {/* Logo */}
         <Link href="/" className="flex items-center leading-tight">
           <Image
@@ -84,7 +84,7 @@ export function Navbar() {
             alt="United Travel Services"
             width={200}
             height={70}
-            className={`h-11 w-auto object-contain transition-[filter] duration-300 ${
+            className={`h-[52px] w-auto object-contain transition-[filter] duration-300 ${
               isDark ? "" : "invert"
             }`}
             priority
@@ -97,12 +97,16 @@ export function Navbar() {
             <li key={label}>
               <a
                 href={href}
-                className={`flex items-center gap-1 text-[11px] font-light tracking-[0.12em] uppercase transition-colors duration-300 ${
+                className={`flex items-center gap-1 text-[12px] font-normal tracking-[0.12em] uppercase transition-colors duration-300 ${
                   isDark ? "text-white/85 hover:text-white" : "text-black/85 hover:text-black"
                 }`}
               >
                 {label}
-                {hasDropdown && <span className="text-[9px] opacity-60">▾</span>}
+                {hasDropdown && (
+                  <svg width="9" height="9" viewBox="0 0 10 10" fill="none" className="opacity-70" aria-hidden="true">
+                    <path d="M2 3.5L5 6.5L8 3.5" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
+                )}
               </a>
             </li>
           ))}
@@ -111,13 +115,13 @@ export function Navbar() {
         {/* CTA Button */}
         <OriginButton
           onClick={() => router.push("/book")}
-          className="hidden md:inline-flex text-[10px] font-medium tracking-[0.18em] uppercase px-6 py-3 rounded-xl"
+          className="hidden md:inline-flex text-[11px] font-medium tracking-[0.18em] uppercase px-6 py-3 rounded-xl"
           fillColor={isDark ? "#1a1a1a" : "#F9F9F9"}
           fillTextColor={isDark ? "#F9F9F9" : "#1a1a1a"}
           style={{
             background: isDark ? "#F9F9F9" : "#1a1a1a",
             color: isDark ? "#1a1a1a" : "#F9F9F9",
-            minWidth: "220px",
+            minWidth: "230px",
             justifyContent: "center",
             transition: "background 500ms, color 500ms",
           }}
