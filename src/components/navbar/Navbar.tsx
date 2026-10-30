@@ -66,17 +66,17 @@ export function Navbar() {
     <header
       ref={headerRef}
       className={[
-        "fixed top-0 left-0 w-full z-50 transition-all duration-500",
+        "fixed top-5 left-4 right-4 z-50 rounded-full transition-all duration-500",
         isDark
           ? scrolled
-            ? "backdrop-blur-md bg-white/10 border-b border-white/10 shadow-sm"
-            : "backdrop-blur-sm bg-white/5 border-b border-white/5"
+            ? "backdrop-blur-md bg-white/10 border border-white/10 shadow-sm"
+            : "backdrop-blur-sm bg-white/5 border border-white/5"
           : scrolled
-            ? "backdrop-blur-md bg-white/70 border-b border-black/10 shadow-sm"
-            : "backdrop-blur-sm bg-white/30 border-b border-black/5",
+            ? "backdrop-blur-md bg-white/70 border border-black/10 shadow-sm"
+            : "backdrop-blur-sm bg-white/30 border border-black/5",
       ].join(" ")}
     >
-      <nav className="max-w-screen-xl mx-auto px-8 py-[5px] flex items-center justify-between">
+      <nav className="w-full px-10 py-[5px] flex items-center justify-between">
         {/* Logo */}
         <Link href="/" className="flex items-center leading-tight">
           <Image
@@ -84,7 +84,7 @@ export function Navbar() {
             alt="United Travel Services"
             width={200}
             height={70}
-            className={`h-14 w-auto object-contain transition-[filter] duration-300 ${
+            className={`h-11 w-auto object-contain transition-[filter] duration-300 ${
               isDark ? "" : "invert"
             }`}
             priority

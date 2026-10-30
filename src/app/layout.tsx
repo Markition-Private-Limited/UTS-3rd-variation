@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { LenisProvider } from "@/components/lenis/LenisProvider";
 import { Navbar } from "@/components/navbar";
+import PageLoader from "@/components/ui/PageLoader";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -19,6 +20,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html lang="en" className={`${inter.variable} antialiased`}>
       <body className="flex flex-col bg-white font-sans" suppressHydrationWarning>
+        <PageLoader />
         <Navbar />
         <LenisProvider>{children}</LenisProvider>
       </body>
