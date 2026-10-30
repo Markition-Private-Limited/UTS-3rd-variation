@@ -1,5 +1,6 @@
 "use client";
-import Image from "next/image";
+
+import { useInView } from "@/hooks/useInView";
 import { OriginButton } from "@/components/ui/origin-button";
 
 function ArrowIcon(props: React.SVGProps<SVGSVGElement>) {
@@ -11,73 +12,71 @@ function ArrowIcon(props: React.SVGProps<SVGSVGElement>) {
 }
 
 export function CTASection() {
+  const { ref, isInView } = useInView<HTMLDivElement>();
+
   return (
-    <section
-      className="relative overflow-hidden bg-black"
-      style={{ height: "560px", borderRadius: "30px" }}
-    >
-      <Image
-        src="/cta-bg.jpg"
-        alt="Luxury chauffeur car"
-        fill
-        sizes="100vw"
-        className="object-cover"
-        style={{ objectPosition: "center 40%" }}
-      />
-      <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/25 to-black/40" />
-      <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-transparent to-black/60" />
-
-      <div className="relative z-10 flex h-full flex-col justify-center px-14 py-16">
-        <span
-          className="uppercase text-white/90"
+    <section className="w-full bg-white px-4 md:px-8 pt-[6.25vw] pb-[6.25vw]">
+      <div
+        ref={ref}
+        className={`relative w-full min-h-[480px] md:h-[38.5417vw] rounded-[1.6667vw] overflow-hidden flex items-center bg-gray-800 bg-cover bg-center p-6 md:p-[4.1667vw] transition-all duration-700 ease-out ${
+          isInView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
+        }`}
+        style={{ backgroundImage: "url('/images/Cinematic photograph.png')" }}
+      >
+        {/* Light left-to-right gradient so text reads against the image */}
+        <div
+          className="absolute inset-0"
           style={{
-            fontFamily: "var(--font-inter), sans-serif",
-            fontWeight: 400,
-            fontSize: "17.9px",
-            lineHeight: "100%",
-            letterSpacing: "0.4em",
-            marginBottom: "24px",
+            background:
+              "linear-gradient(90deg, rgba(235,235,235,0.6) 0%, rgba(235,235,235,0.45) 35%, rgba(235,235,235,0.15) 65%, rgba(235,235,235,0) 100%)",
           }}
-        >
-          Your Journey Starts Here
-        </span>
+        />
 
-        <h2
-          className="text-white"
-          style={{
-            fontSize: "52px",
-            lineHeight: "1.21",
-            letterSpacing: "-0.06em",
-            marginBottom: "32px",
-          }}
-        >
-          <span className="block font-light">Ready to Experience</span>
-          <span className="block font-bold">Luxury Chauffeur Travel?</span>
-        </h2>
+        <div className="relative z-10 max-w-3xl md:max-w-[40vw] text-black pl-[2.0833vw]">
+          <p
+            className="uppercase text-black mb-[1.0417vw]"
+            style={{
+              fontWeight: 600,
+              fontSize: "clamp(9px, 0.6771vw, 13px)",
+              lineHeight: "1",
+              letterSpacing: "0.18em",
+            }}
+          >
+            The Next Journey Starts With You
+          </p>
 
-        <p
-          className="text-white/90"
-          style={{
-            fontSize: "17px",
-            fontWeight: 300,
-            lineHeight: "32px",
-            letterSpacing: "-0.02em",
-            maxWidth: "500px",
-            marginBottom: "40px",
-          }}
-        >
-          Wherever you&apos;re headed, enjoy a seamless journey with professional
-          chauffeurs and exceptional comfort.
-        </p>
+          <h2
+            className="uppercase text-black mb-[1.25vw]"
+            style={{
+              fontWeight: 700,
+              fontSize: "clamp(1.75rem, 3.3333vw, 64px)",
+              lineHeight: "1.06",
+              letterSpacing: "-0.04em",
+            }}
+          >
+            Your Journey.<br />Our Priority.
+          </h2>
 
-        <OriginButton
-          className="w-fit border border-white/30 px-8 py-5 text-[16px] font-light tracking-[0.15em] text-white uppercase"
-          fillColor="#ffffff"
-          fillTextColor="#111111"
-        >
-          Book Your Chauffeur
-          <ArrowIcon className="h-5 w-5" />
-        </OriginButton>
+          <p
+            className="text-black/70 mb-[2.0833vw] max-w-xl"
+            style={{
+              fontWeight: 400,
+              fontSize: "clamp(13px, 1.0417vw, 18px)",
+              lineHeight: "1.6",
+            }}
+          >
+            Make your next journey more comfortable with professional chauffeur services tailored to your travel needs.
+          </p>
+
+          <OriginButton
+            className="w-fit px-8 py-5 text-[16px] font-light tracking-[0.15em] text-white uppercase rounded-xl bg-[#111111]"
+            fillColor="#ffffff"
+            fillTextColor="#111111"
+          >
+            Book Your Chauffeur
+            <ArrowIcon className="h-5 w-5" />
+          </OriginButton>
+        </div>
       </div>
     </section>
   );
