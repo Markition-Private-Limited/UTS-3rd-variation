@@ -53,11 +53,11 @@ const FADE_OUT_MS = 500;
 const FADE_IN_MS = 700;
 
 function ServiceCard({ title, desc, image, href }: (typeof SERVICE_CARDS)[number]) {
-  const cardRef = useRef<HTMLDivElement>(null);
+  const cardRef = useRef<HTMLAnchorElement>(null);
   const [active, setActive] = useState(false);
   const [imgPos, setImgPos] = useState({ x: 0, y: 0 });
 
-  const handleMove = (e: React.MouseEvent<HTMLDivElement>) => {
+  const handleMove = (e: React.MouseEvent<HTMLAnchorElement>) => {
     const el = cardRef.current;
     if (!el) return;
     const { left, top, width, height } = el.getBoundingClientRect();
@@ -76,7 +76,7 @@ function ServiceCard({ title, desc, image, href }: (typeof SERVICE_CARDS)[number
       </div>
     <a
       href={href}
-      ref={cardRef as React.Ref<HTMLAnchorElement>}
+      ref={cardRef}
       onMouseMove={handleMove}
       onMouseEnter={() => setActive(true)}
       onMouseLeave={() => { setActive(false); setImgPos({ x: 0, y: 0 }); }}
