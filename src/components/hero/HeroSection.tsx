@@ -177,7 +177,7 @@ export function HeroSection() {
               src={s.src}
               alt={s.alt}
               fill
-              priority={i === 0}
+              priority
               sizes="120vw"
               className="object-cover"
               style={{ objectPosition: "center 40%" }}
@@ -199,14 +199,14 @@ export function HeroSection() {
       <div className="relative z-10 flex min-h-[calc(100vh-16px)] flex-col justify-start sm:justify-between px-6 pb-10 pt-20 sm:pt-32 sm:px-10 lg:px-16">
         {/* Heading + body — fades with slide */}
         <div
-          className="max-w-xl pt-0 sm:pt-10 lg:max-w-3xl"
+          className="max-w-xl pt-0 sm:pt-10 lg:max-w-3xl min-h-[330px]"
           style={{
             opacity: contentOpacity,
             transition: `opacity ${contentOpacity === 0 ? FADE_OUT_MS : FADE_IN_MS}ms ease-in-out`,
           }}
         >
           <h1 className="mb-4">
-            <span className="block text-[72px] leading-[121%] tracking-[-0.06em] font-extralight text-white">
+            <span className="block text-[72px] leading-[121%] tracking-[-0.06em] font-extralight whitespace-nowrap text-white">
               {slide.heading1}
             </span>
             <span className="block text-[72px] leading-[121%] tracking-[-0.06em] font-normal whitespace-nowrap text-white">
