@@ -72,6 +72,7 @@ export function CTASection() {
             className="w-fit px-8 py-5 text-[16px] font-light tracking-[0.15em] text-white uppercase rounded-xl bg-[#111111]"
             fillColor="#ffffff"
             fillTextColor="#111111"
+            showHoverBorder
           >
             Book Your Chauffeur
             <ArrowIcon className="h-5 w-5" />

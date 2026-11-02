@@ -128,6 +128,7 @@ function ServiceCard({
           className="mt-5 rounded-sm border border-white/50 px-4 py-3 text-xs tracking-[0.2em] text-white"
           fillColor="#ffffff"
           fillTextColor="#111111"
+          showHoverBorder
         >
           EXPLORE SERVICE
           <ArrowIcon className="h-4 w-4" />
