@@ -181,6 +181,7 @@ export function BookingPanel() {
           className="h-fit gap-2 whitespace-nowrap rounded-xl border border-white bg-white px-7 py-4 text-sm font-semibold text-neutral-900"
           fillColor="#111111"
           fillTextColor="#ffffff"
+          showHoverBorder
         >
           Find My Chauffeur ↗
         </OriginButton>

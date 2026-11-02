@@ -127,6 +127,7 @@ export function FooterSection() {
               }}
               fillColor="#111111"
               fillTextColor="#ffffff"
+              showHoverBorder
             >
               <span
                 style={{

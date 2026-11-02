@@ -153,6 +153,7 @@ export function StackingCardsSection() {
                     className="bg-white text-black font-semibold uppercase rounded-xl w-fit"
                     fillColor="#111111"
                     fillTextColor="#ffffff"
+                    showHoverBorder
                     style={{ fontSize: "0.68rem", letterSpacing: "0.2em", padding: "14px 28px" }}
                   >
                     {card.cta}

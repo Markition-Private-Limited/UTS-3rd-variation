@@ -81,9 +81,9 @@ const FLEET = [
   {
     id: "business-class-van",
     categories: ["Business Class Van", "Business Class"],
-    name: "8/9 - Seater Van",
+    name: "Mercedes-Benz Vito or similar",
     description: "Large group transfers in a well-appointed van — ideal for families, teams, and events.",
-    image: "/images/fleet/van-8-9-seater.webp",
+    image: "/images/fleet/mercedes-vito.webp",
     seats: 9,
     luggage: 8,
     pricing: [

@@ -97,13 +97,15 @@ export function Navbar() {
             <li key={label}>
               <a
                 href={href}
-                className={`flex items-center gap-1 text-[12px] font-normal tracking-[0.12em] uppercase transition-colors duration-300 ${
-                  isDark ? "text-white/85 hover:text-white" : "text-black/85 hover:text-black"
+                className={`group flex items-center gap-1 text-[12px] font-normal tracking-[0.12em] uppercase transition-all duration-200 ${
+                  isDark
+                    ? "text-white/60 hover:text-white hover:tracking-[0.16em]"
+                    : "text-black/60 hover:text-black hover:tracking-[0.16em]"
                 }`}
               >
                 {label}
                 {hasDropdown && (
-                  <svg width="9" height="9" viewBox="0 0 10 10" fill="none" className="opacity-70" aria-hidden="true">
+                  <svg width="9" height="9" viewBox="0 0 10 10" fill="none" className="opacity-70 transition-transform duration-200 group-hover:translate-y-px" aria-hidden="true">
                     <path d="M2 3.5L5 6.5L8 3.5" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" />
                   </svg>
                 )}
@@ -118,6 +120,7 @@ export function Navbar() {
           className="hidden md:inline-flex text-[11px] font-medium tracking-[0.18em] uppercase px-6 py-3 rounded-xl"
           fillColor={isDark ? "#1a1a1a" : "#F9F9F9"}
           fillTextColor={isDark ? "#F9F9F9" : "#1a1a1a"}
+          showHoverBorder
           style={{
             background: isDark ? "#F9F9F9" : "#1a1a1a",
             color: isDark ? "#1a1a1a" : "#F9F9F9",

@@ -72,6 +72,8 @@ type OriginButtonProps = ButtonHTMLAttributesForMotion & {
   fillColor?: string;
   /** Text color while the fill is covering the button (defaults to white). */
   fillTextColor?: string;
+  /** When true, shows an inset border (using fillTextColor) on hover for prominence. */
+  showHoverBorder?: boolean;
 };
 
 const OriginButton = React.forwardRef<HTMLButtonElement, OriginButtonProps>(
@@ -84,6 +86,7 @@ const OriginButton = React.forwardRef<HTMLButtonElement, OriginButtonProps>(
       type = "button",
       fillColor = "#111111",
       fillTextColor = "#ffffff",
+      showHoverBorder = false,
       onBlur,
       onClick,
       onFocus,
@@ -194,7 +197,16 @@ const OriginButton = React.forwardRef<HTMLButtonElement, OriginButtonProps>(
           "disabled:pointer-events-none disabled:opacity-50",
           className
         )}
-        style={{ ...style, color: showFill ? fillTextColor : style?.color }}
+        style={{
+          ...style,
+          color: showFill ? fillTextColor : style?.color,
+          ...(showHoverBorder && {
+            boxShadow: showFill
+              ? `inset 0 0 0 1.5px ${fillTextColor}, ${style?.boxShadow ?? ""}`
+              : style?.boxShadow,
+            transition: [style?.transition, "box-shadow 300ms"].filter(Boolean).join(", "),
+          }),
+        }}
         data-pressed={isPressed ? "true" : "false"}
         disabled={isDisabled}
         onBlur={(event) => {
