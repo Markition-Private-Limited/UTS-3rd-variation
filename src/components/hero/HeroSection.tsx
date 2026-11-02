@@ -6,11 +6,13 @@ import { AnimatePresence, motion } from "motion/react";
 
 const SLIDES = [
   {
-    src: "/hero-bg.jpg",
-    alt: "Chauffeur opening car door",
+    src: "/hero_img_4.webp",
+    alt: "Chauffeur opening car door at hotel entrance",
     heading1: "Executive Chauffeur",
     heading2: "Services Across the UK",
     body: "We believe luxury is more than just reaching your destination — it's about the journey itself. Our chauffeurs are trained professionals dedicated to providing a seamless, comfortable, and refined experience from start to finish.",
+    inset: "0%",
+    position: "100% 35%",
   },
   {
     src: "/hero_img_2.webp",
@@ -30,21 +32,33 @@ const SLIDES = [
 
 const SERVICE_CARDS = [
   {
-    title: "Day Booking",
-    desc: "Full-day vehicle block.",
-    image: "/hero-cards/day-booking.png",
-    href: "#services",
-  },
-  {
     title: "Airport Transfer",
     desc: "Airport pickups and drop-offs.",
     image: "/hero-cards/airport-transfer.png",
     href: "#services",
   },
   {
+    title: "Sightseeing Chauffeur",
+    desc: "Sightseeing trips within London",
+    image: "/hero-cards/sightseeing-london-v3.webp",
+    href: "#services",
+  },
+  {
     title: "Hourly Chauffeur",
     desc: "Keep your chauffeur by the hour.",
-    image: "/hero-cards/hourly-chauffeur.png",
+    image: "/hero-cards/hourly-chauffeur-v3.webp",
+    href: "#services",
+  },
+  {
+    title: "Day Service",
+    desc: "Full-day vehicle block.",
+    image: "/hero-cards/day-service-v3.webp",
+    href: "#services",
+  },
+  {
+    title: "City to City",
+    desc: "Intercity travel between major cities.",
+    image: "/hero-cards/city-to-city-v3.webp",
     href: "#services",
   },
 ];
@@ -157,8 +171,9 @@ export function HeroSection() {
         {SLIDES.map((s, i) => (
           <div
             key={s.src}
-            className="absolute -inset-[10%]"
+            className="absolute"
             style={{
+              inset: `-${s.inset ?? "10%"}`,
               opacity: i === index ? 1 : 0,
               transition: "opacity 1.2s ease-in-out",
             }}
@@ -170,7 +185,7 @@ export function HeroSection() {
               priority
               sizes="120vw"
               className="object-cover"
-              style={{ objectPosition: "center 40%" }}
+              style={{ objectPosition: s.position ?? "center 40%" }}
             />
           </div>
         ))}
@@ -213,7 +228,7 @@ export function HeroSection() {
         </div>
 
         {/* Service cards */}
-        <div className="mt-10 sm:mt-16 grid grid-cols-1 gap-4 sm:gap-3 sm:grid-cols-3">
+        <div className="mt-10 sm:mt-16 grid grid-cols-1 gap-4 sm:gap-3 sm:grid-cols-3 lg:grid-cols-5">
           {SERVICE_CARDS.map((card) => (
             <ServiceCard key={card.title} {...card} />
           ))}

@@ -200,12 +200,6 @@ const OriginButton = React.forwardRef<HTMLButtonElement, OriginButtonProps>(
         style={{
           ...style,
           color: showFill ? fillTextColor : style?.color,
-          ...(showHoverBorder && {
-            boxShadow: showFill
-              ? `inset 0 0 0 1.5px ${fillTextColor}, ${style?.boxShadow ?? ""}`
-              : style?.boxShadow,
-            transition: [style?.transition, "box-shadow 300ms"].filter(Boolean).join(", "),
-          }),
         }}
         data-pressed={isPressed ? "true" : "false"}
         disabled={isDisabled}
@@ -306,6 +300,17 @@ const OriginButton = React.forwardRef<HTMLButtonElement, OriginButtonProps>(
         <span className="relative z-10 inline-flex items-center justify-center gap-2">
           {children}
         </span>
+        {showHoverBorder && (
+          <span
+            aria-hidden
+            className="pointer-events-none absolute inset-0 z-20 rounded-[inherit]"
+            style={{
+              border: `1.5px solid ${fillTextColor}`,
+              opacity: showFill ? 1 : 0,
+              transition: "opacity 300ms",
+            }}
+          />
+        )}
       </motion.button>
     );
   }

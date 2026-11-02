@@ -126,7 +126,7 @@ export function FleetSection() {
 
   const updateEdge = () => {
     const el = trackRef.current;
-    if (!el) return;
+    if (!el || el.clientWidth === 0) return;
     const max = el.scrollWidth - el.clientWidth;
     const pages = Math.max(1, Math.ceil(el.scrollWidth / el.clientWidth - 0.05));
     const page = max <= 0 ? 0 : Math.round((el.scrollLeft / max) * (pages - 1));
