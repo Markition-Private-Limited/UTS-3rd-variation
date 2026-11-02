@@ -193,6 +193,7 @@ export function FleetSection() {
         isInView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
       }`}
     >
+      <div className="mx-auto max-w-[1680px]">
       {/* Header */}
       <div className="mb-14 flex flex-col items-start justify-between gap-8 md:flex-row md:items-end">
         <div>
@@ -217,13 +218,21 @@ export function FleetSection() {
             <button
               key={tab}
               onClick={() => setActiveTab(tab)}
-              className={`rounded-full px-5 py-2 text-[12px] font-medium tracking-wide transition-colors border ${
+              className={`group relative overflow-hidden rounded-full px-5 py-2 text-[12px] font-medium tracking-wide border cursor-pointer transition-[border-color] duration-300 ${
                 active
                   ? "bg-black text-white border-black"
-                  : "bg-white text-black border-black/20 hover:border-black"
+                  : "bg-white text-black border-black/20 hover:border-white"
               }`}
             >
-              {tab}
+              {!active && (
+                <span
+                  aria-hidden
+                  className="absolute z-0 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-4 h-4 bg-black rounded-full opacity-0 group-hover:w-[300px] group-hover:h-[300px] group-hover:opacity-100 transition-all duration-[800ms] ease-[cubic-bezier(0.19,1,0.22,1)] pointer-events-none"
+                />
+              )}
+              <span className={`relative z-[1] transition-colors duration-500 ${!active ? "group-hover:text-white" : ""}`}>
+                {tab}
+              </span>
             </button>
           );
         })}
@@ -262,24 +271,24 @@ export function FleetSection() {
           {visible.map((car, i) => (
             <motion.div
               key={`${car.id}-${activeTab}`}
-              className="snap-start shrink-0 basis-[calc((100%-40px)/3)] fleet-card group rounded-[20px] overflow-hidden flex flex-col cursor-pointer transition-all duration-500 ease-in-out hover:-translate-y-2 hover:shadow-xl"
+              className="snap-start shrink-0 basis-[calc((100%-60px)/4)] h-[440px] fleet-card group rounded-[20px] overflow-hidden flex flex-col cursor-pointer transition-all duration-500 ease-in-out hover:-translate-y-2 hover:shadow-xl"
               initial={{ opacity: 0, x: 24, y: 24 }}
               animate={isInView ? { opacity: 1, x: 0, y: 0 } : { opacity: 0, x: 24, y: 24 }}
               transition={{ duration: 0.55, delay: i * 0.09, ease: [0.25, 0.1, 0.25, 1] }}
             >
               {/* Car image */}
-              <div className="relative h-[220px] w-full overflow-hidden" style={{ background: "#f0f0f0" }}>
+              <div className="relative h-[40%] w-full overflow-hidden shrink-0" style={{ background: "#f0f0f0" }}>
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src={car.image}
                   alt={car.name}
-                  className="w-full h-full object-cover select-none pointer-events-none transition-transform duration-700 ease-in-out group-hover:scale-110"
+                  className="w-full h-full object-cover select-none pointer-events-none transition-transform duration-700 ease-in-out group-hover:scale-105"
                   draggable={false}
                 />
               </div>
 
               {/* Content block */}
-              <div className="flex flex-col flex-1 px-5 py-5" style={{ background: "#EFEFEF" }}>
+              <div className="flex flex-col flex-1 min-h-0 px-5 py-5 overflow-hidden" style={{ background: "#EFEFEF" }}>
                 {/* Name + seat/luggage */}
                 <div className="flex items-start justify-between mb-2">
                   <h3 className="text-[17px] font-bold text-black transition-colors duration-300 group-hover:text-neutral-700">{car.name}</h3>
@@ -298,11 +307,6 @@ export function FleetSection() {
                     </span>
                   </div>
                 </div>
-
-                {/* Description */}
-                <p className="mb-4 text-[12px] leading-relaxed text-black/50">
-                  {car.description}
-                </p>
 
                 {/* Amenities */}
                 <div className="grid grid-cols-4 gap-2 mb-4">
@@ -334,6 +338,7 @@ export function FleetSection() {
       </div>
 
       <DotsNav count={edge.pages} activeIndex={edge.page} className="mt-8" />
+      </div>
     </section>
   );
 }

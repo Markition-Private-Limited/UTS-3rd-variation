@@ -201,7 +201,7 @@ export function HeroSection() {
       />
 
       {/* Content */}
-      <div className="relative z-10 flex min-h-[calc(100vh-16px)] flex-col justify-start sm:justify-between px-6 pb-10 pt-20 sm:pt-[146px] sm:px-10 lg:px-16">
+      <div className="relative z-10 flex min-h-[calc(100vh-16px)] flex-col justify-start sm:justify-between px-6 pb-16 pt-20 sm:pt-[146px] sm:px-10 lg:px-16">
         {/* Heading + body — fades with slide */}
         <div className="max-w-xl pt-0 sm:pt-10 lg:max-w-3xl min-h-[330px]">
           <AnimatePresence mode="wait">

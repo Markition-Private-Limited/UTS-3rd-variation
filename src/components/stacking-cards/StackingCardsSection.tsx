@@ -33,40 +33,34 @@ const CARDS = [
     title: "Airport Transfers",
     desc: "Enjoy a smoother airport journey with professional chauffeur service, comfortable vehicles, and coordinated pickup arrangements.",
     cta: "Explore Airport Transfers",
-    image: "/stacking-cards/airport-transfers.jpg",
+    image: "/stacking-cards/airport-transfers-v2.webp",
+    imagePosition: "80% center",
   },
   {
-    eyebrow: "Arrive with a sense of calm",
-    title: "Corporate Chauffeur",
-    desc: "Make every business journey count with discreet, professional chauffeur services designed around your schedule, meetings and business commitments.",
-    cta: "Explore Service",
-    image: "/stacking-cards/corporate-chauffeur.webp",
-  },
-  {
-    eyebrow: "Arrive with a sense of calm",
-    title: "Intercity Travel",
-    desc: "Travel between cities without the hassle of driving, parking or navigating unfamiliar routes. Sit back and enjoy a comfortable journey from door to door.",
-    cta: "Explore Service",
-    image: "/stacking-cards/intercity-travel.png",
-  },
-  {
-    eyebrow: "Arrive with a sense of calm",
-    title: "Special Events and Private Travel",
-    desc: "Arrive in style for celebrations, important occasions and private engagements with a chauffeur service tailored to your plans.",
-    cta: "Explore Service",
-    image: "/stacking-cards/special-events-private-travel.webp",
-  },
-  {
-    eyebrow: "Arrive with a sense of calm",
-    title: "Cruise and Seaport Transfers",
-    desc: "Travel to your cruise terminal in comfort with a private chauffeur service that takes the stress out of getting to your departure point.",
-    cta: "Explore Service",
-    image: "/stacking-cards/cruise-seaport-transfers.webp",
-  },
-  {
-    eyebrow: "Arrive with a sense of calm",
+    eyebrow: "Discover the city in comfort",
     title: "Sightseeing Chauffeur",
-    desc: "Discover the city's famous landmarks and the surrounding areas at your own pace, with the comfort of a private vehicle and a professional driver.",
+    desc: "Explore every destination with professional chauffeur service, comfortable vehicles, and seamless journeys across the city.",
+    cta: "Explore Service",
+    image: "/stacking-cards/city-trip.webp",
+  },
+  {
+    eyebrow: "Your time, your journey",
+    title: "Hourly Chauffeur",
+    desc: "Travel on your own schedule with a dedicated chauffeur, flexible bookings, and premium comfort throughout the day.",
+    cta: "Explore Service",
+    image: "/stacking-cards/hourly-chauffeur.webp",
+  },
+  {
+    eyebrow: "Your day, travelled in style",
+    title: "Day Service",
+    desc: "Enjoy a full day of effortless travel with professional chauffeur service, flexible schedules, and exceptional comfort.",
+    cta: "Explore Service",
+    image: "/stacking-cards/day-service.webp",
+  },
+  {
+    eyebrow: "Go further in comfort",
+    title: "City to City",
+    desc: "Travel between cities with professional chauffeur service, comfortable vehicles, and seamless long-distance journeys.",
     cta: "Explore Service",
     image: "/stacking-cards/sightseeing-chauffeur.webp",
   },
@@ -105,7 +99,11 @@ export function StackingCardsSection() {
                 src={card.image}
                 alt={card.title}
                 fill
-                className="object-cover object-center"
+                className="object-cover"
+                style={{
+                  objectPosition: card.imagePosition ?? "center",
+                  ...(card.imageScale ? { transform: `scale(${card.imageScale})` } : {}),
+                }}
                 priority={i === 0}
               />
 
