@@ -5,6 +5,7 @@ import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { OriginButton } from "@/components/ui/origin-button";
+import PillButtonContent from "@/components/ui/PillButtonContent";
 
 const NAV_LINKS = [
   { label: "Home", href: "#" },
@@ -24,6 +25,7 @@ export function Navbar() {
 
   const [scrolled, setScrolled] = useState(false);
   const [theme, setTheme] = useState<"dark" | "light">("dark");
+  const [ctaHovered, setCtaHovered] = useState(false);
   const headerRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
@@ -69,11 +71,11 @@ export function Navbar() {
         "fixed top-5 left-4 right-4 z-50 rounded-full transition-all duration-500",
         isDark
           ? scrolled
-            ? "backdrop-blur-md bg-white/10 border border-white/10 shadow-sm"
-            : "backdrop-blur-sm bg-white/5 border border-white/5"
+            ? "backdrop-blur bg-white/10 border border-white/10 shadow-sm"
+            : "backdrop-blur-[2px] bg-white/5 border border-white/5"
           : scrolled
-            ? "backdrop-blur-md bg-white/70 border border-black/10 shadow-sm"
-            : "backdrop-blur-sm bg-white/30 border border-black/5",
+            ? "backdrop-blur bg-white/70 border border-black/10 shadow-sm"
+            : "backdrop-blur-[2px] bg-white/30 border border-black/5",
       ].join(" ")}
     >
       <nav className="w-full px-10 py-1.5 flex items-center justify-between">
@@ -97,7 +99,7 @@ export function Navbar() {
             <li key={label}>
               <a
                 href={href}
-                className={`group flex items-center gap-1 text-[12px] font-normal tracking-[0.12em] uppercase transition-all duration-200 ${
+                className={`group flex items-center gap-1 text-[12px] font-medium tracking-[0.12em] uppercase transition-all duration-200 ${
                   isDark
                     ? "text-white/60 hover:text-white hover:tracking-[0.16em]"
                     : "text-black/60 hover:text-black hover:tracking-[0.16em]"
@@ -115,22 +117,22 @@ export function Navbar() {
         </ul>
 
         {/* CTA Button */}
-        <OriginButton
+        <button
           onClick={() => router.push("/book")}
-          className="hidden md:inline-flex text-[11px] font-medium tracking-[0.18em] uppercase px-6 py-3 rounded-xl"
-          fillColor={isDark ? "#1a1a1a" : "#F9F9F9"}
-          fillTextColor={isDark ? "#F9F9F9" : "#1a1a1a"}
-          showHoverBorder
+          className="group hidden md:inline-flex relative overflow-hidden whitespace-nowrap items-center justify-between gap-4 text-[11px] font-medium tracking-[0.18em] uppercase px-6 py-3 rounded-full cursor-pointer"
+          onMouseEnter={() => setCtaHovered(true)}
+          onMouseLeave={() => setCtaHovered(false)}
           style={{
             background: isDark ? "#F9F9F9" : "#1a1a1a",
             color: isDark ? "#1a1a1a" : "#F9F9F9",
-            minWidth: "230px",
-            justifyContent: "center",
-            transition: "background 500ms, color 500ms",
+            border: `1px solid ${ctaHovered ? (isDark ? "#F9F9F9" : "#1a1a1a") : "transparent"}`,
+            transition: "background 500ms, color 500ms, border-color 300ms",
           }}
         >
-          Book Your Chauffeur
-        </OriginButton>
+          <PillButtonContent fill={isDark ? "black" : "white"}>
+            Book Your Chauffeur
+          </PillButtonContent>
+        </button>
 
         {/* Mobile hamburger */}
         <button className="md:hidden flex flex-col gap-1.5 p-2" aria-label="Open menu">

@@ -4,7 +4,7 @@ import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { motion, useScroll, useTransform } from "motion/react";
 import { StatCounter } from "./StatCounter";
-import { OriginButton } from "@/components/ui/origin-button";
+import PillButtonContent from "@/components/ui/PillButtonContent";
 
 const SERVICES = [
   {
@@ -61,14 +61,6 @@ const STATS = [
   { value: "10+", label: "Years of Experience" },
 ];
 
-function ArrowIcon(props: React.SVGProps<SVGSVGElement>) {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" {...props}>
-      <path d="M5 12h14M13 6l6 6-6 6" />
-    </svg>
-  );
-}
-
 function ServiceCard({
   item,
   cardRef,
@@ -124,15 +116,11 @@ function ServiceCard({
           {item.description}
         </p>
 
-        <OriginButton
-          className="mt-5 rounded-sm border border-white/50 px-4 py-3 text-xs tracking-[0.2em] text-white"
-          fillColor="#ffffff"
-          fillTextColor="#111111"
-          showHoverBorder
-        >
-          EXPLORE SERVICE
-          <ArrowIcon className="h-4 w-4" />
-        </OriginButton>
+        <button className="group mt-5 relative overflow-hidden whitespace-nowrap inline-flex items-center justify-between gap-4 rounded-full border border-white/50 px-4 py-3 text-xs tracking-[0.2em] text-white cursor-pointer">
+          <PillButtonContent fill="white">
+            EXPLORE SERVICE
+          </PillButtonContent>
+        </button>
       </div>
     </article>
   );

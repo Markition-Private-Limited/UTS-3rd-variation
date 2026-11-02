@@ -1,8 +1,31 @@
 "use client";
 
 import Image from "next/image";
+import { useState } from "react";
 import ScrollStack, { ScrollStackItem } from "@/components/ui/ScrollStack";
-import { OriginButton } from "@/components/ui/origin-button";
+import PillButtonContent from "@/components/ui/PillButtonContent";
+
+function CardButton({ label }: { label: string }) {
+  const [hovered, setHovered] = useState(false);
+  return (
+    <button
+      className="group relative overflow-hidden whitespace-nowrap inline-flex items-center justify-between gap-4 w-fit rounded-full bg-white text-black cursor-pointer"
+      style={{
+        fontSize: "0.68rem",
+        letterSpacing: "0.2em",
+        padding: "14px 28px",
+        fontWeight: 600,
+        textTransform: "uppercase",
+        border: `1px solid ${hovered ? "#ffffff" : "transparent"}`,
+        transition: "border-color 300ms",
+      }}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+    >
+      <PillButtonContent fill="black">{label}</PillButtonContent>
+    </button>
+  );
+}
 
 const CARDS = [
   {
@@ -149,15 +172,7 @@ export function StackingCardsSection() {
                     {card.desc}
                   </p>
 
-                  <OriginButton
-                    className="bg-white text-black font-semibold uppercase rounded-xl w-fit"
-                    fillColor="#111111"
-                    fillTextColor="#ffffff"
-                    showHoverBorder
-                    style={{ fontSize: "0.68rem", letterSpacing: "0.2em", padding: "14px 28px" }}
-                  >
-                    {card.cta}
-                  </OriginButton>
+                  <CardButton label={card.cta} />
                 </div>
               </div>
             </div>

@@ -119,7 +119,7 @@ export function FooterSection() {
               style={{
                 width: "148.96px",
                 height: "53.2px",
-                borderRadius: "8.28px",
+                borderRadius: "9999px",
                 border: "0.59px solid #FFFFFF",
                 padding: "11.82px 18.92px",
                 gap: "11.82px",

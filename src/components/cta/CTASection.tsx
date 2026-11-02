@@ -1,18 +1,12 @@
 "use client";
 
+import { useState } from "react";
 import { useInView } from "@/hooks/useInView";
-import { OriginButton } from "@/components/ui/origin-button";
-
-function ArrowIcon(props: React.SVGProps<SVGSVGElement>) {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" {...props}>
-      <path d="M4 12h16M14 6l6 6-6 6" />
-    </svg>
-  );
-}
+import PillButtonContent from "@/components/ui/PillButtonContent";
 
 export function CTASection() {
   const { ref, isInView } = useInView<HTMLDivElement>();
+  const [btnHovered, setBtnHovered] = useState(false);
 
   return (
     <section className="w-full bg-white px-4 md:px-8 pt-[6.25vw] pb-[6.25vw]">
@@ -68,15 +62,19 @@ export function CTASection() {
             Make your next journey more comfortable with professional chauffeur services tailored to your travel needs.
           </p>
 
-          <OriginButton
-            className="w-fit px-8 py-5 text-[16px] font-light tracking-[0.15em] text-white uppercase rounded-xl bg-[#111111]"
-            fillColor="#ffffff"
-            fillTextColor="#111111"
-            showHoverBorder
+          <button
+            className="group relative overflow-hidden whitespace-nowrap inline-flex items-center justify-between gap-4 w-fit px-8 py-5 text-[16px] font-light tracking-[0.15em] text-white uppercase rounded-full bg-[#111111] cursor-pointer"
+            onMouseEnter={() => setBtnHovered(true)}
+            onMouseLeave={() => setBtnHovered(false)}
+            style={{
+              border: `1px solid ${btnHovered ? "#111111" : "transparent"}`,
+              transition: "border-color 300ms",
+            }}
           >
-            Book Your Chauffeur
-            <ArrowIcon className="h-5 w-5" />
-          </OriginButton>
+            <PillButtonContent fill="white">
+              Book Your Chauffeur
+            </PillButtonContent>
+          </button>
         </div>
       </div>
     </section>

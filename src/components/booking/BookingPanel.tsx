@@ -74,12 +74,12 @@ export function BookingPanel() {
                 onClick={() => setActiveTab(index)}
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                className="relative flex items-center gap-2 whitespace-nowrap rounded-xl px-[18px] py-3 text-sm font-light tracking-[-0.01em] text-white transition-colors"
+                className="relative flex items-center gap-2 whitespace-nowrap rounded-full px-[18px] py-3 text-sm font-light tracking-[-0.01em] text-white transition-colors"
               >
                 {isActive && (
                   <motion.span
                     layoutId="booking-tab-active"
-                    className="absolute inset-0 overflow-hidden rounded-xl border border-white/40 bg-white/10 backdrop-blur-md backdrop-saturate-150"
+                    className="absolute inset-0 overflow-hidden rounded-full border border-white/40 bg-white/10 backdrop-blur-md backdrop-saturate-150"
                     style={{
                       boxShadow:
                         "inset 0 1px 1px rgba(255,255,255,0.5), inset 0 -1px 2px rgba(255,255,255,0.1), 0 4px 18px rgba(0,0,0,0.2)",
@@ -178,7 +178,7 @@ export function BookingPanel() {
         </div>
 
         <OriginButton
-          className="h-fit gap-2 whitespace-nowrap rounded-xl border border-white bg-white px-7 py-4 text-sm font-semibold text-neutral-900"
+          className="h-fit gap-2 whitespace-nowrap rounded-full border border-white bg-white px-7 py-4 text-sm font-semibold text-neutral-900"
           fillColor="#111111"
           fillTextColor="#ffffff"
           showHoverBorder
