@@ -100,10 +100,7 @@ export function StackingCardsSection() {
                 alt={card.title}
                 fill
                 className="object-cover"
-                style={{
-                  objectPosition: card.imagePosition ?? "center",
-                  ...(card.imageScale ? { transform: `scale(${card.imageScale})` } : {}),
-                }}
+                style={{ objectPosition: card.imagePosition ?? "center" }}
                 priority={i === 0}
               />
 
