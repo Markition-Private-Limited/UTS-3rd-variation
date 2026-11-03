@@ -5,7 +5,7 @@ import { motion } from "motion/react";
 import { useInView } from "@/hooks/useInView";
 import DotsNav from "@/components/ui/DotsNav";
 
-const TABS = ["All", "First Class", "Business Class", "Economy Saloon", "MPV", "First Class Van", "Business Class Van", "Standard Van"];
+const TABS = ["All", "First Class", "Business Class", "MPV", "First Class Van", "Business Class Van", "Standard Van"];
 
 const FLEET = [
   {
@@ -23,6 +23,34 @@ const FLEET = [
     ],
   },
   {
+    id: "first-class-bmw-i7",
+    categories: ["First Class"],
+    name: "BMW i7 or similar",
+    description: "The pinnacle of luxury chauffeur travel — effortless elegance and superior comfort for every occasion.",
+    image: "/images/fleet/first-class-bmw-i7-v5.webp",
+    seats: 4,
+    luggage: 3,
+    pricing: [
+      { label: "Heathrow", value: "From £110" },
+      { label: "Hourly hire (min 4 hr)", value: "From £60" },
+      { label: "Waiting Charges", value: "From £40 per hr" },
+    ],
+  },
+  {
+    id: "business-class-bmw-5-series",
+    categories: ["Business Class"],
+    name: "BMW 5 Series or similar",
+    description: "Premium business travel in refined comfort, perfect for corporate clients and professional journeys.",
+    image: "/images/fleet/business-class-bmw-5-series-v5.webp",
+    seats: 4,
+    luggage: 3,
+    pricing: [
+      { label: "Heathrow", value: "From £85" },
+      { label: "Hourly hire (min 4 hr)", value: "From £45" },
+      { label: "Waiting Charges", value: "From £30 per hr" },
+    ],
+  },
+  {
     id: "business-class",
     categories: ["Business Class"],
     name: "Mercedes-Benz E-Class or similar",
@@ -34,20 +62,6 @@ const FLEET = [
       { label: "Heathrow", value: "From £85" },
       { label: "Hourly hire (min 4 hr)", value: "From £45" },
       { label: "Waiting Charges", value: "From £30 per hr" },
-    ],
-  },
-  {
-    id: "economy-saloon",
-    categories: ["Economy Saloon"],
-    name: "VW Passat / Kia Niro or similar",
-    description: "A comfortable and reliable saloon ideal for everyday executive transfers and airport runs.",
-    image: "/images/fleet/economy-saloon-vw-passat.webp",
-    seats: 4,
-    luggage: 3,
-    pricing: [
-      { label: "Heathrow", value: "From £65" },
-      { label: "Hourly hire (min 4 hr)", value: "From £35" },
-      { label: "Waiting Charges", value: "From £25 per hr" },
     ],
   },
   {

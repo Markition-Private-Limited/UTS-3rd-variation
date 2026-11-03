@@ -25,7 +25,7 @@ const CONTACT_LINKS = [
 export function FooterSection() {
   return (
     <footer
-      className="w-full rounded-[32px] overflow-hidden min-h-[520px]"
+      className="w-full rounded-[32px] overflow-hidden"
       style={{ background: "#212121" }}
     >
       {/* Main footer content */}
@@ -35,11 +35,12 @@ export function FooterSection() {
           {/* Brand column */}
           <div className="flex flex-col items-start gap-5">
             <Image
-              src="/logo.png"
+              src="/logo-cropped.png"
               alt="United Travel Services"
-              width={200}
-              height={70}
-              className="h-20 w-auto"
+              width={833}
+              height={148}
+              className="w-auto"
+              style={{ height: "36px" }}
             />
             <p className="text-[15px] leading-relaxed text-white/60" style={{ maxWidth: 260 }}>
               Executive chauffeur services across the UK — designed for seamless travel,
@@ -147,7 +148,7 @@ export function FooterSection() {
       </div>
 
       {/* Divider */}
-      <div className="mx-auto w-full max-w-7xl px-6 mt-20">
+      <div className="mx-auto w-full max-w-7xl px-6 mt-10">
         <div className="h-px w-full bg-white/10" />
       </div>
 
@@ -155,7 +156,7 @@ export function FooterSection() {
       <div className="mx-auto max-w-7xl px-6 py-6">
         <div className="flex flex-col items-center justify-between gap-4 sm:flex-row">
           <p className="text-[13px] text-white/40">
-            © 2026 UTS. All rights reserved.
+            © 2026 Markition. All rights reserved.
           </p>
           <div className="flex items-center gap-6">
             <Link
@@ -169,6 +170,12 @@ export function FooterSection() {
               className="text-[13px] text-white/40 transition-colors hover:text-white/70"
             >
               Terms of Service
+            </Link>
+            <Link
+              href="#"
+              className="text-[13px] text-white/40 transition-colors hover:text-white/70"
+            >
+              Developed by Markition Technologies
             </Link>
           </div>
         </div>

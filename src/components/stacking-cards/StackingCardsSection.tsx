@@ -149,11 +149,13 @@ export function StackingCardsSection() {
                       {card.eyebrow}
                     </p>
                     <h2
-                      className="text-white font-bold uppercase"
                       style={{
-                        fontSize: "clamp(1.75rem, 3.3333vw, 64px)",
-                        lineHeight: "1.06",
-                        letterSpacing: "-0.04em",
+                        fontFamily: 'Inter, "Inter Fallback", sans-serif',
+                        fontSize: "50px",
+                        fontWeight: 500,
+                        lineHeight: "61px",
+                        letterSpacing: "-3px",
+                        color: "#fff",
                       }}
                     >
                       {card.title}

@@ -40,15 +40,17 @@ export function CTASection() {
           </p>
 
           <h2
-            className="uppercase text-black mb-[1.25vw]"
+            className="mb-[1.25vw]"
             style={{
-              fontWeight: 700,
-              fontSize: "clamp(1.75rem, 3.3333vw, 64px)",
-              lineHeight: "1.06",
-              letterSpacing: "-0.04em",
+              fontFamily: 'Inter, "Inter Fallback", sans-serif',
+              fontSize: "50px",
+              fontWeight: 200,
+              lineHeight: "61px",
+              letterSpacing: "-3px",
+              color: "#000",
             }}
           >
-            Your Journey.<br />Our Priority.
+            Your Journey.<br /><span style={{ fontWeight: 500 }}>Our Priority.</span>
           </h2>
 
           <p

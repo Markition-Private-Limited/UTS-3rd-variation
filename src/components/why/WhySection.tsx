@@ -156,15 +156,17 @@ export function WhySection() {
             </p>
 
             <h2
-              className="uppercase text-black mb-[1.25vw]"
+              className="mb-[1.25vw]"
               style={{
-                fontWeight: 800,
-                fontSize: "clamp(1.75rem, 3.3333vw, 64px)",
-                lineHeight: "1.06",
-                letterSpacing: "-0.03em",
+                fontFamily: 'Inter, "Inter Fallback", sans-serif',
+                fontSize: "50px",
+                fontWeight: 200,
+                lineHeight: "61px",
+                letterSpacing: "-3px",
+                color: "#000",
               }}
             >
-              The Difference Is In<br />Every Detail.
+              The Difference is in<br /><span style={{ fontWeight: 500 }}>Every Detail.</span>
             </h2>
 
             <p

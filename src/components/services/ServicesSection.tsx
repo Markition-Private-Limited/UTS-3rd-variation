@@ -1,8 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useRef, useState } from "react";
-import { motion, useScroll, useTransform } from "motion/react";
+import { useState } from "react";
 import { StatCounter } from "./StatCounter";
 import PillButtonContent from "@/components/ui/PillButtonContent";
 
@@ -63,32 +62,32 @@ const STATS = [
 
 function ServiceCard({
   item,
-  cardRef,
-  imgRef,
+  popped,
+  onPillEnter,
+  onPillLeave,
 }: {
   item: (typeof SERVICES)[number];
-  cardRef: (el: HTMLElement | null) => void;
-  imgRef: (el: HTMLDivElement | null) => void;
+  popped: boolean;
+  onPillEnter: () => void;
+  onPillLeave: () => void;
 }) {
   return (
     <article
-      ref={cardRef}
       className="relative h-[450px] w-[340px] flex-none overflow-hidden rounded-3xl md:w-[734px]"
+      style={{
+        transform: popped ? "scale(1.04)" : "scale(1)",
+        boxShadow: popped ? "0 20px 50px rgba(0,0,0,0.45)" : "none",
+        transition: "transform 0.4s cubic-bezier(0.25,0.46,0.45,0.94), box-shadow 0.4s ease",
+        zIndex: popped ? 10 : 1,
+      }}
     >
-      {/* Oversized container gives the image room to shift without gaps */}
-      <div
-        ref={imgRef}
-        className="absolute will-change-transform"
-        style={{ inset: "-80px -120px" }}
-      >
-        <Image
-          src={item.src}
-          alt={item.title}
-          fill
-          unoptimized
-          className="object-cover object-center"
-        />
-      </div>
+      <Image
+        src={item.src}
+        alt={item.title}
+        fill
+        unoptimized
+        className="object-cover object-center"
+      />
       <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-transparent" />
 
       <div className="absolute inset-x-0 bottom-0 p-5">
@@ -116,7 +115,11 @@ function ServiceCard({
           {item.description}
         </p>
 
-        <button className="group mt-5 relative overflow-hidden whitespace-nowrap inline-flex items-center justify-between gap-4 rounded-full border border-white/50 px-4 py-3 text-xs tracking-[0.2em] text-white cursor-pointer">
+        <button
+          className="group mt-5 relative overflow-hidden whitespace-nowrap inline-flex items-center justify-between gap-4 rounded-full border border-white/50 px-4 py-3 text-xs tracking-[0.2em] text-white cursor-pointer"
+          onMouseEnter={onPillEnter}
+          onMouseLeave={onPillLeave}
+        >
           <PillButtonContent fill="white">
             EXPLORE SERVICE
           </PillButtonContent>
@@ -127,124 +130,59 @@ function ServiceCard({
 }
 
 export function ServicesSection() {
-  const sectionRef = useRef<HTMLDivElement>(null);
-  const trackRef = useRef<HTMLDivElement>(null);
-  const pinnedContentRef = useRef<HTMLDivElement>(null);
-  const cardRefs = useRef<(HTMLElement | null)[]>([]);
-  const imgRefs = useRef<(HTMLDivElement | null)[]>([]);
-  const [distance, setDistance] = useState(0);
-  const [pinHeight, setPinHeight] = useState(650);
-  const [isPinned, setIsPinned] = useState(false);
-
-  useEffect(() => {
-    const mq = window.matchMedia("(min-width: 768px)");
-    const updatePinned = () => setIsPinned(mq.matches);
-    updatePinned();
-    mq.addEventListener("change", updatePinned);
-
-    const measure = () => {
-      if (trackRef.current) {
-        setDistance(Math.max(0, trackRef.current.scrollWidth - window.innerWidth));
-      }
-      if (pinnedContentRef.current) {
-        setPinHeight(pinnedContentRef.current.offsetHeight);
-      }
-    };
-    measure();
-    window.addEventListener("resize", measure);
-    document.fonts?.ready.then(measure).catch(() => undefined);
-
-    return () => {
-      mq.removeEventListener("change", updatePinned);
-      window.removeEventListener("resize", measure);
-    };
-  }, []);
-
-  const { scrollYProgress } = useScroll({
-    target: sectionRef,
-    offset: ["start start", "end end"],
-  });
-
-  const x = useTransform(scrollYProgress, [0, 1], [0, -distance]);
-
-  useEffect(() => {
-    let rafId: number;
-    const updateParallax = () => {
-      // Use scrollYProgress.get() — accurate 0→1 through the entire pinned section
-      const vProgress = scrollYProgress.get();
-      const vOffset = (vProgress - 0.5) * 80;
-
-      cardRefs.current.forEach((card, i) => {
-        const img = imgRefs.current[i];
-        if (!card || !img) return;
-        const cRect = card.getBoundingClientRect();
-        const cardCenterX = cRect.left + cRect.width / 2;
-        const hOffset = Math.max(-100, Math.min(100, (cardCenterX - window.innerWidth / 2) * -0.18));
-        img.style.transform = `translateX(${hOffset}px)`;
-      });
-
-      rafId = requestAnimationFrame(updateParallax);
-    };
-    rafId = requestAnimationFrame(updateParallax);
-    return () => cancelAnimationFrame(rafId);
-  }, [scrollYProgress]);
+  const [hoveredIdx, setHoveredIdx] = useState<number | null>(null);
 
   return (
     <section
-      className="-mx-4 text-white"
+      className="-mx-4 overflow-hidden text-white"
       style={{ background: "linear-gradient(235.26deg, #595959 0%, #1F1F1F 17.5%)" }}
     >
-      <div
-        ref={sectionRef}
-        className="relative"
-        style={isPinned ? { height: `calc(${pinHeight}px + ${distance}px)` } : undefined}
-      >
-        <div
-          ref={pinnedContentRef}
-          className={isPinned ? "sticky top-0 overflow-hidden" : undefined}
-        >
-          <div className="relative mb-6 flex flex-col items-start justify-between gap-6 px-10 pt-14 md:flex-row md:items-end">
-            <div>
-              <span className="ml-2 block text-[13px] font-normal tracking-[0.35em] text-neutral-300">
-                OUR SERVICES
-              </span>
-              <h2 className="mt-5 text-[50px] leading-[121%] tracking-[-0.06em]">
-                <span className="block whitespace-nowrap font-extralight">Premium Chauffeur Services</span>
-                <span className="block whitespace-nowrap font-medium">for Every Occasion.</span>
-              </h2>
-            </div>
+      <style>{`
+        @keyframes uts-services-marquee {
+          from { transform: translateX(0); }
+          to   { transform: translateX(-50%); }
+        }
+        .uts-services-marquee-track {
+          animation: uts-services-marquee 60s linear infinite;
+        }
+      `}</style>
 
-            <p className="relative z-10 mb-1 max-w-[480px] text-[14px] font-light leading-[200%] tracking-[-0.02em] text-neutral-300">
-              From airport transfers to executive travel, explore our luxury chauffeur services
-              designed around your comfort, convenience, and schedule.
-            </p>
-
-            <div className="pointer-events-none absolute right-16 top-0 h-[260px] w-[260px] opacity-40 md:h-[320px] md:w-[320px]">
-              <Image src="/uts-mark.png" alt="" fill className="object-contain brightness-0 invert" aria-hidden />
-            </div>
+      <div className="relative">
+        <div className="relative mb-6 flex flex-col items-start justify-between gap-6 px-10 pt-14 md:flex-row md:items-end">
+          <div>
+            <span className="ml-2 block text-[13px] font-normal tracking-[0.35em] text-neutral-300">
+              OUR SERVICES
+            </span>
+            <h2 className="mt-5 text-[50px] leading-[121%] tracking-[-0.06em]">
+              <span className="block whitespace-nowrap font-extralight">Premium Chauffeur Services</span>
+              <span className="block whitespace-nowrap font-medium">for Every Occasion.</span>
+            </h2>
           </div>
 
+          <p className="relative z-10 mb-1 max-w-[480px] text-[14px] font-light leading-[200%] tracking-[-0.02em] text-neutral-300">
+            From airport transfers to executive travel, explore our luxury chauffeur services
+            designed around your comfort, convenience, and schedule.
+          </p>
+
+          <div className="pointer-events-none absolute right-16 top-0 h-[260px] w-[260px] opacity-40 md:h-[320px] md:w-[320px]">
+            <Image src="/uts-mark.png" alt="" fill className="object-contain brightness-0 invert" aria-hidden />
+          </div>
+        </div>
+
+        <div className="flex h-[450px] items-center overflow-hidden">
           <div
-            className={
-              isPinned
-                ? "flex h-[450px] items-center overflow-hidden"
-                : "overflow-x-auto pb-4 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
-            }
+            className="uts-services-marquee-track flex w-max gap-10 px-10"
+            style={{ animationPlayState: hoveredIdx !== null ? "paused" : "running" }}
           >
-            <motion.div
-              ref={trackRef}
-              style={isPinned ? { x } : undefined}
-              className="flex w-max gap-10 px-10"
-            >
-              {SERVICES.map((item, i) => (
-                <ServiceCard
-                  key={item.index}
-                  item={item}
-                  cardRef={(el) => { cardRefs.current[i] = el; }}
-                  imgRef={(el) => { imgRefs.current[i] = el; }}
-                />
-              ))}
-            </motion.div>
+            {[...SERVICES, ...SERVICES].map((item, i) => (
+              <ServiceCard
+                key={`${item.index}-${i}`}
+                item={item}
+                popped={hoveredIdx === i}
+                onPillEnter={() => setHoveredIdx(i)}
+                onPillLeave={() => setHoveredIdx(null)}
+              />
+            ))}
           </div>
         </div>
       </div>
