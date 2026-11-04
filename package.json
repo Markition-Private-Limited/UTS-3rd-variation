@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "next build --webpack",
     "start": "next start",
     "lint": "eslint",
     "seed:fleet": "tsx scripts/seed-fleet.ts"
@@ -14,7 +14,7 @@
     "lenis": "^1.3.27",
     "mongoose": "^9.11.4",
     "motion": "^14.6.0",
-    "next": "16.4.3",
+    "next": "^16.4.5",
     "react": "19.3.0",
     "react-dom": "19.3.0",
     "tailwind-merge": "^3.7.0"
