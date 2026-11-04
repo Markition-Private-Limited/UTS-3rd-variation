@@ -1,9 +1,12 @@
-import { NextResponse } from 'next/server'
+import { NextResponse, connection } from 'next/server'
 import { connectDB } from '@/lib/mongodb'
 import { FleetCategoryModel } from '@/models/FleetCategory'
 import { FleetVehicleModel } from '@/models/FleetVehicle'
 
 export async function GET() {
+  // Mongoose isn't a Request-time API Next.js recognizes automatically, so
+  // without this the DB query runs during the build's prerender pass.
+  await connection()
   await connectDB()
 
   const [categories, vehicles] = await Promise.all([
