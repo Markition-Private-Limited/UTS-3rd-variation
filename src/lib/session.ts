@@ -24,8 +24,9 @@ async function importKey() {
   )
 }
 
-function toBase64url(buf: ArrayBuffer) {
-  return Buffer.from(buf).toString('base64url')
+function toBase64url(buf: ArrayBuffer | Uint8Array) {
+  const bytes = buf instanceof Uint8Array ? buf : new Uint8Array(buf)
+  return Buffer.from(bytes).toString('base64url')
 }
 
 function fromBase64url(str: string) {

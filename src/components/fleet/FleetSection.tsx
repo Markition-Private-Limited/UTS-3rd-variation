@@ -5,122 +5,32 @@ import { motion } from "motion/react";
 import { useInView } from "@/hooks/useInView";
 import DotsNav from "@/components/ui/DotsNav";
 
-const TABS = ["All", "First Class", "Business Class", "MPV", "First Class Van", "Business Class Van", "Standard Van"];
+type Rate = {
+  service: "Airport Transfer" | "Day Booking" | "Hourly Chauffeur" | "City to City";
+  amount: number | null;
+  unit: "per_km" | "per_hour" | "per_hour_min_4hr" | "tbd";
+  notes: string;
+};
 
-const FLEET = [
-  {
-    id: "first-class",
-    categories: ["First Class"],
-    name: "Mercedes-Benz S-Class or similar",
-    description: "The pinnacle of luxury chauffeur travel — effortless elegance and superior comfort for every occasion.",
-    image: "/images/fleet/first-class-mercedes-s-class.webp",
-    seats: 4,
-    luggage: 3,
-    pricing: [
-      { label: "Heathrow", value: "From £110" },
-      { label: "Hourly hire (min 4 hr)", value: "From £60" },
-      { label: "Waiting Charges", value: "From £40 per hr" },
-    ],
-  },
-  {
-    id: "first-class-bmw-i7",
-    categories: ["First Class"],
-    name: "BMW i7 or similar",
-    description: "The pinnacle of luxury chauffeur travel — effortless elegance and superior comfort for every occasion.",
-    image: "/images/fleet/first-class-bmw-i7-v5.webp",
-    seats: 4,
-    luggage: 3,
-    pricing: [
-      { label: "Heathrow", value: "From £110" },
-      { label: "Hourly hire (min 4 hr)", value: "From £60" },
-      { label: "Waiting Charges", value: "From £40 per hr" },
-    ],
-  },
-  {
-    id: "business-class-bmw-5-series",
-    categories: ["Business Class"],
-    name: "BMW 5 Series or similar",
-    description: "Premium business travel in refined comfort, perfect for corporate clients and professional journeys.",
-    image: "/images/fleet/business-class-bmw-5-series-v5.webp",
-    seats: 4,
-    luggage: 3,
-    pricing: [
-      { label: "Heathrow", value: "From £85" },
-      { label: "Hourly hire (min 4 hr)", value: "From £45" },
-      { label: "Waiting Charges", value: "From £30 per hr" },
-    ],
-  },
-  {
-    id: "business-class",
-    categories: ["Business Class"],
-    name: "Mercedes-Benz E-Class or similar",
-    description: "Premium business travel in refined comfort, perfect for corporate clients and professional journeys.",
-    image: "/images/fleet/business-class-mercedes-e-class.webp",
-    seats: 4,
-    luggage: 3,
-    pricing: [
-      { label: "Heathrow", value: "From £85" },
-      { label: "Hourly hire (min 4 hr)", value: "From £45" },
-      { label: "Waiting Charges", value: "From £30 per hr" },
-    ],
-  },
-  {
-    id: "mpv",
-    categories: ["MPV"],
-    name: "VW Sharan / Ford Galaxy or similar",
-    description: "Versatile multi-purpose vehicle combining flexibility and comfort for groups of up to 7 passengers.",
-    image: "/images/fleet/mpv-vw-sharan.webp",
-    seats: 7,
-    luggage: 5,
-    pricing: [
-      { label: "Heathrow", value: "From £100" },
-      { label: "Hourly hire (min 4 hr)", value: "From £55" },
-      { label: "Waiting Charges", value: "From £35 per hr" },
-    ],
-  },
-  {
-    id: "first-class-van",
-    categories: ["First Class Van", "First Class"],
-    name: "Mercedes-Benz V-Class or similar",
-    description: "Spacious first-class van travel for groups seeking luxury, privacy, and ample luggage capacity.",
-    image: "/images/fleet/first-class-van-mercedes-v-class.webp",
-    seats: 6,
-    luggage: 6,
-    pricing: [
-      { label: "Heathrow", value: "From £130" },
-      { label: "Hourly hire (min 4 hr)", value: "From £70" },
-      { label: "Waiting Charges", value: "From £45 per hr" },
-    ],
-  },
-  {
-    id: "business-class-van",
-    categories: ["Business Class Van", "Business Class"],
-    name: "Mercedes-Benz Vito or similar",
-    description: "Large group transfers in a well-appointed van — ideal for families, teams, and events.",
-    image: "/images/fleet/mercedes-vito.webp",
-    seats: 9,
-    luggage: 8,
-    pricing: [
-      { label: "Heathrow", value: "From £150" },
-      { label: "Hourly hire (min 4 hr)", value: "From £80" },
-      { label: "Waiting Charges", value: "From £50 per hr" },
-    ],
-  },
-  {
-    id: "standard-van",
-    categories: ["Standard Van"],
-    name: "Hyundai i800 / VW Transporter or similar",
-    description: "Reliable and spacious standard van for larger groups and extended luggage requirements.",
-    image: "/images/fleet/standard-van-hyundai-i800.webp",
-    seats: 8,
-    luggage: 8,
-    pricing: [
-      { label: "Heathrow", value: "From £120" },
-      { label: "Hourly hire (min 4 hr)", value: "From £65" },
-      { label: "Waiting Charges", value: "From £40 per hr" },
-    ],
-  },
-];
+type FleetVehicle = {
+  id: string;
+  tier: string;
+  categories: string[];
+  name: string;
+  description: string;
+  image: string;
+  seats: number;
+  luggage: number;
+  rates: Rate[];
+  showInAll: boolean;
+};
+
+function formatRate(rate: Rate | undefined): { label: string; value: string } | null {
+  if (!rate || rate.amount === null) return null;
+  const unitLabel =
+    rate.unit === "per_km" ? "per KM" : rate.unit === "per_hour_min_4hr" ? "per hr (4hr min)" : "per hr";
+  return { label: rate.service, value: `£${rate.amount.toFixed(2)} ${unitLabel}` };
+}
 
 const AMENITIES = [
   { label: "Wifi Available", icon: "/images/card icons/wifi-available.png" },
@@ -132,8 +42,30 @@ const AMENITIES = [
 export function FleetSection() {
   const { ref, isInView } = useInView<HTMLElement>();
   const [activeTab, setActiveTab] = useState("All");
+  const [tabs, setTabs] = useState<string[]>(["All"]);
+  const [fleet, setFleet] = useState<FleetVehicle[]>([]);
+  const [loading, setLoading] = useState(true);
 
-  const visible = activeTab === "All" ? FLEET : FLEET.filter((c) => c.categories.includes(activeTab));
+  useEffect(() => {
+    let cancelled = false;
+    fetch("/api/fleet")
+      .then((res) => res.json())
+      .then((data: { categories: string[]; vehicles: FleetVehicle[] }) => {
+        if (cancelled) return;
+        setTabs(data.categories);
+        setFleet(data.vehicles);
+      })
+      .catch((err) => console.error("Failed to load fleet data:", err))
+      .finally(() => !cancelled && setLoading(false));
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  const visible =
+    activeTab === "All"
+      ? fleet.filter((c) => c.showInAll !== false)
+      : fleet.filter((c) => c.categories.includes(activeTab));
 
   const trackRef = useRef<HTMLDivElement>(null);
   const [edge, setEdge] = useState({ start: true, end: false, page: 0, pages: 1 });
@@ -152,7 +84,7 @@ export function FleetSection() {
     updateEdge();
     window.addEventListener("resize", updateEdge);
     return () => window.removeEventListener("resize", updateEdge);
-  }, [activeTab]);
+  }, [activeTab, loading]);
 
   const pausedRef = useRef(false);
   const animRef = useRef(0);
@@ -187,7 +119,16 @@ export function FleetSection() {
       else slide(1);
     }, 3000);
     return () => clearInterval(id);
-  }, [activeTab]);
+  }, [activeTab, loading]);
+
+  const goToPage = (page: number) => {
+    const el = trackRef.current;
+    if (!el) return;
+    holdUntilRef.current = Date.now() + 6000;
+    const max = el.scrollWidth - el.clientWidth;
+    const target = edge.pages > 1 ? (page / (edge.pages - 1)) * max : 0;
+    glideTo(Math.max(0, Math.min(max, target)));
+  };
 
   const slide = (dir: 1 | -1) => {
     const el = trackRef.current;
@@ -226,7 +167,7 @@ export function FleetSection() {
 
       {/* Filter tabs */}
       <div className="mb-8 flex items-center gap-2 flex-wrap">
-        {TABS.map((tab) => {
+        {tabs.map((tab) => {
           const active = tab === activeTab;
           return (
             <button
@@ -274,13 +215,19 @@ export function FleetSection() {
           );
         })}
 
+        {loading && (
+          <div className="flex h-[440px] items-center justify-center text-sm text-neutral-400">
+            Loading fleet…
+          </div>
+        )}
+
         <div
           key={activeTab}
           ref={trackRef}
           onScroll={updateEdge}
           onMouseEnter={() => (pausedRef.current = true)}
           onMouseLeave={() => (pausedRef.current = false)}
-          className="flex gap-5 overflow-x-auto snap-x snap-mandatory [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+          className={`flex gap-5 overflow-x-auto snap-x snap-mandatory [scrollbar-width:none] [&::-webkit-scrollbar]:hidden ${loading ? "hidden" : ""}`}
         >
           {visible.map((car, i) => (
             <motion.div
@@ -338,12 +285,15 @@ export function FleetSection() {
 
                 {/* Pricing */}
                 <div className="flex flex-col gap-2">
-                  {car.pricing.map((p) => (
-                    <div key={p.label} className="flex items-center justify-between">
-                      <span className="text-[12px] font-semibold text-black">{p.label}</span>
-                      <span className="text-[12px] text-black/60">{p.value}</span>
-                    </div>
-                  ))}
+                  {(car.rates ?? [])
+                    .map(formatRate)
+                    .filter((p): p is { label: string; value: string } => p !== null)
+                    .map((p) => (
+                      <div key={p.label} className="flex items-center justify-between">
+                        <span className="text-[12px] font-semibold text-black">{p.label}</span>
+                        <span className="text-[12px] text-black/60">{p.value}</span>
+                      </div>
+                    ))}
                 </div>
               </div>
             </motion.div>
@@ -351,7 +301,7 @@ export function FleetSection() {
         </div>
       </div>
 
-      <DotsNav count={edge.pages} activeIndex={edge.page} className="mt-8" />
+      <DotsNav count={edge.pages} activeIndex={edge.page} onDotClick={goToPage} className="mt-8" />
       </div>
     </section>
   );

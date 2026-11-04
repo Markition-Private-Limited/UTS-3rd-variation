@@ -9,7 +9,7 @@ import PillButtonContent from "@/components/ui/PillButtonContent";
 
 const NAV_LINKS = [
   { label: "Home", href: "#" },
-  { label: "About", href: "#about" },
+  { label: "About", href: "/about" },
   { label: "Services", href: "#services", hasDropdown: true },
   { label: "Our Fleet", href: "#fleet" },
   { label: "Contact", href: "#contact" },
@@ -21,7 +21,13 @@ export function Navbar() {
   const onHome = pathname === "/";
   const links = onHome
     ? NAV_LINKS
-    : [{ label: "Home", href: "/" }, ...NAV_LINKS.slice(1).map((l) => ({ ...l, href: `/${l.href}` }))];
+    : [
+        { label: "Home", href: "/" },
+        ...NAV_LINKS.slice(1).map((l) => ({
+          ...l,
+          href: l.href.startsWith("/") ? l.href : `/${l.href}`,
+        })),
+      ];
 
   const [scrolled, setScrolled] = useState(false);
   const [theme, setTheme] = useState<"dark" | "light">("dark");

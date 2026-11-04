@@ -47,12 +47,14 @@ function MosaicTile({
   parallaxY,
   className,
   style,
+  objectPosition = "center",
 }: {
   src: string;
   alt: string;
   parallaxY: MotionValue<string>;
   className?: string;
   style?: React.CSSProperties;
+  objectPosition?: string;
 }) {
   return (
     <div className={`overflow-hidden relative ${className ?? ""}`} style={style}>
@@ -65,6 +67,7 @@ function MosaicTile({
           src={src}
           alt={alt}
           className="w-full h-full object-cover select-none"
+          style={{ objectPosition }}
           draggable={false}
         />
       </motion.div>
@@ -98,6 +101,7 @@ export function WhySection() {
               src="/images/why-choose-us/Chauffeur portrait.png"
               alt="Chauffeur standing beside the vehicle"
               parallaxY={yPortrait}
+              objectPosition="center 12%"
               className={`rounded-[1.25vw] flex-[1.68] transition-all duration-700 ease-out ${
                 isInView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
               }`}

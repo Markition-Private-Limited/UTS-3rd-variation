@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { StatCounter } from "./StatCounter";
 import PillButtonContent from "@/components/ui/PillButtonContent";
 
@@ -129,24 +129,107 @@ function ServiceCard({
   );
 }
 
+const AUTO_SPEED = 40; // idle drift speed, px/sec
+const MAX_SPIN_SPEED = 4500; // px/sec cap so a hard flick doesn't fly off-screen
+const SPIN_FRICTION = 0.94; // per-frame-at-60fps velocity retention while spinning down
+
 export function ServicesSection() {
   const [hoveredIdx, setHoveredIdx] = useState<number | null>(null);
+
+  const trackRef = useRef<HTMLDivElement>(null);
+  const draggingRef = useRef(false);
+  const pausedRef = useRef(false);
+  const dragStartXRef = useRef(0);
+  const dragStartScrollRef = useRef(0);
+  const movedRef = useRef(false);
+  const [dragging, setDragging] = useState(false);
+
+  // Velocity-driven track, like a flicked wheel: dragging samples pointer
+  // speed, releasing hands that speed to a momentum spin-down that eases
+  // back into the idle auto-drift rather than stopping dead.
+  const velocityRef = useRef(AUTO_SPEED); // px/sec, +ve = scrolling forward
+  const recentSamplesRef = useRef<{ x: number; t: number }[]>([]);
+
+  useEffect(() => {
+    let raf = 0;
+    let last = performance.now();
+
+    const tick = (now: number) => {
+      const dt = Math.min((now - last) / 1000, 0.05);
+      last = now;
+      const el = trackRef.current;
+      if (el && !pausedRef.current && !draggingRef.current) {
+        const half = el.scrollWidth / 2;
+
+        // Ease current velocity toward the idle drift speed (spin-down).
+        const decay = Math.pow(SPIN_FRICTION, dt * 60);
+        velocityRef.current = AUTO_SPEED + (velocityRef.current - AUTO_SPEED) * decay;
+        if (Math.abs(velocityRef.current - AUTO_SPEED) < 0.5) velocityRef.current = AUTO_SPEED;
+
+        let next = el.scrollLeft + velocityRef.current * dt;
+        next = ((next % half) + half) % half;
+        el.scrollLeft = next;
+      }
+      raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
+  }, []);
+
+  const onPointerDown = (e: React.PointerEvent) => {
+    const el = trackRef.current;
+    if (!el) return;
+    draggingRef.current = true;
+    movedRef.current = false;
+    setDragging(true);
+    dragStartXRef.current = e.clientX;
+    dragStartScrollRef.current = el.scrollLeft;
+    recentSamplesRef.current = [{ x: e.clientX, t: performance.now() }];
+    el.setPointerCapture(e.pointerId);
+  };
+
+  const onPointerMove = (e: React.PointerEvent) => {
+    const el = trackRef.current;
+    if (!el || !draggingRef.current) return;
+    const dx = e.clientX - dragStartXRef.current;
+    if (Math.abs(dx) > 3) movedRef.current = true;
+    const half = el.scrollWidth / 2;
+    let next = dragStartScrollRef.current - dx;
+    next = ((next % half) + half) % half;
+    el.scrollLeft = next;
+
+    // Keep a short rolling window (~120ms) of recent samples so release
+    // velocity reflects the final flick speed, not the whole drag's average.
+    const now = performance.now();
+    const samples = recentSamplesRef.current;
+    samples.push({ x: e.clientX, t: now });
+    while (samples.length > 1 && now - samples[0].t > 120) samples.shift();
+  };
+
+  const endDrag = (e: React.PointerEvent) => {
+    const el = trackRef.current;
+    if (!draggingRef.current) return;
+    draggingRef.current = false;
+    setDragging(false);
+
+    const samples = recentSamplesRef.current;
+    if (samples.length >= 2) {
+      const first = samples[0];
+      const last = samples[samples.length - 1];
+      const dt = (last.t - first.t) / 1000;
+      velocityRef.current = dt > 0.005 ? -(last.x - first.x) / dt : AUTO_SPEED;
+    } else {
+      velocityRef.current = AUTO_SPEED;
+    }
+    velocityRef.current = Math.max(-MAX_SPIN_SPEED, Math.min(MAX_SPIN_SPEED, velocityRef.current));
+    el?.releasePointerCapture(e.pointerId);
+  };
 
   return (
     <section
       className="-mx-4 overflow-hidden text-white"
       style={{ background: "linear-gradient(235.26deg, #595959 0%, #1F1F1F 17.5%)" }}
     >
-      <style>{`
-        @keyframes uts-services-marquee {
-          from { transform: translateX(0); }
-          to   { transform: translateX(-50%); }
-        }
-        .uts-services-marquee-track {
-          animation: uts-services-marquee 60s linear infinite;
-        }
-      `}</style>
-
       <div className="relative">
         <div className="relative mb-6 flex flex-col items-start justify-between gap-6 px-10 pt-14 md:flex-row md:items-end">
           <div>
@@ -171,16 +254,28 @@ export function ServicesSection() {
 
         <div className="flex h-[450px] items-center overflow-hidden">
           <div
-            className="uts-services-marquee-track flex w-max gap-10 px-10"
-            style={{ animationPlayState: hoveredIdx !== null ? "paused" : "running" }}
+            ref={trackRef}
+            onPointerDown={onPointerDown}
+            onPointerMove={onPointerMove}
+            onPointerUp={endDrag}
+            onPointerLeave={endDrag}
+            className={`flex w-max gap-10 overflow-x-auto px-10 select-none [scrollbar-width:none] [&::-webkit-scrollbar]:hidden ${
+              dragging ? "cursor-grabbing" : "cursor-grab"
+            }`}
           >
             {[...SERVICES, ...SERVICES].map((item, i) => (
               <ServiceCard
                 key={`${item.index}-${i}`}
                 item={item}
                 popped={hoveredIdx === i}
-                onPillEnter={() => setHoveredIdx(i)}
-                onPillLeave={() => setHoveredIdx(null)}
+                onPillEnter={() => {
+                  setHoveredIdx(i);
+                  pausedRef.current = true;
+                }}
+                onPillLeave={() => {
+                  setHoveredIdx(null);
+                  pausedRef.current = false;
+                }}
               />
             ))}
           </div>
