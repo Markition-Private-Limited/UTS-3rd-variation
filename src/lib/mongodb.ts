@@ -12,12 +12,9 @@ export async function connectDB() {
   if (!MONGODB_URI) throw new Error('MONGODB_URI is not set')
 
   if (!global._mongooseConn) {
-    global._mongooseConn = mongoose
-      .connect(MONGODB_URI, { dbName: 'uts', serverSelectionTimeoutMS: 5000 })
-      .catch((err) => {
-        global._mongooseConn = undefined
-        throw err
-      })
+    global._mongooseConn = mongoose.connect(MONGODB_URI, {
+      dbName: 'uts',
+    })
   }
 
   return global._mongooseConn
