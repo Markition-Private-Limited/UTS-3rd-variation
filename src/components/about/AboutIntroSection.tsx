@@ -1,8 +1,16 @@
 import Image from "next/image";
+import { AboutStat } from "./AboutStat";
+
+const STATS = [
+  { value: "50K+", label: "Successfully Completed Rides" },
+  { value: "496+", label: "Elite Chauffeurs" },
+  { value: "98%", label: "On-Time Rating" },
+  { value: "24/7", label: "Dedicated Support" },
+];
 
 export function AboutIntroSection() {
   return (
-    <section className="bg-white px-6 py-20 sm:px-10 lg:px-16 lg:py-28">
+    <section className="bg-white px-6 pt-20 pb-10 sm:px-10 lg:px-16 lg:pt-28 lg:pb-14">
       <div className="mx-auto flex max-w-7xl flex-col gap-12 lg:flex-row lg:items-center lg:gap-16">
         {/* Left — label, heading, body */}
         <div className="flex-shrink-0 lg:w-[44%]">
@@ -31,6 +39,20 @@ export function AboutIntroSection() {
             sizes="(max-width: 1024px) 100vw, 56vw"
             className="object-cover"
           />
+        </div>
+      </div>
+
+      {/* Stats */}
+      <div className="mx-auto mt-16 max-w-7xl border-t border-neutral-200 pt-12 lg:mt-20 lg:pt-14">
+        <div className="grid grid-cols-2 gap-y-10 sm:grid-cols-4">
+          {STATS.map((stat, i) => (
+            <AboutStat
+              key={stat.label}
+              value={stat.value}
+              label={stat.label}
+              divider={i !== STATS.length - 1}
+            />
+          ))}
         </div>
       </div>
     </section>

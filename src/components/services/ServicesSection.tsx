@@ -227,6 +227,7 @@ export function ServicesSection() {
 
   return (
     <section
+      id="services"
       className="-mx-4 overflow-hidden text-white"
       style={{ background: "linear-gradient(235.26deg, #595959 0%, #1F1F1F 17.5%)" }}
     >

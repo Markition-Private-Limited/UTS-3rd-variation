@@ -1,3 +1,9 @@
 export { AboutSection } from "./AboutSection";
 export { AboutHeroSection } from "./AboutHeroSection";
 export { AboutIntroSection } from "./AboutIntroSection";
+export { AboutPhilosophySection } from "./AboutPhilosophySection";
+export { AboutStandardSection } from "./AboutStandardSection";
+export { AboutWhyUTSSection } from "./AboutWhyUTSSection";
+export { AboutCollectionSection } from "./AboutCollectionSection";
+export { AboutServicesSection } from "./AboutServicesSection";
+export { AboutCTASection } from "./AboutCTASection";
