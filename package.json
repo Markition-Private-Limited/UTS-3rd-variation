@@ -10,6 +10,7 @@
     "seed:fleet": "tsx scripts/seed-fleet.ts"
   },
   "dependencies": {
+    "@tailwindcss/postcss": "^4.3.4",
     "clsx": "^2.1.1",
     "lenis": "^1.3.27",
     "mongoose": "^9.11.4",
