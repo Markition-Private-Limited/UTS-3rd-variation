@@ -12,15 +12,31 @@ export default function AboutPage() {
   return (
     <>
       <main className="bg-white p-4">
-        <AboutHeroSection />
+        <Reveal>
+          <AboutHeroSection />
+        </Reveal>
       </main>
-      <AboutIntroSection />
-      <AboutPhilosophySection />
-      <AboutStandardSection />
-      <AboutWhyUTSSection />
-      <AboutCollectionSection />
-      <AboutServicesSection />
-      <AboutCTASection />
+      <Reveal>
+        <AboutIntroSection />
+      </Reveal>
+      <Reveal>
+        <AboutPhilosophySection />
+      </Reveal>
+      <Reveal>
+        <AboutStandardSection />
+      </Reveal>
+      <Reveal>
+        <AboutWhyUTSSection />
+      </Reveal>
+      <Reveal>
+        <AboutCollectionSection />
+      </Reveal>
+      <Reveal>
+        <AboutServicesSection />
+      </Reveal>
+      <Reveal>
+        <AboutCTASection />
+      </Reveal>
       <div className="bg-white p-4">
         <Reveal>
           <FooterSection />
