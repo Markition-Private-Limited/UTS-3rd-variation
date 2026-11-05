@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { AboutHeroSection, AboutIntroSection, AboutDetailsSection } from "@/components/about";
+import { AboutHeroSection, AboutIntroSection } from "@/components/about";
 import { FooterSection } from "@/components/footer/FooterSection";
 import { Reveal } from "@/components/ui/reveal";
 
@@ -15,7 +15,6 @@ export default function AboutPage() {
         <AboutHeroSection />
       </main>
       <AboutIntroSection />
-      <AboutDetailsSection />
       <div className="bg-white p-4">
         <Reveal>
           <FooterSection />
