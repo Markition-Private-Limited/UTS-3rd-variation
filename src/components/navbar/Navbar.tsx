@@ -101,7 +101,7 @@ export function Navbar() {
 
         {/* Nav Links */}
         <ul className="hidden md:flex items-center gap-10">
-          {links.map(({ label, href, hasDropdown }) => (
+          {links.map(({ label, href }) => (
             <li key={label}>
               <a
                 href={href}
@@ -112,11 +112,6 @@ export function Navbar() {
                 }`}
               >
                 {label}
-                {hasDropdown && (
-                  <svg width="9" height="9" viewBox="0 0 10 10" fill="none" className="opacity-70 transition-transform duration-200 group-hover:translate-y-px" aria-hidden="true">
-                    <path d="M2 3.5L5 6.5L8 3.5" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" />
-                  </svg>
-                )}
               </a>
             </li>
           ))}
