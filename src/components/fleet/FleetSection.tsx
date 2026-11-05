@@ -49,7 +49,10 @@ export function FleetSection() {
   useEffect(() => {
     let cancelled = false;
     fetch("/api/fleet")
-      .then((res) => res.json())
+      .then((res) => {
+        if (!res.ok) throw new Error(`/api/fleet responded ${res.status}`);
+        return res.json();
+      })
       .then((data: { categories: string[]; vehicles: FleetVehicle[] }) => {
         if (cancelled) return;
         setTabs(data.categories);
