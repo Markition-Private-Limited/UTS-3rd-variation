@@ -84,7 +84,7 @@ export function ServicesHeroSection() {
                 transition: "border-color 300ms",
               }}
             >
-              <PillButtonContent fill="white">Make an Enquiry</PillButtonContent>
+              <PillButtonContent fill="white">Book a Chauffeur</PillButtonContent>
             </button>
           </div>
         </div>

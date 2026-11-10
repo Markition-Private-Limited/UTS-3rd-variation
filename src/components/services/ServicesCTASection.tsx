@@ -41,7 +41,7 @@ export function ServicesCTASection() {
               className="group relative inline-flex w-fit items-center justify-between gap-4 overflow-hidden whitespace-nowrap rounded-full bg-white text-black"
               style={{ padding: "16px 28px", fontSize: "0.68rem", letterSpacing: "0.2em", fontWeight: 600, textTransform: "uppercase" }}
             >
-              <PillButtonContent fill="black">Make an Enquiry</PillButtonContent>
+              <PillButtonContent fill="black">Book a Chauffeur</PillButtonContent>
             </Link>
           </div>
         </div>

@@ -128,7 +128,7 @@ export function ContactFormSection() {
               className="group relative inline-flex w-fit items-center justify-between gap-4 overflow-hidden whitespace-nowrap rounded-full bg-neutral-900 text-white"
               style={{ padding: "16px 28px", fontSize: "0.68rem", letterSpacing: "0.2em", fontWeight: 600, textTransform: "uppercase" }}
             >
-              <PillButtonContent fill="white">Send Your Enquiry</PillButtonContent>
+              <PillButtonContent fill="white">Book a Chauffeur</PillButtonContent>
             </button>
           </form>
         </div>

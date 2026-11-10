@@ -68,7 +68,7 @@ export function ContactHeroSection() {
                 transition: "border-color 300ms",
               }}
             >
-              <PillButtonContent fill="black">Send an Enquiry</PillButtonContent>
+              <PillButtonContent fill="black">Book a Chauffeur</PillButtonContent>
             </button>
 
             <Link
