@@ -73,7 +73,7 @@ export function ServicesHeroSection() {
             </button>
 
             <button
-              onClick={() => router.push("/#contact")}
+              onClick={() => router.push("/contact")}
               onMouseEnter={() => setBtn2Hovered(true)}
               onMouseLeave={() => setBtn2Hovered(false)}
               className="group relative inline-flex overflow-hidden whitespace-nowrap items-center justify-between gap-4 text-[11px] font-medium tracking-[0.18em] uppercase px-6 py-3 rounded-full cursor-pointer"

@@ -2,3 +2,8 @@ export { ServicesSection } from "./ServicesSection";
 export { ServicesHeroSection } from "./ServicesHeroSection";
 export { ServicesIntroSection } from "./ServicesIntroSection";
 export { ServicesExploreSection } from "./ServicesExploreSection";
+export { ServicesAdvantageSection } from "./ServicesAdvantageSection";
+export { ServicesJourneySection } from "./ServicesJourneySection";
+export { ServicesFleetSection } from "./ServicesFleetSection";
+export { ServicesFaqSection } from "./ServicesFaqSection";
+export { ServicesCTASection } from "./ServicesCTASection";
