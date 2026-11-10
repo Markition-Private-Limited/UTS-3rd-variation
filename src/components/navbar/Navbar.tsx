@@ -11,8 +11,8 @@ const NAV_LINKS = [
   { label: "Home", href: "#" },
   { label: "About", href: "/about" },
   { label: "Services", href: "/services" },
-  { label: "Our Fleet", href: "#fleet" },
-  { label: "Contact", href: "#contact" },
+  { label: "Our Fleet", href: "/fleet" },
+  { label: "Contact", href: "/contact" },
 ];
 
 export function Navbar() {
@@ -74,7 +74,7 @@ export function Navbar() {
     <header
       ref={headerRef}
       className={[
-        "fixed top-5 left-4 right-4 z-50 rounded-full transition-all duration-500",
+        "absolute top-5 left-4 right-4 z-50 rounded-full transition-all duration-500",
         isDark
           ? scrolled
             ? "backdrop-blur bg-white/10 border border-white/10 shadow-sm"
@@ -101,20 +101,23 @@ export function Navbar() {
 
         {/* Nav Links */}
         <ul className="hidden md:flex items-center gap-10">
-          {links.map(({ label, href }) => (
-            <li key={label}>
-              <a
-                href={href}
-                className={`group flex items-center gap-1 text-[12px] font-medium tracking-[0.12em] uppercase transition-all duration-200 ${
-                  isDark
-                    ? "text-white/60 hover:text-white hover:tracking-[0.16em]"
-                    : "text-black/60 hover:text-black hover:tracking-[0.16em]"
-                }`}
-              >
-                {label}
-              </a>
-            </li>
-          ))}
+          {links.map(({ label, href }) => {
+            const isHash = href.startsWith('#')
+            const cls = `group flex items-center gap-1 text-[12px] font-medium tracking-[0.12em] uppercase transition-all duration-200 ${
+              isDark
+                ? "text-white/60 hover:text-white hover:tracking-[0.16em]"
+                : "text-black/60 hover:text-black hover:tracking-[0.16em]"
+            }`
+            return (
+              <li key={label}>
+                {isHash ? (
+                  <a href={href} className={cls}>{label}</a>
+                ) : (
+                  <Link href={href} className={cls}>{label}</Link>
+                )}
+              </li>
+            )
+          })}
         </ul>
 
         {/* CTA Button */}

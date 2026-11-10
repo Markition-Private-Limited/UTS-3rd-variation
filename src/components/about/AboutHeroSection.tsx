@@ -51,7 +51,7 @@ export function AboutHeroSection() {
               Redefined.
             </span>
           </h1>
-          <p className="max-w-md text-[15px] font-light leading-[180%] tracking-[-0.02em] text-white/80 mb-8">
+          <p className="max-w-xl text-[15px] font-light leading-[180%] tracking-[-0.02em] text-white/80 mb-8">
             United Travel Services delivers premium chauffeur experiences designed around comfort, reliability and personal attention. From airport arrivals to executive engagements, every journey is carefully considered to help you travel comfortably and arrive with confidence.
           </p>
 

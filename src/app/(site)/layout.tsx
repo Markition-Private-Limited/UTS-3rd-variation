@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 
 export default function SiteLayout({ children }: { children: React.ReactNode }) {
   return (
-    <div className="flex flex-col bg-white font-sans">
+    <div className="relative flex flex-col bg-white font-sans">
       <PageLoader />
       <Navbar />
       <LenisProvider>{children}</LenisProvider>
