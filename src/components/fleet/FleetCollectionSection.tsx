@@ -59,13 +59,14 @@ export function FleetCollectionSection() {
             className="grid grid-cols-1 gap-8 py-12 lg:grid-cols-[57fr_43fr] lg:items-center lg:gap-16 first:pt-0 last:pb-0"
           >
             {/* Image */}
-            <div className="relative aspect-[16/10] overflow-hidden rounded-[clamp(12px,1.2vw,18px)] bg-neutral-100">
+            <div className="overflow-hidden rounded-[clamp(12px,1.2vw,18px)] bg-neutral-100">
               <Image
                 src={v.image}
                 alt={v.alt}
-                fill
+                width={0}
+                height={0}
                 sizes="(max-width: 1024px) 100vw, 57vw"
-                className="object-cover"
+                className="w-full h-auto"
               />
             </div>
 
