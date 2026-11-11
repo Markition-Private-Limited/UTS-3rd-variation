@@ -12,7 +12,7 @@ const VEHICLES = [
     suffix: "or similar",
     description:
       "Explore a First Class option for executive engagements, private occasions and journeys where your preferred travel environment is part of the plan. Share your passenger and luggage requirements when discussing this category.",
-    image: "/images/fleet/first-class-mercedes-s-class.webp",
+    image: "/images/fleet/s-class-collection.png",
     alt: "Mercedes-Benz S-Class luxury sedan in architectural setting",
   },
   {
