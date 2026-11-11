@@ -15,3 +15,9 @@ export { AirportTransfersGallerySection } from "./AirportTransfersGallerySection
 export { AirportTransfersFleetSection } from "./AirportTransfersFleetSection";
 export { AirportTransfersFaqSection } from "./AirportTransfersFaqSection";
 export { AirportTransfersCTASection } from "./AirportTransfersCTASection";
+export { CityToCityHeroSection } from "./CityToCityHeroSection";
+export { CityToCityAddressSection } from "./CityToCityAddressSection";
+export { CityToCityPerspectiveSection } from "./CityToCityPerspectiveSection";
+export { CityToCityExperienceSection } from "./CityToCityExperienceSection";
+export { FleetDiscoverCTA } from "./FleetDiscoverCTA";
+export { CityToCityCTASection } from "./CityToCityCTASection";
