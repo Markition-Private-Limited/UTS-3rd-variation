@@ -50,7 +50,7 @@ export const VEHICLES = [
     categories: ["First Class"],
     name: "Mercedes-Benz S-Class / BMW i7 or similar",
     description: "The pinnacle of luxury chauffeur travel — effortless elegance and superior comfort for every occasion.",
-    image: "/images/fleet/first-class-mercedes-s-class.webp",
+    image: "/images/fleet/s-class-collection.png",
     seats: 4,
     luggage: 3,
     rates: ratesFor("First"),
