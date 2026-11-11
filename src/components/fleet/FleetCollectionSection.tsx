@@ -12,7 +12,7 @@ const VEHICLES = [
     suffix: "or similar",
     description:
       "Explore a First Class option for executive engagements, private occasions and journeys where your preferred travel environment is part of the plan. Share your passenger and luggage requirements when discussing this category.",
-    image: "/fleet/s-class.jpg",
+    image: "/images/fleet/first-class-mercedes-s-class.webp",
     alt: "Mercedes-Benz S-Class luxury sedan in architectural setting",
   },
   {
@@ -22,7 +22,7 @@ const VEHICLES = [
     suffix: "or similar",
     description:
       "A refined choice for corporate transfers, airport journeys and everyday executive travel. The E-Class balances comfort and practicality, making it well suited to a wide range of professional and private journey types.",
-    image: "/fleet/e-class.jpg",
+    image: "/images/fleet/business-class-mercedes-e-class.webp",
     alt: "Mercedes-Benz E-Class executive saloon in architectural setting",
   },
   {
@@ -32,18 +32,18 @@ const VEHICLES = [
     suffix: "or similar",
     description:
       "Suited to group travel, family airport transfers and occasions where additional passenger space or luggage capacity is required. The V-Class offers a premium cabin environment across up to seven seats.",
-    image: "/fleet/v-class.jpg",
+    image: "/images/fleet/first-class-van-mercedes-v-class.webp",
     alt: "Mercedes-Benz V-Class executive MPV in architectural setting",
   },
   {
-    id: "business-suv",
-    category: "BUSINESS SUV",
-    name: "Range Rover",
+    id: "first-class-bmw",
+    category: "FIRST CLASS",
+    name: "BMW i7",
     suffix: "or similar",
     description:
-      "For journeys where a commanding presence and elevated driving position are preferred. The Range Rover provides a premium SUV environment for both urban transfers and longer distance private travel.",
-    image: "/fleet/range-rover.jpg",
-    alt: "Range Rover luxury SUV in architectural setting",
+      "For journeys where a commanding presence and refined luxury are preferred. The BMW i7 delivers a flagship saloon experience with a serene cabin, making it equally suited to city transfers and longer private travel.",
+    image: "/images/fleet/first-class-bmw-i7-v5.webp",
+    alt: "BMW i7 luxury saloon in architectural setting",
   },
 ];
 
