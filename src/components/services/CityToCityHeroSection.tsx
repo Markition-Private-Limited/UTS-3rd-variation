@@ -45,10 +45,10 @@ export function CityToCityHeroSection() {
             CITY TO CITY
           </span>
           <h1 className="mb-5">
-            <span className="block whitespace-nowrap text-[36px] font-extralight leading-[121%] tracking-[-0.06em] text-white sm:text-[52px] lg:text-[72px]">
+            <span className="block text-[28px] font-extralight leading-[121%] tracking-[-0.06em] text-white sm:whitespace-nowrap sm:text-[52px] lg:text-[72px]">
               Between Cities.
             </span>
-            <span className="block whitespace-nowrap text-[36px] font-semibold leading-[121%] tracking-[-0.06em] text-white sm:text-[52px] lg:text-[72px]">
+            <span className="block text-[28px] font-semibold leading-[121%] tracking-[-0.06em] text-white sm:whitespace-nowrap sm:text-[52px] lg:text-[72px]">
               Beyond the Ordinary.
             </span>
           </h1>
