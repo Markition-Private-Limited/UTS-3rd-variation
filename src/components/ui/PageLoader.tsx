@@ -27,17 +27,29 @@ const FAINT_STREAKS = [
 ]
 
 
+const SESSION_KEY = 'uts-loader-shown'
+
 export default function PageLoader() {
   const [visible,  setVisible]  = useState(true)
   const [progress, setProgress] = useState(0)
   const prefersReducedMotion = useReducedMotion()
 
   useEffect(() => {
+    try {
+      if (sessionStorage.getItem(SESSION_KEY)) {
+        setVisible(false)
+        return
+      }
+    } catch {}
+
     const startedAt = performance.now()
     const progressInterval = setInterval(() => {
       setProgress(Math.min(((performance.now() - startedAt) / VISIBLE_MS) * 100, 100))
     }, 50)
-    const hideTimer = setTimeout(() => setVisible(false), VISIBLE_MS)
+    const hideTimer = setTimeout(() => {
+      setVisible(false)
+      try { sessionStorage.setItem(SESSION_KEY, '1') } catch {}
+    }, VISIBLE_MS)
     return () => {
       clearInterval(progressInterval)
       clearTimeout(hideTimer)
