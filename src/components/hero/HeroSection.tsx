@@ -203,7 +203,7 @@ export function HeroSection() {
       {/* Content */}
       <div className="relative z-10 flex min-h-[calc(100vh-16px)] flex-col justify-start sm:justify-between px-6 pb-16 pt-20 sm:pt-[146px] sm:px-10 lg:px-16">
         {/* Heading + body — fades with slide */}
-        <div className="max-w-xl pt-0 sm:pt-10 lg:max-w-3xl min-h-[330px]">
+        <div className="max-w-xl pt-0 sm:pt-10 lg:max-w-3xl min-h-[200px] sm:min-h-[330px]">
           <AnimatePresence mode="wait">
             <motion.div
               key={index}
@@ -213,10 +213,10 @@ export function HeroSection() {
               transition={{ duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] }}
             >
               <h1 className="mb-4">
-                <span className="block text-[72px] leading-[121%] tracking-[-0.06em] font-extralight whitespace-nowrap text-white">
+                <span className="block text-[38px] sm:text-[52px] lg:text-[72px] leading-[121%] tracking-[-0.06em] font-extralight text-white">
                   {slide.heading1}
                 </span>
-                <span className="block text-[72px] leading-[121%] tracking-[-0.06em] font-semibold whitespace-nowrap text-white">
+                <span className="block text-[38px] sm:text-[52px] lg:text-[72px] leading-[121%] tracking-[-0.06em] font-semibold text-white">
                   {slide.heading2}
                 </span>
               </h1>

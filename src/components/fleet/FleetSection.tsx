@@ -147,7 +147,7 @@ export function FleetSection() {
       id="fleet"
       data-navbar-theme="light"
       ref={ref}
-      className={`bg-white px-8 py-16 transition-all duration-700 ease-out ${
+      className={`bg-white px-4 sm:px-8 py-16 transition-all duration-700 ease-out ${
         isInView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
       }`}
     >
@@ -158,8 +158,8 @@ export function FleetSection() {
           <span className="ml-3 block text-xs font-medium tracking-[0.3em] text-neutral-400">
             OUR FLEET
           </span>
-          <h2 className="mt-4 text-[58px] leading-[121%] tracking-[-0.06em] text-neutral-900">
-            <span className="block whitespace-nowrap font-extralight">Discover Our Collection</span>
+          <h2 className="mt-4 text-[36px] sm:text-[48px] md:text-[58px] leading-[121%] tracking-[-0.06em] text-neutral-900">
+            <span className="block font-extralight">Discover Our Collection</span>
             <span className="block font-normal">of Luxury Vehicles.</span>
           </h2>
         </div>

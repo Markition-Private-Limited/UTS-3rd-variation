@@ -26,12 +26,12 @@ export function CTASection() {
           }}
         />
 
-        <div className="relative z-10 max-w-3xl md:max-w-[40vw] text-black pl-[2.0833vw]">
+        <div className="relative z-10 max-w-3xl md:max-w-[40vw] text-black pl-4 sm:pl-[2.0833vw]">
           <p
-            className="uppercase text-black mb-[1.0417vw]"
+            className="uppercase text-black mb-3 md:mb-[1.0417vw]"
             style={{
               fontWeight: 600,
-              fontSize: "clamp(9px, 0.6771vw, 13px)",
+              fontSize: "clamp(10px, 0.6771vw, 13px)",
               lineHeight: "1",
               letterSpacing: "0.18em",
             }}
@@ -40,13 +40,12 @@ export function CTASection() {
           </p>
 
           <h2
-            className="mb-[1.25vw]"
+            className="mb-[1.25vw] text-[32px] sm:text-[42px] lg:text-[50px]"
             style={{
               fontFamily: 'Inter, "Inter Fallback", sans-serif',
-              fontSize: "50px",
               fontWeight: 200,
-              lineHeight: "61px",
-              letterSpacing: "-3px",
+              lineHeight: "1.22",
+              letterSpacing: "-0.06em",
               color: "#000",
             }}
           >
