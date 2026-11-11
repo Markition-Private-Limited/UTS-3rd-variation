@@ -74,7 +74,7 @@ export function Navbar() {
     <header
       ref={headerRef}
       className={[
-        "fixed top-5 left-4 right-4 z-50 rounded-full transition-all duration-500",
+        "absolute top-5 left-4 right-4 z-50 rounded-full transition-all duration-500",
         isDark
           ? scrolled
             ? "backdrop-blur bg-white/10 border border-white/10 shadow-sm"

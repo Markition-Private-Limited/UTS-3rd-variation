@@ -30,18 +30,16 @@ const FAINT_STREAKS = [
 const SESSION_KEY = 'uts-loader-shown'
 
 export default function PageLoader() {
-  const [visible,  setVisible]  = useState(true)
+  const [visible,  setVisible]  = useState(false)
   const [progress, setProgress] = useState(0)
   const prefersReducedMotion = useReducedMotion()
 
   useEffect(() => {
     try {
-      if (sessionStorage.getItem(SESSION_KEY)) {
-        setVisible(false)
-        return
-      }
+      if (sessionStorage.getItem(SESSION_KEY)) return
     } catch {}
 
+    setVisible(true)
     const startedAt = performance.now()
     const progressInterval = setInterval(() => {
       setProgress(Math.min(((performance.now() - startedAt) / VISIBLE_MS) * 100, 100))
