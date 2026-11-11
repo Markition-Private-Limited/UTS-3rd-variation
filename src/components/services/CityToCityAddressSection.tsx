@@ -5,7 +5,7 @@ export function CityToCityAddressSection() {
   return (
     <Reveal>
     <section className="bg-white px-6 py-14 sm:px-10 lg:px-16 lg:py-20">
-      <div className="mx-auto max-w-[clamp(1280px,92vw,1800px)]">
+      <div className="mx-auto max-w-[min(92vw,1800px)]">
         <div className="grid grid-cols-1 items-center gap-10 lg:grid-cols-[880fr_760fr] lg:gap-x-[86px]">
           <div className="relative w-full overflow-hidden rounded-2xl" style={{ aspectRatio: "880/620" }}>
             <Image

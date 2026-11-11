@@ -27,7 +27,7 @@ export function CityToCityExperienceSection() {
   return (
     <Reveal>
     <section className="bg-white px-6 py-14 sm:px-10 lg:px-16 lg:py-20">
-      <div className="mx-auto max-w-[clamp(1280px,92vw,1800px)]">
+      <div className="mx-auto max-w-[min(92vw,1800px)]">
         <span className="mb-6 block text-[11px] font-medium tracking-[0.3em] text-neutral-400">
           YOUR JOURNEY WITH UTS
         </span>
