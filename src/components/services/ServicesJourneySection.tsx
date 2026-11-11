@@ -1,0 +1,55 @@
+const STEPS = [
+  {
+    index: "01",
+    title: "Share Your Requirements",
+    body: "Tell us the service you have in mind, where you need to travel and your preferred dates.",
+  },
+  {
+    index: "02",
+    title: "Discuss Your Journey",
+    body: "Review timings, passenger needs, luggage and the vehicle options appropriate to your plans.",
+  },
+  {
+    index: "03",
+    title: "Confirm Your Booking",
+    body: "Agree the journey arrangements and check the details provided with your booking confirmation.",
+  },
+  {
+    index: "04",
+    title: "Travel with Confidence",
+    body: "With your arrangements understood, enjoy professional chauffeur transportation for your journey.",
+  },
+];
+
+export function ServicesJourneySection() {
+  return (
+    <section className="bg-white px-6 py-14 sm:px-10 lg:px-16 lg:py-20">
+      <div className="mx-auto max-w-7xl">
+        <span className="mb-6 block text-[11px] font-medium tracking-[0.3em] text-neutral-400">
+          YOUR JOURNEY WITH UTS
+        </span>
+        <h2 className="max-w-3xl text-[42px] font-extralight leading-[115%] tracking-[-0.03em] text-neutral-900">
+          From Enquiry <span className="font-semibold">to Arrival.</span>
+        </h2>
+
+        <div className="mt-12 grid grid-cols-1 gap-10 sm:grid-cols-2 lg:mt-16 lg:grid-cols-4 lg:gap-8">
+          {STEPS.map((item) => (
+            <div key={item.index}>
+              <span className="block text-[40px] font-light leading-none tracking-[-0.02em] text-neutral-300">
+                {item.index}
+              </span>
+              <div className="mt-4 border-t border-neutral-200 pt-6">
+                <h3 className="text-[19px] font-bold tracking-[-0.02em] text-neutral-900">
+                  {item.title}
+                </h3>
+                <p className="mt-3 text-[15px] font-normal leading-[170%] tracking-[-0.01em] text-neutral-500">
+                  {item.body}
+                </p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
