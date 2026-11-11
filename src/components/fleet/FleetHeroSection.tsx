@@ -54,7 +54,7 @@ export function FleetHeroSection() {
             </span>
           </h1>
 
-          <p className="max-w-xl text-[15px] font-light leading-[180%] tracking-[-0.02em] text-white/80 mb-8">
+          <p className="max-w-xl font-light text-white/80 mb-8" style={{ fontFamily: 'Inter, sans-serif', fontSize: '18px', fontWeight: 300, lineHeight: '32px', letterSpacing: 0 }}>
             Explore a selection of executive vehicles suited to airport transfers, business journeys and
             private travel. United Travel Services brings together considered vehicle options and
             professional chauffeur transportation to help make every journey more comfortable.
