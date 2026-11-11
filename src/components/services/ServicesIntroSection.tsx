@@ -1,5 +1,7 @@
+import { Reveal } from "@/components/ui/reveal";
 export function ServicesIntroSection() {
   return (
+    <Reveal>
     <section className="bg-white px-6 pt-14 pb-6 sm:px-10 lg:px-16 lg:pt-20 lg:pb-8">
       <div className="mx-auto max-w-7xl">
         <div className="grid grid-cols-1 gap-10 lg:grid-cols-[568fr_597fr] lg:items-start lg:gap-x-[86px]">
@@ -21,5 +23,6 @@ export function ServicesIntroSection() {
         </div>
       </div>
     </section>
+    </Reveal>
   );
 }

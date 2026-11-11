@@ -3,6 +3,7 @@
 import { useEffect, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { Reveal } from "@/components/ui/reveal";
 
 const SERVICES = [
   {
@@ -114,6 +115,7 @@ export function AboutServicesSection() {
   }, []);
 
   return (
+    <Reveal>
     <section className="bg-white pt-6 pb-14 lg:pt-8 lg:pb-20">
       <div className="px-6 sm:px-10 lg:px-16">
         <div className="mx-auto max-w-7xl">
@@ -148,5 +150,6 @@ export function AboutServicesSection() {
         ))}
       </div>
     </section>
+    </Reveal>
   );
 }

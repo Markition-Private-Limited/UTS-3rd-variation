@@ -1,3 +1,4 @@
+import { Reveal } from "@/components/ui/reveal";
 const APPROACH = [
   {
     index: "01",
@@ -23,8 +24,9 @@ const APPROACH = [
 
 export function AirportTransfersApproachSection() {
   return (
+    <Reveal>
     <section className="bg-[#1B1B1B] px-6 py-14 sm:px-10 lg:px-16 lg:py-20">
-      <div className="mx-auto max-w-7xl">
+      <div className="mx-auto max-w-[min(92vw,1800px)]">
         <span className="mb-6 block text-[11px] font-medium tracking-[0.3em] text-neutral-400">
           THE UTS APPROACH
         </span>
@@ -49,5 +51,6 @@ export function AirportTransfersApproachSection() {
         </div>
       </div>
     </section>
+    </Reveal>
   );
 }

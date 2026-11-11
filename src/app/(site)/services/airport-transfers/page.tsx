@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { AirportTransfersHeroSection, AirportTransfersConnectionSection, AirportTransfersApproachSection, AirportTransfersExperienceSection, AirportTransfersGallerySection, AirportTransfersFleetSection, AirportTransfersFaqSection, AirportTransfersCTASection } from "@/components/services";
+import { AirportTransfersHeroSection, AirportTransfersConnectionSection, AirportTransfersApproachSection, AirportTransfersExperienceSection, AirportTransfersGallerySection, AirportTransfersFleetSection, AirportTransfersFaqSection, AirportTransfersCTASection, FleetDiscoverCTA } from "@/components/services";
 import { FooterSection } from "@/components/footer/FooterSection";
 import { Reveal } from "@/components/ui/reveal";
 
@@ -30,6 +30,9 @@ export default function AirportTransfersPage() {
       </Reveal>
       <Reveal>
         <AirportTransfersFleetSection />
+      </Reveal>
+      <Reveal>
+        <FleetDiscoverCTA />
       </Reveal>
       <Reveal>
         <AirportTransfersFaqSection />

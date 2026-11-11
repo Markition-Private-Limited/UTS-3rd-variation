@@ -1,9 +1,11 @@
 import Image from "next/image";
+import { Reveal } from "@/components/ui/reveal";
 
 export function AirportTransfersConnectionSection() {
   return (
+    <Reveal>
     <section className="bg-white px-6 py-14 sm:px-10 lg:px-16 lg:py-20">
-      <div className="mx-auto max-w-7xl">
+      <div className="mx-auto max-w-[min(92vw,1800px)]">
         <div className="grid grid-cols-1 items-center gap-10 lg:grid-cols-[568fr_597fr] lg:gap-x-[86px]">
           <div>
             <span className="mb-6 block text-[11px] font-medium tracking-[0.3em] text-neutral-400">
@@ -29,5 +31,6 @@ export function AirportTransfersConnectionSection() {
         </div>
       </div>
     </section>
+    </Reveal>
   );
 }

@@ -1,9 +1,11 @@
 import Link from "next/link";
 import PillButtonContent from "@/components/ui/PillButtonContent";
+import { Reveal } from "@/components/ui/reveal";
 
 export function ContactAssistSection() {
   return (
-    <section className="bg-white px-6 py-14 sm:px-10 lg:px-16 lg:py-20">
+    <Reveal>
+    <section style={{ background: "#DEDEDE" }} className="px-6 py-8 sm:px-10 sm:py-10 lg:px-16 lg:py-12">
       <div className="mx-auto max-w-7xl">
         <div className="grid grid-cols-1 gap-10 lg:grid-cols-[568fr_597fr] lg:items-center lg:gap-x-[86px]">
           <div>
@@ -21,14 +23,14 @@ export function ContactAssistSection() {
           <div className="flex flex-col items-start gap-5 lg:items-center">
             <Link
               href="/services"
-              className="group relative inline-flex w-[228px] items-center justify-between gap-4 overflow-hidden whitespace-nowrap rounded-full bg-neutral-900 text-white"
+              className="group relative inline-flex w-[228px] items-center justify-between gap-4 overflow-hidden whitespace-nowrap rounded-full border border-transparent bg-neutral-900 text-white transition-colors duration-300 hover:border-white/40"
               style={{ padding: "18px 28px", fontSize: "0.72rem", letterSpacing: "0.2em", fontWeight: 600, textTransform: "uppercase" }}
             >
               <PillButtonContent fill="white">Services</PillButtonContent>
             </Link>
             <Link
               href="/#fleet"
-              className="group relative inline-flex w-[228px] items-center justify-between gap-4 overflow-hidden whitespace-nowrap rounded-full bg-neutral-900 text-white"
+              className="group relative inline-flex w-[228px] items-center justify-between gap-4 overflow-hidden whitespace-nowrap rounded-full border border-transparent bg-neutral-900 text-white transition-colors duration-300 hover:border-white/40"
               style={{ padding: "18px 28px", fontSize: "0.72rem", letterSpacing: "0.2em", fontWeight: 600, textTransform: "uppercase" }}
             >
               <PillButtonContent fill="white">Our Fleet</PillButtonContent>
@@ -37,5 +39,6 @@ export function ContactAssistSection() {
         </div>
       </div>
     </section>
+    </Reveal>
   );
 }

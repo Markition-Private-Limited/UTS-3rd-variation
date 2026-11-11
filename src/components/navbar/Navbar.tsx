@@ -126,7 +126,7 @@ export function Navbar() {
           style={{
             background: isDark ? "#F9F9F9" : "#1a1a1a",
             color: isDark ? "#1a1a1a" : "#F9F9F9",
-            border: `1px solid ${ctaHovered ? (isDark ? "#F9F9F9" : "#1a1a1a") : "transparent"}`,
+            border: `1px solid ${ctaHovered ? (isDark ? "#F9F9F9" : "rgba(255,255,255,0.4)") : "transparent"}`,
             transition: "background 500ms, color 500ms, border-color 300ms",
           }}
         >

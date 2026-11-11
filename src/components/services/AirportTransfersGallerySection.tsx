@@ -1,17 +1,19 @@
 import Image from "next/image";
+import { Reveal } from "@/components/ui/reveal";
 
 export function AirportTransfersGallerySection() {
   return (
+    <Reveal>
     <section className="bg-white px-6 py-14 sm:px-10 lg:px-16 lg:py-20">
-      <div className="mx-auto max-w-7xl">
+      <div className="mx-auto max-w-[min(92vw,1800px)]">
         <span className="mb-6 block text-[11px] font-medium tracking-[0.3em] text-neutral-400">
           BEFORE DEPARTURE. AFTER ARRIVAL.
         </span>
-        <h2 className="mb-12 text-[42px] font-extralight leading-[115%] tracking-[-0.03em] text-neutral-900 lg:mb-16">
+        <h2 className="mb-6 text-[42px] font-extralight leading-[115%] tracking-[-0.03em] text-neutral-900 lg:mb-8">
           Room to Ease <span className="font-semibold">into the Journey.</span>
         </h2>
 
-        <div className="grid grid-cols-1 items-start gap-10 lg:grid-cols-[1037fr_640fr] lg:gap-x-10">
+        <div className="grid grid-cols-1 items-start gap-10 lg:grid-cols-[1100fr_640fr] lg:gap-x-10">
           <div>
             <div className="relative w-full overflow-hidden rounded-2xl" style={{ aspectRatio: "1037/620" }}>
               <Image
@@ -44,5 +46,6 @@ export function AirportTransfersGallerySection() {
         </div>
       </div>
     </section>
+    </Reveal>
   );
 }

@@ -150,7 +150,7 @@ export function AboutCollectionSection() {
                       {car.description}
                     </p>
                     <span
-                      className="group relative inline-flex w-full items-center justify-between gap-4 overflow-hidden whitespace-nowrap rounded-full bg-black text-white"
+                      className="group relative inline-flex w-full items-center justify-between gap-4 overflow-hidden whitespace-nowrap rounded-full border border-transparent bg-black text-white transition-colors duration-300 hover:border-white/40"
                       style={{ padding: "16px 28px", fontSize: "0.68rem", letterSpacing: "0.2em", fontWeight: 600, textTransform: "uppercase" }}
                     >
                       <PillButtonContent fill="white">View Vehicle</PillButtonContent>

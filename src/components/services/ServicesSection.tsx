@@ -4,6 +4,7 @@ import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { StatCounter } from "./StatCounter";
 import PillButtonContent from "@/components/ui/PillButtonContent";
+import { Reveal } from "@/components/ui/reveal";
 
 const SERVICES = [
   {
@@ -226,6 +227,7 @@ export function ServicesSection() {
   };
 
   return (
+    <Reveal>
     <section
       id="services"
       className="-mx-4 overflow-hidden text-white"
@@ -297,5 +299,6 @@ export function ServicesSection() {
         </div>
       </div>
     </section>
+    </Reveal>
   );
 }

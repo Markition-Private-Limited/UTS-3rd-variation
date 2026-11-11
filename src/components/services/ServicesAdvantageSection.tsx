@@ -1,39 +1,41 @@
-const ADVANTAGES = [
+import { Reveal } from "@/components/ui/reveal";
+const STEPS = [
   {
     index: "01",
-    title: "Professional Chauffeurs",
-    body: "Courteous service and appropriate presentation set a composed tone for your journey.",
+    title: "Share Your Requirements",
+    body: "Tell us the service you have in mind, where you need to travel and your preferred dates.",
   },
   {
     index: "02",
-    title: "Executive Comfort",
-    body: "A welcoming vehicle environment offers space to relax or prepare for what comes next.",
+    title: "Discuss Your Journey",
+    body: "Review timings, passenger needs, luggage and the vehicle options appropriate to your plans.",
   },
   {
     index: "03",
-    title: "Thoughtful Coordination",
-    body: "Pickup points, destinations and timings are considered together when discussing your booking.",
+    title: "Confirm Your Booking",
+    body: "Agree the journey arrangements and check the details provided with your booking confirmation.",
   },
   {
     index: "04",
-    title: "Personal Attention",
-    body: "Your travel purpose and passenger requirements help shape the arrangements you discuss.",
+    title: "Travel with Confidence",
+    body: "With your arrangements understood, enjoy professional chauffeur transportation for your journey.",
   },
 ];
 
 export function ServicesAdvantageSection() {
   return (
-    <section className="bg-[#1B1B1B] px-6 py-14 sm:px-10 lg:px-16 lg:py-20">
-      <div className="mx-auto max-w-7xl">
+    <Reveal>
+    <section className="bg-[#1B1B1B] px-12 py-14 sm:px-[68px] lg:px-[88px] lg:py-20">
+      <div className="mx-auto max-w-[1800px]">
         <span className="mb-6 block text-[11px] font-medium tracking-[0.3em] text-neutral-400">
-          UTS ADVANTAGE
+          YOUR JOURNEY WITH UTS
         </span>
         <h2 className="max-w-3xl text-[42px] font-extralight leading-[115%] tracking-[-0.03em] text-white">
-          A More Considered <span className="font-semibold">Way to Travel.</span>
+          From Enquiry <span className="font-semibold">to Arrival.</span>
         </h2>
 
         <div className="mt-12 grid grid-cols-1 gap-10 sm:grid-cols-2 lg:mt-16 lg:grid-cols-4 lg:gap-8">
-          {ADVANTAGES.map((item) => (
+          {STEPS.map((item) => (
             <div key={item.index} className="border-t border-white/15 pt-6">
               <span className="block text-[12px] font-medium tracking-[0.2em] text-neutral-500">
                 {item.index}
@@ -49,5 +51,6 @@ export function ServicesAdvantageSection() {
         </div>
       </div>
     </section>
+    </Reveal>
   );
 }

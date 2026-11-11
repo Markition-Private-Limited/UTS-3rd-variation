@@ -1,3 +1,4 @@
+import { Reveal } from "@/components/ui/reveal";
 const DETAILS = [
   { label: "EMAIL", value: "info@unitedtravelservices.co.uk" },
   { label: "TELEPHONE", value: "+44 1483 343939" },
@@ -6,6 +7,7 @@ const DETAILS = [
 
 export function ContactIntroSection() {
   return (
+    <Reveal>
     <section className="bg-white px-6 pt-14 pb-10 sm:px-10 lg:px-16 lg:pt-20 lg:pb-14">
       <div className="mx-auto max-w-7xl">
         {/* We're Here to Help */}
@@ -26,8 +28,8 @@ export function ContactIntroSection() {
         </div>
 
         {/* Bookings and Enquiries */}
-        <div className="mt-16 grid grid-cols-1 gap-10 lg:mt-20 lg:grid-cols-[480fr_380fr_380fr_380fr] lg:gap-x-10">
-          <div>
+        <div className="mt-16 grid grid-cols-1 gap-10 lg:mt-20 lg:grid-cols-[480fr_380fr_380fr_380fr] lg:items-start lg:gap-x-10">
+          <div className="border-t border-neutral-200 pt-6">
             <h3 className="mb-3 text-[24px] font-extralight leading-[115%] tracking-[-0.03em] text-neutral-900">
               Bookings <span className="font-semibold">and Enquiries</span>
             </h3>
@@ -49,5 +51,6 @@ export function ContactIntroSection() {
         </div>
       </div>
     </section>
+    </Reveal>
   );
 }

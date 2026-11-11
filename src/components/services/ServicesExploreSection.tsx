@@ -1,9 +1,24 @@
+"use client";
+
+import { useRef, type MouseEvent } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { motion, useMotionValue, useReducedMotion, useSpring, useTransform } from "motion/react";
 
-const FEATURED = [
+type ServiceCard = {
+  slug: string;
+  index: string;
+  src: string;
+  alt: string;
+  title: string;
+  body: string;
+  zoomOut?: boolean;
+};
+
+const SERVICES: ServiceCard[] = [
   {
     slug: "airport-transfers",
+    index: "01",
     src: "/services/explore-airport-transfers.jpg",
     alt: "Mercedes-Benz S-Class with chauffeur at Heathrow Terminal 5 departures",
     title: "Airport Transfers",
@@ -11,23 +26,24 @@ const FEATURED = [
   },
   {
     slug: "city-to-city",
-    src: "/services/explore-city-to-city.jpg",
-    alt: "Bentley Flying Spur driving through the English countryside",
+    index: "02",
+    src: "/services/explore-city-to-city.webp",
+    alt: "Mercedes-Benz S-Class travelling on the M25 motorway toward Heathrow and London",
     title: "City to City",
     body: "Private travel between towns and cities, connecting the addresses that matter to your itinerary.",
+    zoomOut: true,
   },
-];
-
-const SERVICES = [
   {
-    slug: "city-trip",
-    src: "/services/explore-city-trip.jpg",
-    alt: "Classic Jaguar Mark 2 parked on a Belgravia street",
-    title: "City Trip",
-    body: "Considered city journeys between hotels, appointments and the places you want to reach.",
+    slug: "sightseeing-chauffeur",
+    index: "03",
+    src: "/services/explore-sightseeing-chauffeur.webp",
+    alt: "Chauffeur holding open the rear door of a Mercedes-Benz S-Class beside a lakeside promenade at golden hour",
+    title: "Sightseeing Chauffeur",
+    body: "Explore the city in comfort, with a dedicated chauffeur guiding you between landmarks, attractions and hidden gems at an unhurried pace.",
   },
   {
     slug: "hourly-chauffeur",
+    index: "04",
     src: "/services/explore-hourly-chauffeur.jpg",
     alt: "Businessman checking his phone beside a Jaguar XJ in Belgravia",
     title: "Hourly Chauffeur",
@@ -35,56 +51,147 @@ const SERVICES = [
   },
   {
     slug: "full-day-chauffeur-hire",
+    index: "05",
     src: "/services/explore-full-day-chauffeur-hire.jpg",
     alt: "Jaguar XJ parked outside a country manor house",
     title: "Full-Day Chauffeur Hire",
     body: "A planned day of travel shaped around successive appointments and your chosen itinerary.",
   },
-  {
-    slug: "corporate-chauffeur",
-    src: "/services/explore-corporate-chauffeur.jpg",
-    alt: "Chauffeur standing beside a car outside a modern glass office building",
-    title: "Corporate Chauffeur",
-    body: "Professional presentation and considered arrangements for executive and business travel.",
-  },
-  {
-    slug: "seaport-cruise-transfers",
-    src: "/services/explore-seaport-cruise-transfers.jpg",
-    alt: "Chauffeur with a Bentley Mulsanne outside Southampton Ocean Terminal beside a P&O cruise ship",
-    title: "Seaport & Cruise Transfers",
-    body: "Arrange the road journey between your cruise terminal and your onward destination.",
-  },
-  {
-    slug: "sightseeing-chauffeur",
-    src: "/services/explore-sightseeing-chauffeur.jpg",
-    alt: "Aston Martin parked in front of the Royal Crescent in Bath",
-    title: "Sightseeing Chauffeur",
-    body: "Explore your interests with a private itinerary and preferred stops discussed in advance.",
-  },
-  {
-    slug: "charter-service",
-    src: "/services/explore-charter-service.jpg",
-    alt: "Coordinator reviewing an itinerary beside a car at a manor entrance",
-    title: "Charter Service",
-    body: "Discuss passenger requirements and suitable transport options for a coordinated itinerary.",
-  },
-  {
-    slug: "special-occasion-chauffeur",
-    src: "/services/explore-special-occasion-chauffeur.jpg",
-    alt: "Bentley Mulsanne arriving at a hotel entrance in the evening",
-    title: "Special Occasion Chauffeur",
-    body: "Thoughtful arrival and onward travel arrangements for an occasion worth planning carefully.",
-  },
 ];
+
+function ServiceCardImage({
+  src,
+  alt,
+  reduceMotion,
+  zoomOut,
+}: {
+  src: string;
+  alt: string;
+  reduceMotion: boolean;
+  zoomOut?: boolean;
+}) {
+  const ref = useRef<HTMLDivElement>(null);
+  const mx = useMotionValue(0.5);
+  const my = useMotionValue(0.5);
+  const spring = { stiffness: 180, damping: 22, mass: 0.6 };
+  const sx = useSpring(mx, spring);
+  const sy = useSpring(my, spring);
+  const translateX = useTransform(sx, [0, 1], [-6, 6]);
+  const translateY = useTransform(sy, [0, 1], [-5, 5]);
+
+  function handleMouseMove(e: MouseEvent<HTMLDivElement>) {
+    if (reduceMotion) return;
+    const el = ref.current;
+    if (!el) return;
+    const rect = el.getBoundingClientRect();
+    mx.set((e.clientX - rect.left) / rect.width);
+    my.set((e.clientY - rect.top) / rect.height);
+  }
+
+  function handleMouseLeave() {
+    mx.set(0.5);
+    my.set(0.5);
+  }
+
+  return (
+    <div
+      ref={ref}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+      className="relative w-full overflow-hidden rounded-2xl bg-white"
+      style={{ aspectRatio: "2 / 1" }}
+    >
+      <motion.div
+        className="absolute inset-[-4%]"
+        style={reduceMotion ? undefined : { x: translateX, y: translateY }}
+        whileHover={reduceMotion ? undefined : { scale: 1.05 }}
+        transition={{ type: "spring", stiffness: 180, damping: 22, mass: 0.6 }}
+      >
+        <Image
+          src={src}
+          alt={alt}
+          fill
+          sizes="(max-width: 640px) 100vw, 50vw"
+          className="object-cover grayscale-[35%] transition-[filter] duration-500 ease-out group-hover:grayscale-0"
+          style={zoomOut ? { transform: "scale(0.92)" } : undefined}
+        />
+      </motion.div>
+    </div>
+  );
+}
 
 function ExploreLink() {
   return (
-    <span className="mt-3 inline-flex items-center gap-2 text-[11px] font-medium tracking-[0.15em] text-neutral-900">
-      EXPLORE SERVICE
-      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="transition-transform duration-300 group-hover:translate-x-1">
+    <span className="inline-flex items-center gap-2 text-[11px] font-medium tracking-[0.15em] text-[#202020] opacity-80 transition-opacity duration-300 group-hover:opacity-100">
+      <span className="underline decoration-[#EAEAEA] decoration-1 underline-offset-4 transition-colors duration-300 group-hover:decoration-[#202020]">
+        EXPLORE SERVICE
+      </span>
+      <svg
+        width="13"
+        height="13"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        className="shrink-0 transition-transform duration-300 ease-out group-hover:translate-x-[5px]"
+      >
         <path d="M7 17 17 7M9 7h8v8" strokeLinecap="round" strokeLinejoin="round" />
       </svg>
     </span>
+  );
+}
+
+function ServiceCardItem({ item, index }: { item: ServiceCard; index: number }) {
+  const reduceMotion = useReducedMotion() ?? false;
+
+  // Rises up and in from the left as it scrolls into view — triggers early
+  // (while still mostly below the fold) so it's clearly visible playing out
+  // rather than finishing before it's ever seen.
+  const reveal = reduceMotion
+    ? { hidden: { opacity: 1 }, visible: { opacity: 1 } }
+    : {
+        hidden: { opacity: 0, x: -140, y: 48 },
+        visible: {
+          opacity: 1,
+          x: 0,
+          y: 0,
+          transition: {
+            duration: 0.55,
+            ease: [0.22, 1, 0.36, 1],
+            delay: (index % 2) * 0.08,
+          },
+        },
+      };
+
+  return (
+    <motion.div
+      className="h-full"
+      variants={reveal}
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true, amount: 0.15, margin: "0px 0px 120px 0px" }}
+    >
+      <Link href={`/services/${item.slug}`} className="group flex h-full flex-col">
+        <ServiceCardImage src={item.src} alt={item.alt} reduceMotion={reduceMotion} zoomOut={item.zoomOut} />
+
+        <div className="mt-5 flex items-center gap-4">
+          <span className="text-[48px] font-extralight leading-none tracking-[-0.06em] text-[#BDBDBD] sm:text-[60px]">
+            {item.index}
+          </span>
+          <h3 className="text-[22px] font-semibold uppercase leading-[121%] tracking-[-0.06em] text-[#242424] transition-transform duration-300 group-hover:-translate-y-[2px] sm:text-[26px]">
+            {item.title}
+          </h3>
+        </div>
+
+        <p className="mt-3 text-[14px] leading-[165%] text-[#858585]">
+          {item.body}
+        </p>
+
+        <div className="mt-3">
+          <ExploreLink />
+        </div>
+      </Link>
+    </motion.div>
   );
 }
 
@@ -92,60 +199,20 @@ export function ServicesExploreSection() {
   return (
     <section className="bg-white px-6 pt-0 pb-14 sm:px-10 lg:px-16 lg:pb-20">
       <div className="mx-auto max-w-7xl">
-        {/* Featured pair */}
-        <div className="grid grid-cols-1 gap-x-10 gap-y-12 sm:grid-cols-2">
-          {FEATURED.map((item) => (
-            <Link key={item.slug} href={`/services/${item.slug}`} className="group block">
-              <div className="relative w-full overflow-hidden rounded-2xl" style={{ aspectRatio: "16/9" }}>
-                <Image
-                  src={item.src}
-                  alt={item.alt}
-                  fill
-                  sizes="(max-width: 640px) 100vw, 50vw"
-                  className="object-cover transition-transform duration-700 ease-in-out group-hover:scale-105"
-                />
-              </div>
-              <div className="mt-6">
-                <h3 className="mb-3 text-[24px] font-bold tracking-[-0.02em] text-neutral-900">
-                  {item.title}
-                </h3>
-                <p className="max-w-xl text-[15px] leading-[170%] text-neutral-500">
-                  {item.body}
-                </p>
-                <ExploreLink />
-              </div>
-            </Link>
+        <div className="grid grid-cols-1 gap-x-8 gap-y-12 sm:grid-cols-2 sm:gap-y-14">
+          {SERVICES.map((item, i) => (
+            <ServiceCardItem key={item.slug} item={item} index={i} />
           ))}
-        </div>
 
-        {/* Remaining services, two columns */}
-        <div className="mt-12 grid grid-cols-1 gap-x-10 sm:grid-cols-2 lg:mt-16">
-          {SERVICES.map((item) => (
-            <Link
-              key={item.slug}
-              href={`/services/${item.slug}`}
-              className="group flex items-start gap-6 border-t border-neutral-200 py-8"
-            >
-              <div className="relative h-24 w-24 shrink-0 overflow-hidden rounded-xl sm:h-28 sm:w-28">
-                <Image
-                  src={item.src}
-                  alt={item.alt}
-                  fill
-                  sizes="112px"
-                  className="object-cover transition-transform duration-700 ease-in-out group-hover:scale-105"
-                />
-              </div>
-              <div>
-                <h3 className="mb-2 text-[18px] font-bold tracking-[-0.02em] text-neutral-900">
-                  {item.title}
-                </h3>
-                <p className="text-[14px] leading-[160%] text-neutral-500">
-                  {item.body}
-                </p>
-                <ExploreLink />
-              </div>
-            </Link>
-          ))}
+          {/* Empty slot beside the 5th card — filled with the brand watermark, same as the homepage services section */}
+          <div
+            className="relative hidden h-full min-h-[260px] items-center justify-center overflow-hidden sm:flex"
+            style={{ transform: "translateZ(0)", willChange: "transform" }}
+          >
+            <div className="pointer-events-none relative h-[70%] w-[70%] max-h-[320px] max-w-[320px]">
+              <Image src="/uts-mark.png" alt="" fill sizes="320px" loading="eager" className="object-contain" aria-hidden />
+            </div>
+          </div>
         </div>
       </div>
     </section>

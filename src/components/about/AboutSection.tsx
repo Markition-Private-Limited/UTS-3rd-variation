@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { useRef, useState } from "react";
+import { Reveal } from "@/components/ui/reveal";
 
 const CARDS = [
   {
@@ -40,6 +41,7 @@ export function AboutSection() {
   const leaveTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   return (
+    <Reveal>
     <section className="overflow-hidden pt-2 pb-10 md:pb-16" style={{ backgroundColor: "#ffffff" }}>
       <style>{`
         @keyframes uts-marquee {
@@ -174,5 +176,6 @@ export function AboutSection() {
         </div>
       </div>
     </section>
+    </Reveal>
   );
 }

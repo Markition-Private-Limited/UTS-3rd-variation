@@ -1,9 +1,11 @@
 import Image from "next/image";
 import Link from "next/link";
 import PillButtonContent from "@/components/ui/PillButtonContent";
+import { Reveal } from "@/components/ui/reveal";
 
 export function AirportTransfersCTASection() {
   return (
+    <Reveal>
     <section className="bg-white p-4 pb-8 sm:p-5 sm:pb-10 lg:p-6 lg:pb-14">
       <div className="relative flex min-h-[600px] w-full items-center overflow-hidden rounded-[32px] sm:min-h-[440px] lg:aspect-[1584/600] lg:min-h-0">
         <Image
@@ -47,5 +49,6 @@ export function AirportTransfersCTASection() {
         </div>
       </div>
     </section>
+    </Reveal>
   );
 }

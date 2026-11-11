@@ -1,3 +1,4 @@
+import { Reveal } from "@/components/ui/reveal";
 const STEPS = [
   {
     index: "01",
@@ -23,8 +24,9 @@ const STEPS = [
 
 export function AirportTransfersExperienceSection() {
   return (
+    <Reveal>
     <section className="bg-white px-6 py-14 sm:px-10 lg:px-16 lg:py-20">
-      <div className="mx-auto max-w-7xl">
+      <div className="mx-auto max-w-[min(92vw,1800px)]">
         <span className="mb-6 block text-[11px] font-medium tracking-[0.3em] text-neutral-400">
           YOUR JOURNEY WITH UTS
         </span>
@@ -51,5 +53,6 @@ export function AirportTransfersExperienceSection() {
         </div>
       </div>
     </section>
+    </Reveal>
   );
 }

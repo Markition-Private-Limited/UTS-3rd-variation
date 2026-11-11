@@ -5,12 +5,14 @@ import Link from "next/link";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import PillButtonContent from "@/components/ui/PillButtonContent";
+import { Reveal } from "@/components/ui/reveal";
 
 export function ContactHeroSection() {
   const router = useRouter();
   const [btn1Hovered, setBtn1Hovered] = useState(false);
 
   return (
+    <Reveal>
     <section
       data-navbar-theme="dark"
       className="relative -mx-2 -mt-2 -mb-2 overflow-hidden rounded-[clamp(14px,1.5vw,20px)]"
@@ -94,5 +96,6 @@ export function ContactHeroSection() {
         </div>
       </div>
     </section>
+    </Reveal>
   );
 }
