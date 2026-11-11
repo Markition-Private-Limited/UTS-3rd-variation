@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import { AnimatePresence, motion } from "motion/react";
 import PillButtonContent from "@/components/ui/PillButtonContent";
 
 type Rate = {
@@ -31,7 +32,6 @@ export function FleetCollectionSection() {
   const [tabs, setTabs] = useState<string[]>(["All Vehicles"]);
   const [activeTab, setActiveTab] = useState("All Vehicles");
   const [loading, setLoading] = useState(true);
-
   useEffect(() => {
     fetch("/api/fleet")
       .then((res) => res.json())
@@ -42,6 +42,8 @@ export function FleetCollectionSection() {
       .catch(console.error)
       .finally(() => setLoading(false));
   }, []);
+
+  const handleTabClick = (tab: string) => setActiveTab(tab);
 
   const visible =
     activeTab === "All Vehicles"
@@ -58,7 +60,7 @@ export function FleetCollectionSection() {
           return (
             <button
               key={tab}
-              onClick={() => setActiveTab(tab)}
+              onClick={() => handleTabClick(tab)}
               className={`group relative overflow-hidden rounded-full px-5 py-2 text-[12px] font-medium tracking-wide border cursor-pointer transition-[border-color] duration-300 ${
                 active
                   ? "bg-black text-white border-black"
@@ -83,11 +85,21 @@ export function FleetCollectionSection() {
       {loading ? (
         <div className="py-20 text-center text-sm text-neutral-400">Loading fleet…</div>
       ) : (
-        <div className="flex flex-col divide-y divide-neutral-100">
-          {visible.map((v) => (
+        <AnimatePresence mode="wait">
+        <motion.div
+          key={activeTab}
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -12 }}
+          transition={{ duration: 0.35, ease: [0.4, 0, 0.2, 1] }}
+          className="flex flex-col divide-y divide-neutral-100"
+        >
+          {visible.map((v, i) => {
+            const isEven = i % 2 === 1;
+            return (
             <div
               key={v.id}
-              className="grid grid-cols-1 gap-8 py-12 lg:grid-cols-[57fr_43fr] lg:items-center lg:gap-16 first:pt-0 last:pb-0"
+              className={`grid grid-cols-1 gap-8 py-12 lg:items-center lg:gap-16 first:pt-0 last:pb-0 ${isEven ? "lg:grid-cols-[43fr_57fr] lg:[&>*:first-child]:order-2 lg:[&>*:last-child]:order-1" : "lg:grid-cols-[57fr_43fr]"}`}
             >
               {/* Image */}
               <div className="overflow-hidden rounded-[clamp(12px,1.2vw,18px)] bg-neutral-100">
@@ -130,8 +142,10 @@ export function FleetCollectionSection() {
                 </p>
               </div>
             </div>
-          ))}
-        </div>
+            );
+          })}
+        </motion.div>
+        </AnimatePresence>
       )}
     </section>
   );

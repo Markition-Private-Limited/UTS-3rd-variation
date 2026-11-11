@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 
-import { FleetHeroSection, FleetIntroSection, FleetCollectionSection } from "@/components/fleet";
+import { FleetHeroSection, FleetIntroSection, FleetCollectionSection, FleetComfortSection, FleetChoosingSection, FleetServicesSection, FleetCTASection } from "@/components/fleet";
 import { FooterSection } from "@/components/footer/FooterSection";
 import { Reveal } from "@/components/ui/reveal";
 
@@ -22,6 +22,18 @@ export default function FleetPage() {
       </Reveal>
       <Reveal>
         <FleetCollectionSection />
+      </Reveal>
+      <Reveal>
+        <FleetComfortSection />
+      </Reveal>
+      <Reveal>
+        <FleetChoosingSection />
+      </Reveal>
+      <Reveal>
+        <FleetServicesSection />
+      </Reveal>
+      <Reveal>
+        <FleetCTASection />
       </Reveal>
       <div className="bg-white p-4">
         <Reveal>

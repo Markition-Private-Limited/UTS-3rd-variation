@@ -38,7 +38,7 @@ export function FleetHeroSection() {
       />
 
       {/* Content */}
-      <div className="relative z-10 flex h-full flex-col justify-between px-6 pb-8 pt-[120px] sm:px-10 sm:pt-[150px] sm:pb-10 lg:px-16">
+      <div className="relative z-10 flex h-full flex-col justify-center px-6 pb-8 pt-[120px] sm:justify-between sm:px-10 sm:pt-[150px] sm:pb-10 lg:px-16">
         <div className="max-w-2xl lg:max-w-4xl">
           <span className="block text-xs font-medium tracking-[0.3em] text-white/60 mb-6">
             THE UTS COLLECTION
@@ -54,7 +54,7 @@ export function FleetHeroSection() {
             </span>
           </h1>
 
-          <p className="max-w-xl font-light text-white/80 mb-8" style={{ fontFamily: 'Inter, sans-serif', fontSize: '18px', fontWeight: 300, lineHeight: '32px', letterSpacing: 0 }}>
+          <p className="max-w-3xl font-light text-white/80 mb-8" style={{ fontFamily: 'Inter, sans-serif', fontSize: '18px', fontWeight: 300, lineHeight: '32px', letterSpacing: 0 }}>
             Explore a selection of executive vehicles suited to airport transfers, business journeys and
             private travel. United Travel Services brings together considered vehicle options and
             professional chauffeur transportation to help make every journey more comfortable.
@@ -93,7 +93,7 @@ export function FleetHeroSection() {
           </div>
         </div>
 
-        <div className="flex items-center justify-between text-[11px] font-medium uppercase tracking-[0.2em] text-white/50">
+        <div className="absolute bottom-8 left-6 right-6 flex items-center justify-between text-[11px] font-medium uppercase tracking-[0.2em] text-white/50 sm:relative sm:bottom-auto sm:left-auto sm:right-auto sm:px-0">
           <span>United Travel Services</span>
           <span>
             <Link href="/" className="transition-colors hover:text-white/80">
