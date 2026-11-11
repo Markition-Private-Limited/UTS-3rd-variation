@@ -207,7 +207,7 @@ export function FleetSection() {
               aria-label={d === "prev" ? "Previous vehicles" : "Next vehicles"}
               onClick={() => { holdUntilRef.current = Date.now() + 6000; slide(d === "prev" ? -1 : 1); }}
               disabled={disabled}
-              className={`absolute top-[110px] z-10 flex h-9 w-9 items-center justify-center rounded-full bg-white text-black shadow-[0_4px_16px_rgba(0,0,0,0.2)] transition hover:bg-black hover:text-white disabled:pointer-events-none disabled:opacity-0 ${
+              className={`hidden md:flex absolute top-[110px] z-10 h-9 w-9 items-center justify-center rounded-full bg-white text-black shadow-[0_4px_16px_rgba(0,0,0,0.2)] transition hover:bg-black hover:text-white disabled:pointer-events-none disabled:opacity-0 ${
                 d === "prev" ? "left-[-18px]" : "right-[-18px]"
               }`}
             >
@@ -235,7 +235,7 @@ export function FleetSection() {
           {visible.map((car, i) => (
             <motion.div
               key={`${car.id}-${activeTab}`}
-              className="snap-start shrink-0 basis-[min(320px,calc((100%-60px)/4))] h-[440px] fleet-card group rounded-[20px] overflow-hidden flex flex-col cursor-pointer transition-all duration-500 ease-in-out hover:-translate-y-2 hover:shadow-xl"
+              className="snap-start shrink-0 basis-[min(290px,calc(100vw-48px))] md:basis-[min(310px,calc((100vw-80px)/2))] lg:basis-[min(320px,calc((100%-60px)/4))] h-[440px] fleet-card group rounded-[20px] overflow-hidden flex flex-col cursor-pointer transition-all duration-500 ease-in-out hover:-translate-y-2 hover:shadow-xl"
               initial={{ opacity: 0, x: 24, y: 24 }}
               animate={isInView ? { opacity: 1, x: 0, y: 0 } : { opacity: 0, x: 24, y: 24 }}
               transition={{ duration: 0.55, delay: i * 0.09, ease: [0.25, 0.1, 0.25, 1] }}

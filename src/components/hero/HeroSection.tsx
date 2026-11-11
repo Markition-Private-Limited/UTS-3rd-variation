@@ -228,7 +228,7 @@ export function HeroSection() {
         </div>
 
         {/* Service cards */}
-        <div className="mt-10 sm:mt-16 grid grid-cols-1 gap-4 sm:gap-3 sm:grid-cols-3 lg:grid-cols-5">
+        <div className="mt-10 sm:mt-16 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5 [&>*:last-child]:col-span-2 sm:[&>*:last-child]:col-span-1">
           {SERVICE_CARDS.map((card) => (
             <ServiceCard key={card.title} {...card} />
           ))}

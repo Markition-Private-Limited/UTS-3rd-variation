@@ -260,7 +260,7 @@ export function ServicesSection() {
             onPointerMove={onPointerMove}
             onPointerUp={endDrag}
             onPointerLeave={endDrag}
-            className={`flex w-max gap-10 overflow-x-auto px-10 select-none [scrollbar-width:none] [&::-webkit-scrollbar]:hidden ${
+            className={`flex w-max gap-5 sm:gap-10 overflow-x-auto px-5 sm:px-10 select-none [scrollbar-width:none] [&::-webkit-scrollbar]:hidden ${
               dragging ? "cursor-grabbing" : "cursor-grab"
             }`}
           >
