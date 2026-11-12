@@ -29,3 +29,10 @@ export { HourlyChauffeurExperienceSection } from "./HourlyChauffeurExperienceSec
 export { HourlyChauffeurScheduleSection } from "./HourlyChauffeurScheduleSection";
 export { HourlyChauffeurFaqSection } from "./HourlyChauffeurFaqSection";
 export { HourlyChauffeurCTASection } from "./HourlyChauffeurCTASection";
+export { DayServiceHeroSection } from "./DayServiceHeroSection";
+export { DayServiceOverviewSection } from "./DayServiceOverviewSection";
+export { DayServiceApproachSection } from "./DayServiceApproachSection";
+export { DayServicePerspectiveSection } from "./DayServicePerspectiveSection";
+export { DayServiceExperienceSection } from "./DayServiceExperienceSection";
+export { DayServiceFaqSection } from "./DayServiceFaqSection";
+export { DayServiceCTASection } from "./DayServiceCTASection";

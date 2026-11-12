@@ -40,7 +40,7 @@ export function AirportTransfersCTASection() {
             </p>
             <Link
               href="/contact"
-              className="group relative inline-flex w-fit items-center justify-between gap-4 overflow-hidden whitespace-nowrap rounded-full bg-white text-black"
+              className="group relative inline-flex w-fit items-center justify-between gap-4 overflow-hidden whitespace-nowrap rounded-full border border-white bg-white text-black"
               style={{ padding: "16px 28px", fontSize: "0.68rem", letterSpacing: "0.2em", fontWeight: 600, textTransform: "uppercase" }}
             >
               <PillButtonContent fill="black">Book a Chauffeur</PillButtonContent>

@@ -50,7 +50,7 @@ const SERVICES: ServiceCard[] = [
     body: "An agreed period of chauffeur travel for a schedule with more than one destination.",
   },
   {
-    slug: "full-day-chauffeur-hire",
+    slug: "day-service",
     index: "05",
     src: "/services/explore-full-day-chauffeur-hire.jpg",
     alt: "Jaguar XJ parked outside a country manor house",
