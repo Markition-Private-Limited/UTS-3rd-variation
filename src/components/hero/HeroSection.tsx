@@ -217,13 +217,12 @@ export function HeroSection() {
       />
 
       {/* Content */}
-      <div className="relative z-10 flex min-h-[calc(100vh-16px)] flex-col justify-start sm:justify-between px-6 pb-16 pt-20 sm:pt-[146px] sm:px-10 lg:px-16">
-        {/* Heading + body — fixed height on mobile so service cards never shift */}
-        <div className="relative overflow-hidden h-[300px] sm:h-auto sm:overflow-visible max-w-xl pt-0 sm:pt-10 lg:max-w-3xl sm:min-h-[330px]">
+      <div className="relative z-10 flex min-h-[calc(100vh-16px)] flex-col justify-start sm:justify-between px-6 pb-16 pt-28 sm:pt-[146px] sm:px-10 lg:px-16">
+        {/* Heading + body — body is line-clamped on mobile so height is stable across slides */}
+        <div className="max-w-xl pt-0 sm:pt-10 lg:max-w-3xl min-h-[200px] sm:min-h-[330px]">
           <AnimatePresence mode="wait">
             <motion.div
               key={index}
-              className="sm:static absolute inset-0 overflow-hidden sm:overflow-visible"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
@@ -237,7 +236,7 @@ export function HeroSection() {
                   {slide.heading2}
                 </span>
               </h1>
-              <p className="max-w-xl lg:max-w-3xl text-[16px] font-light leading-[200%] tracking-[-0.03em] text-white/90">
+              <p className="max-w-xl lg:max-w-3xl text-[16px] font-light leading-[200%] tracking-[-0.03em] text-white/90 line-clamp-4 sm:line-clamp-none">
                 {slide.body}
               </p>
             </motion.div>
