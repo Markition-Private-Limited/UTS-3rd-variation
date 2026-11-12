@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { AnimatePresence, motion } from "motion/react";
 import PillButtonContent from "@/components/ui/PillButtonContent";
@@ -32,18 +32,42 @@ export function FleetCollectionSection() {
   const [tabs, setTabs] = useState<string[]>(["All Vehicles"]);
   const [activeTab, setActiveTab] = useState("All Vehicles");
   const [loading, setLoading] = useState(true);
+  const tabsRef = useRef<string[]>(["All Vehicles"]);
+  const pausedRef = useRef(false);
+  const resumeTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
   useEffect(() => {
     fetch("/api/fleet")
       .then((res) => res.json())
       .then((data: { categories: string[]; vehicles: FleetVehicle[] }) => {
-        setTabs(data.categories.map((c) => (c === "All" ? "All Vehicles" : c)));
+        const mapped = data.categories.map((c) => (c === "All" ? "All Vehicles" : c));
+        tabsRef.current = mapped;
+        setTabs(mapped);
         setFleet(data.vehicles);
       })
       .catch(console.error)
       .finally(() => setLoading(false));
   }, []);
 
-  const handleTabClick = (tab: string) => setActiveTab(tab);
+  // Auto-cycle every 3 s; pauses on user interaction, resumes after 5 s idle
+  useEffect(() => {
+    const interval = setInterval(() => {
+      if (pausedRef.current) return;
+      setActiveTab((current) => {
+        const t = tabsRef.current;
+        const idx = t.indexOf(current);
+        return t[(idx + 1) % t.length];
+      });
+    }, 3000);
+    return () => clearInterval(interval);
+  }, []);
+
+  const handleTabClick = useCallback((tab: string) => {
+    pausedRef.current = true;
+    setActiveTab(tab);
+    if (resumeTimerRef.current) clearTimeout(resumeTimerRef.current);
+    resumeTimerRef.current = setTimeout(() => { pausedRef.current = false; }, 5000);
+  }, []);
 
   const visible =
     activeTab === "All Vehicles"
@@ -54,7 +78,11 @@ export function FleetCollectionSection() {
     <section id="collection" className="bg-white px-6 py-10 sm:px-10 lg:px-16 lg:py-14">
 
       {/* Filter tabs */}
-      <div className="mb-10 flex items-center gap-2 flex-wrap">
+      <div
+        className="mb-10 flex items-center gap-2 flex-wrap"
+        onMouseEnter={() => { pausedRef.current = true; }}
+        onMouseLeave={() => { if (resumeTimerRef.current) clearTimeout(resumeTimerRef.current); resumeTimerRef.current = setTimeout(() => { pausedRef.current = false; }, 2000); }}
+      >
         {tabs.map((tab) => {
           const active = tab === activeTab;
           return (
