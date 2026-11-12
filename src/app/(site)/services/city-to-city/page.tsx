@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { CityToCityHeroSection, CityToCityAddressSection, CityToCityPerspectiveSection, CityToCityExperienceSection, AirportTransfersFleetSection, FleetDiscoverCTA, CityToCityFaqSection, CityToCityCTASection } from "@/components/services";
+import { CityToCityHeroSection, CityToCityAddressSection, CityToCityPerspectiveSection, CityToCityExperienceSection, CityToCityFleetSection, FleetDiscoverCTA, CityToCityFaqSection, CityToCityCTASection } from "@/components/services";
 import { FooterSection } from "@/components/footer/FooterSection";
 import { Reveal } from "@/components/ui/reveal";
 
@@ -26,7 +26,7 @@ export default function CityToCityPage() {
         <CityToCityExperienceSection />
       </Reveal>
       <Reveal>
-        <AirportTransfersFleetSection />
+        <CityToCityFleetSection />
       </Reveal>
       <Reveal>
         <FleetDiscoverCTA />

@@ -31,7 +31,7 @@ export function CityToCityCTASection() {
               THE NEXT JOURNEY STARTS WITH YOU
             </span>
             <h2 className="mb-6">
-              <span className="block whitespace-nowrap text-[32px] font-extralight leading-[115%] tracking-[-0.03em] text-white sm:text-[44px] lg:text-[56px]">
+              <span className="block text-[clamp(24px,4.5vw,56px)] font-extralight leading-[115%] tracking-[-0.03em] text-white">
                 Let&apos;s Arrange <span className="font-semibold">Your Next Journey.</span>
               </span>
             </h2>

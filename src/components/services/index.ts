@@ -20,6 +20,7 @@ export { CityToCityAddressSection } from "./CityToCityAddressSection";
 export { CityToCityPerspectiveSection } from "./CityToCityPerspectiveSection";
 export { CityToCityExperienceSection } from "./CityToCityExperienceSection";
 export { FleetDiscoverCTA } from "./FleetDiscoverCTA";
+export { CityToCityFleetSection } from "./CityToCityFleetSection";
 export { CityToCityCTASection } from "./CityToCityCTASection";
 export { CityToCityFaqSection } from "./CityToCityFaqSection";
 export { HourlyChauffeurHeroSection } from "./HourlyChauffeurHeroSection";
