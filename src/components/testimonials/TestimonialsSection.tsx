@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { useEffect, useRef } from "react";
+import { Reveal } from "@/components/ui/reveal";
 
 const TESTIMONIALS = [
   {
@@ -79,6 +80,7 @@ export function TestimonialsSection() {
   }, []);
 
   return (
+    <Reveal>
     <section className="bg-white py-16">
       {/* Header */}
       <div className="mb-14 flex flex-col items-start justify-between gap-8 px-8 md:flex-row md:items-end">
@@ -145,5 +147,6 @@ export function TestimonialsSection() {
         </div>
       </div>
     </section>
+    </Reveal>
   );
 }

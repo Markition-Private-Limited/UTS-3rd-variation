@@ -69,7 +69,7 @@ export function CTASection() {
             onMouseEnter={() => setBtnHovered(true)}
             onMouseLeave={() => setBtnHovered(false)}
             style={{
-              border: `1px solid ${btnHovered ? "#111111" : "transparent"}`,
+              border: `1px solid ${btnHovered ? "rgba(255,255,255,0.4)" : "transparent"}`,
               transition: "border-color 300ms",
             }}
           >

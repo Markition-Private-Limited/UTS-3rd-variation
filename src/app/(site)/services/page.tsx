@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { ServicesHeroSection, ServicesIntroSection, ServicesExploreSection, ServicesAdvantageSection, ServicesJourneySection, ServicesFleetSection, ServicesFaqSection, ServicesCTASection } from "@/components/services";
+import { ServicesHeroSection, ServicesIntroSection, ServicesExploreSection, ServicesAdvantageSection, ServicesFleetSection, ServicesFaqSection, ServicesCTASection } from "@/components/services";
 import { FooterSection } from "@/components/footer/FooterSection";
 import { Reveal } from "@/components/ui/reveal";
 
@@ -24,9 +24,6 @@ export default function ServicesPage() {
       </Reveal>
       <Reveal>
         <ServicesAdvantageSection />
-      </Reveal>
-      <Reveal>
-        <ServicesJourneySection />
       </Reveal>
       <Reveal>
         <ServicesFleetSection />

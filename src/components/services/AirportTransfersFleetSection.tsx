@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { FLEET_VEHICLES } from "@/components/fleet-data";
+import { Reveal } from "@/components/ui/reveal";
 
 const AUTO_SPEED = 25; // idle drift speed, px/sec — slow and steady
 const MAX_SPIN_SPEED = 3000;
@@ -12,7 +13,7 @@ function FleetCard({ car }: { car: (typeof FLEET_VEHICLES)[number] }) {
   return (
     <Link
       href="/#fleet"
-      className="group block w-[340px] shrink-0 overflow-hidden rounded-2xl transition-all duration-500 ease-in-out hover:-translate-y-1 hover:shadow-xl md:w-[380px]"
+      className="group block w-[340px] shrink-0 overflow-hidden rounded-2xl transition-all duration-500 ease-in-out md:w-[380px]"
     >
       <div className="relative w-full overflow-hidden" style={{ aspectRatio: "380/220" }}>
         {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -133,9 +134,10 @@ export function AirportTransfersFleetSection() {
   };
 
   return (
+    <Reveal>
     <section className="overflow-hidden bg-white py-14 lg:py-20">
-      <div className="mx-auto max-w-7xl px-6 sm:px-10 lg:px-16">
-        <div className="mb-12 grid grid-cols-1 gap-10 lg:mb-16 lg:grid-cols-[568fr_597fr] lg:items-start lg:gap-x-[86px]">
+      <div className="mx-auto max-w-[min(92vw,1800px)]">
+        <div className="mb-12 grid grid-cols-1 gap-10 lg:mb-16 lg:grid-cols-[568fr_597fr] lg:items-end lg:gap-x-[86px]">
           <div>
             <span className="mb-6 block text-[11px] font-medium tracking-[0.3em] text-neutral-400">
               THE UTS COLLECTION
@@ -144,7 +146,7 @@ export function AirportTransfersFleetSection() {
               Travel in <span className="font-semibold">the Right Vehicle.</span>
             </h2>
           </div>
-          <div className="lg:pt-1">
+          <div>
             <p className="text-[15px] font-normal leading-[180%] tracking-[-0.01em] text-neutral-500">
               Share your passenger, luggage and journey requirements to discuss a suitable category and the options available for your booking.
             </p>
@@ -169,5 +171,6 @@ export function AirportTransfersFleetSection() {
         ))}
       </div>
     </section>
+    </Reveal>
   );
 }

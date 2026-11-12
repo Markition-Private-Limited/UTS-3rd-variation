@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { Reveal } from "@/components/ui/reveal";
 
 const FAQS = [
   {
@@ -68,11 +69,21 @@ function FaqItem({
 }
 
 export function ServicesFaqSection() {
-  const [openIndex, setOpenIndex] = useState<number | null>(0);
+  const [openIndexes, setOpenIndexes] = useState<Set<number>>(new Set([0]));
+
+  const toggleIndex = (i: number) => {
+    setOpenIndexes((prev) => {
+      const next = new Set(prev);
+      if (next.has(i)) next.delete(i);
+      else next.add(i);
+      return next;
+    });
+  };
 
   return (
-    <section style={{ background: "#F6F6F6" }} className="px-6 py-14 sm:px-10 lg:px-16 lg:py-20">
-      <div className="mx-auto max-w-7xl">
+    <Reveal>
+    <section style={{ background: "#F6F6F6" }} className="px-12 py-14 sm:px-[68px] lg:px-[88px] lg:py-20">
+      <div className="mx-auto max-w-[1800px]">
         <div className="grid grid-cols-1 gap-10 lg:grid-cols-[568fr_597fr] lg:items-start lg:gap-x-[86px]">
           <div>
             <span className="mb-6 block text-[11px] font-medium tracking-[0.3em] text-neutral-400">
@@ -92,13 +103,14 @@ export function ServicesFaqSection() {
                 key={item.question}
                 question={item.question}
                 answer={item.answer}
-                open={openIndex === i}
-                onToggle={() => setOpenIndex(openIndex === i ? null : i)}
+                open={openIndexes.has(i)}
+                onToggle={() => toggleIndex(i)}
               />
             ))}
           </div>
         </div>
       </div>
     </section>
+    </Reveal>
   );
 }

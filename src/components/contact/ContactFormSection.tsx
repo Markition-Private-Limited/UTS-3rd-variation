@@ -1,4 +1,5 @@
 import PillButtonContent from "@/components/ui/PillButtonContent";
+import { Reveal } from "@/components/ui/reveal";
 
 const inputClasses =
   "w-full rounded-md border border-neutral-200 bg-white px-4 py-3.5 text-[15px] text-neutral-900 placeholder-neutral-400 outline-none transition-colors focus:border-neutral-400";
@@ -22,7 +23,8 @@ function Field({
 
 export function ContactFormSection() {
   return (
-    <section style={{ background: "#F6F6F6" }} className="px-6 py-14 sm:px-10 lg:px-16 lg:py-20">
+    <Reveal>
+    <section style={{ background: "#F6F6F6" }} className="border-y border-neutral-200 px-6 py-14 sm:px-10 lg:px-16 lg:py-20">
       <div className="mx-auto max-w-7xl">
         <div className="grid grid-cols-1 gap-12 lg:grid-cols-[440fr_780fr] lg:gap-x-[86px]">
           {/* Left — intro copy */}
@@ -64,31 +66,6 @@ export function ContactFormSection() {
                 <input type="tel" className={inputClasses} />
               </Field>
 
-              <Field label="Enquiry Type">
-                <div className="relative">
-                  <select className={`${inputClasses} appearance-none pr-10 text-neutral-400`} defaultValue="">
-                    <option value="" disabled>
-                      Select an enquiry type
-                    </option>
-                    <option value="airport-transfer">Airport Transfer</option>
-                    <option value="city-to-city">City to City</option>
-                    <option value="hourly-chauffeur">Hourly Chauffeur</option>
-                    <option value="corporate">Corporate Chauffeur</option>
-                    <option value="other">Other</option>
-                  </select>
-                  <svg
-                    width="14"
-                    height="14"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="1.5"
-                    className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-neutral-400"
-                  >
-                    <path d="M6 9l6 6 6-6" strokeLinecap="round" strokeLinejoin="round" />
-                  </svg>
-                </div>
-              </Field>
               <Field label="Preferred Travel Date">
                 <div className="relative">
                   <input type="text" placeholder="DD / MM / YYYY" className={inputClasses} />
@@ -114,7 +91,7 @@ export function ContactFormSection() {
                 <input type="text" className={inputClasses} />
               </Field>
 
-              <Field label="Number of Passengers" className="sm:col-span-2">
+              <Field label="Number of Passengers">
                 <input type="number" min={1} className={inputClasses} />
               </Field>
 
@@ -125,7 +102,7 @@ export function ContactFormSection() {
 
             <button
               type="submit"
-              className="group relative inline-flex w-fit items-center justify-between gap-4 overflow-hidden whitespace-nowrap rounded-full bg-neutral-900 text-white"
+              className="group relative inline-flex w-fit items-center justify-between gap-4 overflow-hidden whitespace-nowrap rounded-full border border-transparent bg-neutral-900 text-white transition-colors duration-300 hover:border-white/40"
               style={{ padding: "16px 28px", fontSize: "0.68rem", letterSpacing: "0.2em", fontWeight: 600, textTransform: "uppercase" }}
             >
               <PillButtonContent fill="white">Book a Chauffeur</PillButtonContent>
@@ -134,5 +111,6 @@ export function ContactFormSection() {
         </div>
       </div>
     </section>
+    </Reveal>
   );
 }

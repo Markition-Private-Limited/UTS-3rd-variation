@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { AboutStat } from "./AboutStat";
+import { Reveal } from "@/components/ui/reveal";
 
 const STATS = [
   { value: "50K+", label: "Successfully Completed Rides" },
@@ -10,6 +11,7 @@ const STATS = [
 
 export function AboutIntroSection() {
   return (
+    <Reveal>
     <section className="bg-white px-6 pt-20 pb-10 sm:px-10 lg:px-16 lg:pt-28 lg:pb-14">
       <div className="mx-auto flex max-w-7xl flex-col gap-12 lg:flex-row lg:items-center lg:gap-16">
         {/* Left — label, heading, body */}
@@ -56,5 +58,6 @@ export function AboutIntroSection() {
         </div>
       </div>
     </section>
+    </Reveal>
   );
 }

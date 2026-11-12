@@ -1,11 +1,22 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
+import { motion, useReducedMotion } from "motion/react";
 import PillButtonContent from "@/components/ui/PillButtonContent";
 
 export function ServicesCTASection() {
+  const reduceMotion = useReducedMotion() ?? false;
+
   return (
     <section className="bg-white p-4 pb-8 sm:p-5 sm:pb-10 lg:p-6 lg:pb-14">
-      <div className="relative flex min-h-[600px] w-full items-center overflow-hidden rounded-[32px] sm:min-h-[440px] lg:aspect-[1584/600] lg:min-h-0">
+      <motion.div
+        className="relative flex min-h-[600px] w-full items-center overflow-hidden rounded-[32px] sm:min-h-[440px] lg:aspect-[1584/600] lg:min-h-0"
+        initial={reduceMotion ? false : { y: 170 }}
+        whileInView={{ y: 0 }}
+        viewport={{ once: true, amount: 0.2, margin: "0px 0px 160px 0px" }}
+        transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1], delay: reduceMotion ? 0 : 0.55 }}
+      >
         <Image
           src="/services/uts-cta-chauffeur-door.jpg"
           alt="United Travel Services chauffeur opening a Bentley door outside a London hotel"
@@ -38,14 +49,14 @@ export function ServicesCTASection() {
             </p>
             <Link
               href="/contact"
-              className="group relative inline-flex w-fit items-center justify-between gap-4 overflow-hidden whitespace-nowrap rounded-full bg-white text-black"
+              className="group relative inline-flex w-fit items-center justify-between gap-4 overflow-hidden whitespace-nowrap rounded-full border border-white bg-white text-black"
               style={{ padding: "16px 28px", fontSize: "0.68rem", letterSpacing: "0.2em", fontWeight: 600, textTransform: "uppercase" }}
             >
               <PillButtonContent fill="black">Book a Chauffeur</PillButtonContent>
             </Link>
           </div>
         </div>
-      </div>
+      </motion.div>
     </section>
   );
 }

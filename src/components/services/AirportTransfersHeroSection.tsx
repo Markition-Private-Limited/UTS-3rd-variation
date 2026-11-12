@@ -4,12 +4,14 @@ import Image from "next/image";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import PillButtonContent from "@/components/ui/PillButtonContent";
+import { Reveal } from "@/components/ui/reveal";
 
 export function AirportTransfersHeroSection() {
   const router = useRouter();
   const [btnHovered, setBtnHovered] = useState(false);
 
   return (
+    <Reveal>
     <section
       data-navbar-theme="dark"
       className="relative -mx-2 -mt-2 -mb-2 overflow-hidden rounded-[clamp(14px,1.5vw,20px)]"
@@ -78,5 +80,6 @@ export function AirportTransfersHeroSection() {
         </div>
       </div>
     </section>
+    </Reveal>
   );
 }

@@ -41,17 +41,25 @@ export default function PageLoader() {
 
     setVisible(true)
     const startedAt = performance.now()
-    const progressInterval = setInterval(() => {
-      setProgress(Math.min(((performance.now() - startedAt) / VISIBLE_MS) * 100, 100))
-    }, 50)
-    const hideTimer = setTimeout(() => {
-      setVisible(false)
-      try { sessionStorage.setItem(SESSION_KEY, '1') } catch {}
-    }, VISIBLE_MS)
-    return () => {
-      clearInterval(progressInterval)
-      clearTimeout(hideTimer)
+    let raf = 0
+
+    // requestAnimationFrame (unlike setInterval/setTimeout) pauses while the
+    // tab is backgrounded and catches up with an accurate timestamp the
+    // instant it's visible again — so this loader can never get stuck
+    // covering the page if the window loses focus mid-animation.
+    const tick = () => {
+      const elapsed = performance.now() - startedAt
+      setProgress(Math.min((elapsed / VISIBLE_MS) * 100, 100))
+      if (elapsed >= VISIBLE_MS) {
+        setVisible(false)
+        try { sessionStorage.setItem(SESSION_KEY, '1') } catch {}
+        return
+      }
+      raf = requestAnimationFrame(tick)
     }
+    raf = requestAnimationFrame(tick)
+
+    return () => cancelAnimationFrame(raf)
   }, [])
 
   return (

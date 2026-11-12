@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { OriginButton } from "@/components/ui/origin-button";
+import { Reveal } from "@/components/ui/reveal";
 
 const SERVICES_LINKS = [
   { label: "Airport Transfers", href: "#" },
@@ -24,6 +25,7 @@ const CONTACT_LINKS = [
 
 export function FooterSection() {
   return (
+    <Reveal>
     <footer
       className="w-full rounded-[32px] overflow-hidden"
       style={{ background: "#212121" }}
@@ -181,5 +183,6 @@ export function FooterSection() {
         </div>
       </div>
     </footer>
+    </Reveal>
   );
 }

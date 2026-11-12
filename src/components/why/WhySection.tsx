@@ -224,7 +224,7 @@ export function WhySection() {
 
           <a
             href="#about"
-            className={`group relative overflow-hidden inline-flex items-center justify-between gap-[1.25vw] bg-black text-white uppercase px-[2.0833vw] py-[1.1458vw] rounded-full border-[1.5px] border-transparent hover:border-black/30 hover:shadow-[0_0_16px_rgba(0,0,0,0.2)] transition-[opacity,transform,border-color,box-shadow] ease-out ${
+            className={`group relative overflow-hidden inline-flex items-center justify-between gap-[1.25vw] bg-black text-white uppercase px-[2.0833vw] py-[1.1458vw] rounded-full border-[1.5px] border-transparent hover:border-white/40 hover:shadow-[0_0_16px_rgba(0,0,0,0.2)] transition-[opacity,transform,border-color,box-shadow] ease-out ${
               isInView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
             }`}
             style={{

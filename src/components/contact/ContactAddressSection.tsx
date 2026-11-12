@@ -1,8 +1,10 @@
 import Image from "next/image";
+import { Reveal } from "@/components/ui/reveal";
 
 export function ContactAddressSection() {
   return (
-    <section style={{ background: "#F6F6F6" }} className="px-6 py-14 sm:px-10 lg:px-16 lg:py-20">
+    <Reveal>
+    <section style={{ background: "#F6F6F6" }} className="px-6 pt-[104px] pb-14 sm:px-10 sm:pb-14 lg:px-16 lg:pb-20">
       <div className="mx-auto max-w-7xl">
         <div className="grid grid-cols-1 items-center gap-10 lg:grid-cols-[700fr_465fr] lg:gap-x-[86px]">
           <div className="relative w-full overflow-hidden rounded-3xl" style={{ aspectRatio: "16/9" }}>
@@ -29,5 +31,6 @@ export function ContactAddressSection() {
         </div>
       </div>
     </section>
+    </Reveal>
   );
 }

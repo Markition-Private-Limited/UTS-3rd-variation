@@ -1,7 +1,9 @@
 import Image from "next/image";
+import { Reveal } from "@/components/ui/reveal";
 
 export function AboutPhilosophySection() {
   return (
+    <Reveal>
     <section style={{ background: "#212121" }} className="px-6 py-14 sm:px-10 lg:px-16 lg:py-20">
       <div className="mx-auto max-w-7xl">
         <div className="mb-8 flex flex-col gap-10 lg:mb-10 lg:flex-row lg:items-start lg:justify-between lg:gap-16">
@@ -40,5 +42,6 @@ export function AboutPhilosophySection() {
         </div>
       </div>
     </section>
+    </Reveal>
   );
 }
