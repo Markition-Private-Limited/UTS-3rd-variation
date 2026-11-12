@@ -157,7 +157,7 @@ function ServiceCardItem({ item, index }: { item: ServiceCard; index: number }) 
           y: 0,
           transition: {
             duration: 0.55,
-            ease: [0.22, 1, 0.36, 1],
+            ease: [0.22, 1, 0.36, 1] as const,
             delay: (index % 2) * 0.08,
           },
         },
