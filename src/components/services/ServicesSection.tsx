@@ -73,7 +73,7 @@ function ServiceCard({
 }) {
   return (
     <article
-      className="relative h-[450px] w-[280px] sm:w-[340px] flex-none overflow-hidden rounded-3xl md:w-[734px]"
+      className="relative h-[450px] w-[calc(100vw-48px)] sm:w-[340px] flex-none overflow-hidden rounded-3xl md:w-[734px]"
       style={{
         transform: popped ? "scale(1.04)" : "scale(1)",
         boxShadow: popped ? "0 20px 50px rgba(0,0,0,0.45)" : "none",

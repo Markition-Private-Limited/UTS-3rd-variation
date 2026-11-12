@@ -12,7 +12,7 @@ export function CTASection() {
     <section className="w-full bg-white px-4 md:px-8 pt-[6.25vw] pb-[6.25vw]">
       <div
         ref={ref}
-        className={`relative w-full min-h-[480px] md:h-[38.5417vw] rounded-[1.6667vw] overflow-hidden flex items-center bg-gray-800 bg-cover bg-center p-6 md:p-[4.1667vw] transition-all duration-700 ease-out ${
+        className={`relative w-full min-h-[480px] md:h-[38.5417vw] rounded-2xl md:rounded-[1.6667vw] overflow-hidden flex items-center bg-gray-800 bg-cover bg-center p-6 md:p-[4.1667vw] transition-all duration-700 ease-out ${
           isInView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
         }`}
         style={{ backgroundImage: "url('/images/Cinematic photograph.png')" }}
@@ -53,7 +53,7 @@ export function CTASection() {
           </h2>
 
           <p
-            className="text-black/70 mb-[2.0833vw] max-w-xl"
+            className="text-black/70 mb-5 md:mb-[2.0833vw] max-w-xl"
             style={{
               fontWeight: 400,
               fontSize: "clamp(13px, 1.0417vw, 18px)",
@@ -64,7 +64,7 @@ export function CTASection() {
           </p>
 
           <button
-            className="group relative overflow-hidden whitespace-nowrap inline-flex items-center justify-between gap-4 w-fit px-8 py-5 text-[16px] font-light tracking-[0.15em] text-white uppercase rounded-full bg-[#111111] cursor-pointer"
+            className="group relative overflow-hidden whitespace-nowrap inline-flex items-center justify-between gap-4 w-fit px-6 py-3 text-[13px] sm:px-8 sm:py-5 sm:text-[16px] font-light tracking-[0.15em] text-white uppercase rounded-full bg-[#111111] cursor-pointer"
             onMouseEnter={() => setBtnHovered(true)}
             onMouseLeave={() => setBtnHovered(false)}
             style={{

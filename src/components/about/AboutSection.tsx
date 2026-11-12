@@ -69,8 +69,29 @@ export function AboutSection() {
         </p>
       </div>
 
-      {/* Marquee */}
-      <div className="overflow-hidden" style={{ height: 566 }}>
+      {/* Mobile: 2×2 grid with always-visible text overlay */}
+      <div className="sm:hidden px-5 grid grid-cols-2 gap-4">
+        {CARDS.map((item, i) => (
+          <div key={i} className="relative overflow-hidden rounded-3xl" style={{ height: 220 }}>
+            <Image
+              src={item.src}
+              alt="United Travel Services"
+              fill
+              unoptimized
+              className="object-cover"
+              style={{ objectPosition: item.position }}
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/15 to-transparent" />
+            <div className="absolute inset-x-0 bottom-0 p-4 text-white">
+              <h3 className="text-[14px] font-normal leading-tight tracking-[-0.02em]">{item.title}</h3>
+              <p className="mt-1 text-[11px] font-light leading-relaxed text-white/80">{item.desc}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* Desktop: animated marquee with 3D flip cards */}
+      <div className="hidden sm:block overflow-hidden" style={{ height: 566 }}>
         <div className="uts-marquee-track flex w-max items-start gap-6">
           {[...CARDS, ...CARDS].map((item, i) => {
             const realIdx = i % CARDS.length;
