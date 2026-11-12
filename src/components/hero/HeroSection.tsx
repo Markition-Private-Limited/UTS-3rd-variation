@@ -65,9 +65,9 @@ const SERVICE_CARDS = [
 
 const SLIDE_MS = 5000;
 
-const CARD_BG = "linear-gradient(135deg, rgba(255,255,255,0.14) 0%, rgba(255,255,255,0) 45%), linear-gradient(135deg, rgba(52,51,59,0.82) 0%, rgba(52,51,59,0.68) 100%)";
-const CARD_BORDER = "1px solid rgba(255,255,255,0.30)";
-const CARD_SHADOW = "0 4px 24px rgba(0,0,0,0.18), inset 0 1px 0 rgba(255,255,255,0.35)";
+const CARD_BG = "linear-gradient(135deg, rgba(255,255,255,0.22) 0%, rgba(255,255,255,0.08) 100%)";
+const CARD_BORDER = "1px solid rgba(255,255,255,0.35)";
+const CARD_SHADOW = "0 4px 24px rgba(0,0,0,0.18), inset 0 1px 0 rgba(255,255,255,0.4)";
 
 function ServiceCard({ title, desc, image, href }: (typeof SERVICE_CARDS)[number]) {
   const cardRef = useRef<HTMLAnchorElement>(null);
@@ -84,20 +84,17 @@ function ServiceCard({ title, desc, image, href }: (typeof SERVICE_CARDS)[number
   };
 
   return (
-    <div className="relative h-[180px] sm:h-auto">
-      {/* Mobile: direct flow, no grayscale, no absolute */}
-      <a
-        href={href}
-        className="sm:hidden flex flex-col rounded-2xl p-3 no-underline h-full overflow-hidden"
-        style={{
-          background: CARD_BG,
-          backdropFilter: "blur(20px) saturate(180%)",
-          WebkitBackdropFilter: "blur(20px) saturate(180%)",
-          border: CARD_BORDER,
-          boxShadow: CARD_SHADOW,
-        }}
-      >
-        <div className="overflow-hidden rounded-xl mb-2 relative w-full flex-1 min-h-0">
+    <div className="relative">
+      {/* Mobile: direct flow — matches whiteline ParallaxCard style */}
+      <div className="sm:hidden rounded-2xl p-3 flex flex-col" style={{
+        background: CARD_BG,
+        backdropFilter: "blur(24px) saturate(180%)",
+        WebkitBackdropFilter: "blur(24px) saturate(180%)",
+        border: CARD_BORDER,
+        boxShadow: CARD_SHADOW,
+      }}>
+        <div className="overflow-hidden rounded-lg mb-2.5 relative w-full">
+          <div style={{ paddingBottom: "70%" }} />
           <Image
             src={image}
             alt={title}
@@ -107,17 +104,24 @@ function ServiceCard({ title, desc, image, href }: (typeof SERVICE_CARDS)[number
             style={{ transform: "scale(1.1)" }}
           />
         </div>
-        <p className="mb-0.5 text-sm font-semibold leading-tight text-white shrink-0">{title}</p>
-        <p className="text-xs leading-snug text-white/55 shrink-0 line-clamp-2">{desc}</p>
-      </a>
+        <p className="mb-0.5 text-sm font-semibold leading-tight line-clamp-1 text-white">{title}</p>
+        <p className="mb-2.5 text-xs leading-tight line-clamp-2 text-white/50" style={{ minHeight: "2.5em" }}>{desc}</p>
+        <a
+          href={href}
+          className="inline-flex items-center gap-1 text-sm font-medium underline underline-offset-2 mt-auto self-start no-underline"
+          style={{ color: "rgba(255,255,255,0.75)", textDecoration: "underline", textUnderlineOffset: "2px" }}
+        >
+          Book Now <svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M2 6h8M7 3l3 3-3 3" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
+        </a>
+      </div>
 
       {/* Desktop sm+: ghost sizes the cell; card expands upward on hover */}
       <div className="hidden sm:block">
         <div className="rounded-2xl p-3 pointer-events-none select-none" style={{ visibility: "hidden" }} aria-hidden="true">
           <div className="mb-2 w-full" style={{ paddingBottom: "44%" }} />
-          <p className="mb-1 text-sm leading-tight">&nbsp;</p>
-          <p className="mb-2 text-xs leading-snug" style={{ minHeight: "2.4em" }}>&nbsp;</p>
-          <span className="text-xs">&nbsp;</span>
+          <p className="mb-0.5 text-sm leading-tight line-clamp-1">&nbsp;</p>
+          <p className="mb-2.5 text-xs leading-tight line-clamp-2" style={{ minHeight: "2.5em" }}>&nbsp;<br />&nbsp;</p>
+          <span className="text-sm">&nbsp;</span>
         </div>
         <a
           href={href}
@@ -132,7 +136,7 @@ function ServiceCard({ title, desc, image, href }: (typeof SERVICE_CARDS)[number
             WebkitBackdropFilter: "blur(20px) saturate(180%)",
             border: CARD_BORDER,
             boxShadow: active
-              ? "0 12px 40px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.35)"
+              ? "0 12px 40px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.4)"
               : CARD_SHADOW,
             transition: "box-shadow 0.4s ease",
             cursor: "pointer",
@@ -155,9 +159,9 @@ function ServiceCard({ title, desc, image, href }: (typeof SERVICE_CARDS)[number
               }}
             />
           </div>
-          <p className="mb-1 text-sm font-semibold leading-tight" style={{ color: "#ffffff", transition: "color 0.4s ease" }}>{title}</p>
-          <p className="mb-2 text-xs leading-snug" style={{ color: active ? "rgba(255,255,255,0.80)" : "rgba(255,255,255,0.55)", transition: "color 0.4s ease" }}>{desc}</p>
-          <span className="inline-flex items-center gap-1 text-xs font-medium mt-1" style={{ color: "#E3E3E3", opacity: active ? 1 : 0.85, letterSpacing: active ? "0.04em" : "0", transition: "opacity 0.4s ease, letter-spacing 0.4s ease" }}>
+          <p className="mb-0.5 text-sm font-semibold leading-tight line-clamp-1" style={{ color: active ? "#D4FBFF" : "#ffffff", transition: "color 0.4s ease" }}>{title}</p>
+          <p className="mb-2.5 text-xs leading-tight line-clamp-2" style={{ color: active ? "rgba(255,255,255,0.82)" : "rgba(255,255,255,0.50)", transition: "color 0.4s ease", minHeight: "2.5em" }}>{desc}</p>
+          <span className="inline-flex items-center gap-1 text-xs font-medium mt-auto self-start" style={{ color: active ? "#D4FBFF" : "rgba(255,255,255,0.7)", letterSpacing: active ? "0.01em" : "0", transition: "color 0.4s ease, letter-spacing 0.4s ease", textDecoration: "underline", textUnderlineOffset: "2px" }}>
             Book Now <svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M2 6h8M7 3l3 3-3 3" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
           </span>
         </a>
@@ -214,14 +218,15 @@ export function HeroSection() {
 
       {/* Content */}
       <div className="relative z-10 flex min-h-[calc(100vh-16px)] flex-col justify-start sm:justify-between px-6 pb-16 pt-20 sm:pt-[146px] sm:px-10 lg:px-16">
-        {/* Heading + body — fades with slide */}
-        <div className="max-w-xl pt-0 sm:pt-10 lg:max-w-3xl min-h-[200px] sm:min-h-[330px]">
+        {/* Heading + body — fixed height on mobile so service cards never shift */}
+        <div className="relative overflow-hidden h-[300px] sm:h-auto sm:overflow-visible max-w-xl pt-0 sm:pt-10 lg:max-w-3xl sm:min-h-[330px]">
           <AnimatePresence mode="wait">
             <motion.div
               key={index}
-              initial={{ opacity: 0, y: 14 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -14 }}
+              className="sm:static absolute inset-0 overflow-hidden sm:overflow-visible"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
               transition={{ duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] }}
             >
               <h1 className="mb-4">
@@ -239,8 +244,8 @@ export function HeroSection() {
           </AnimatePresence>
         </div>
 
-        {/* Service cards */}
-        <div className="mt-10 sm:mt-16 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5 [&>*:last-child]:col-span-2 sm:[&>*:last-child]:col-span-1">
+        {/* Service cards — 2-col mobile, 3-col sm, 5-col lg */}
+        <div className="mt-10 sm:mt-16 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">
           {SERVICE_CARDS.map((card) => (
             <ServiceCard key={card.title} {...card} />
           ))}
