@@ -3,6 +3,7 @@
 import { useState } from "react";
 import PillButtonContent from "@/components/ui/PillButtonContent";
 import { Reveal } from "@/components/ui/reveal";
+import { DatePicker } from "@/components/ui/DatePicker";
 
 const inputBase =
   "w-full rounded-md border border-neutral-200 bg-white px-4 py-3.5 text-[15px] text-neutral-900 placeholder-neutral-400 outline-none transition-colors duration-200 focus:border-neutral-800 hover:border-neutral-300";
@@ -67,27 +68,7 @@ function PhoneField() {
 function DateField() {
   return (
     <Field label="Preferred Travel Date">
-      <div className="relative">
-        <input
-          type="date"
-          className={`${inputBase} cursor-pointer pr-10 [color-scheme:light] [&::-webkit-calendar-picker-indicator]:absolute [&::-webkit-calendar-picker-indicator]:inset-0 [&::-webkit-calendar-picker-indicator]:h-full [&::-webkit-calendar-picker-indicator]:w-full [&::-webkit-calendar-picker-indicator]:cursor-pointer [&::-webkit-calendar-picker-indicator]:opacity-0`}
-          style={{ colorScheme: "light" }}
-        />
-        {/* Calendar icon — pointer-events-none so clicks fall through to the input */}
-        <svg
-          width="16"
-          height="16"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="1.5"
-          className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-neutral-400"
-          aria-hidden
-        >
-          <rect x="3" y="5" width="18" height="16" rx="2" />
-          <path d="M3 9h18M8 3v4M16 3v4" strokeLinecap="round" />
-        </svg>
-      </div>
+      <DatePicker inputClassName={inputBase} />
     </Field>
   );
 }
