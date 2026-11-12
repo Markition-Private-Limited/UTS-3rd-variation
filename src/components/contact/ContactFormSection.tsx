@@ -1,8 +1,11 @@
+"use client";
+
+import { useState } from "react";
 import PillButtonContent from "@/components/ui/PillButtonContent";
 import { Reveal } from "@/components/ui/reveal";
 
-const inputClasses =
-  "w-full rounded-md border border-neutral-200 bg-white px-4 py-3.5 text-[15px] text-neutral-900 placeholder-neutral-400 outline-none transition-colors focus:border-neutral-400";
+const inputBase =
+  "w-full rounded-md border border-neutral-200 bg-white px-4 py-3.5 text-[15px] text-neutral-900 placeholder-neutral-400 outline-none transition-colors duration-200 focus:border-neutral-800 hover:border-neutral-300";
 
 function Field({
   label,
@@ -21,12 +24,81 @@ function Field({
   );
 }
 
+const DIAL_CODES = [
+  { code: "+44", iso: "GB", label: "UK" },
+  { code: "+1",  iso: "US", label: "US" },
+  { code: "+33", iso: "FR", label: "FR" },
+  { code: "+49", iso: "DE", label: "DE" },
+  { code: "+39", iso: "IT", label: "IT" },
+  { code: "+34", iso: "ES", label: "ES" },
+  { code: "+31", iso: "NL", label: "NL" },
+  { code: "+971",iso: "AE", label: "UAE" },
+  { code: "+61", iso: "AU", label: "AU" },
+  { code: "+91", iso: "IN", label: "IN" },
+];
+
+function PhoneField() {
+  const [dial, setDial] = useState("+44");
+  return (
+    <Field label="Telephone Number">
+      <div className="flex overflow-hidden rounded-md border border-neutral-200 bg-white transition-colors duration-200 hover:border-neutral-300 focus-within:border-neutral-800">
+        <select
+          value={dial}
+          onChange={(e) => setDial(e.target.value)}
+          className="shrink-0 cursor-pointer border-r border-neutral-200 bg-transparent px-3 py-3.5 text-[15px] text-neutral-900 outline-none"
+          aria-label="Country dial code"
+        >
+          {DIAL_CODES.map((d) => (
+            <option key={d.iso} value={d.code}>
+              {d.code} {d.label}
+            </option>
+          ))}
+        </select>
+        <input
+          type="tel"
+          className="min-w-0 flex-1 bg-transparent px-4 py-3.5 text-[15px] text-neutral-900 placeholder-neutral-400 outline-none"
+          placeholder="Phone number"
+        />
+      </div>
+    </Field>
+  );
+}
+
+function DateField() {
+  return (
+    <Field label="Preferred Travel Date">
+      <div className="relative">
+        <input
+          type="date"
+          className={`${inputBase} cursor-pointer pr-10 [color-scheme:light] [&::-webkit-calendar-picker-indicator]:absolute [&::-webkit-calendar-picker-indicator]:inset-0 [&::-webkit-calendar-picker-indicator]:h-full [&::-webkit-calendar-picker-indicator]:w-full [&::-webkit-calendar-picker-indicator]:cursor-pointer [&::-webkit-calendar-picker-indicator]:opacity-0`}
+          style={{ colorScheme: "light" }}
+        />
+        {/* Calendar icon — pointer-events-none so clicks fall through to the input */}
+        <svg
+          width="16"
+          height="16"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.5"
+          className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-neutral-400"
+          aria-hidden
+        >
+          <rect x="3" y="5" width="18" height="16" rx="2" />
+          <path d="M3 9h18M8 3v4M16 3v4" strokeLinecap="round" />
+        </svg>
+      </div>
+    </Field>
+  );
+}
+
 export function ContactFormSection() {
   return (
     <Reveal>
     <section style={{ background: "#F6F6F6" }} className="border-y border-neutral-200 px-6 py-14 sm:px-10 lg:px-16 lg:py-20">
       <div className="mx-auto max-w-7xl">
         <div className="grid grid-cols-1 gap-12 lg:grid-cols-[440fr_780fr] lg:gap-x-[86px]">
+
           {/* Left — intro copy */}
           <div>
             <span className="mb-6 block text-[11px] font-medium tracking-[0.3em] text-neutral-400">
@@ -52,51 +124,61 @@ export function ContactFormSection() {
           {/* Right — form */}
           <form className="flex flex-col gap-8">
             <div className="grid grid-cols-1 gap-8 sm:grid-cols-2">
+
               <Field label="First Name">
-                <input type="text" className={inputClasses} />
+                <input type="text" className={inputBase} placeholder="e.g. James" />
               </Field>
               <Field label="Last Name">
-                <input type="text" className={inputClasses} />
+                <input type="text" className={inputBase} placeholder="e.g. Harrison" />
               </Field>
 
               <Field label="Email Address">
-                <input type="email" className={inputClasses} />
+                <input type="email" className={inputBase} placeholder="you@example.com" />
               </Field>
-              <Field label="Telephone Number">
-                <input type="tel" className={inputClasses} />
+              <PhoneField />
+
+              <DateField />
+
+              <Field label="Pickup Location">
+                <input type="text" className={inputBase} placeholder="Address or postcode" />
               </Field>
 
-              <Field label="Preferred Travel Date">
+              <Field label="Destination">
+                <input type="text" className={inputBase} placeholder="Address or postcode" />
+              </Field>
+
+              <Field label="Number of Passengers">
                 <div className="relative">
-                  <input type="text" placeholder="DD / MM / YYYY" className={inputClasses} />
+                  <select
+                    className={`${inputBase} cursor-pointer appearance-none pr-10`}
+                    defaultValue=""
+                  >
+                    <option value="" disabled>Select passengers</option>
+                    {Array.from({ length: 16 }, (_, i) => i + 1).map((n) => (
+                      <option key={n} value={n}>{n} passenger{n > 1 ? "s" : ""}</option>
+                    ))}
+                  </select>
                   <svg
-                    width="16"
-                    height="16"
+                    width="14"
+                    height="14"
                     viewBox="0 0 24 24"
                     fill="none"
                     stroke="currentColor"
-                    strokeWidth="1.5"
+                    strokeWidth="2"
                     className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-neutral-400"
+                    aria-hidden
                   >
-                    <rect x="3" y="5" width="18" height="16" rx="2" />
-                    <path d="M3 9h18M8 3v4M16 3v4" strokeLinecap="round" />
+                    <path d="M6 9l6 6 6-6" strokeLinecap="round" strokeLinejoin="round" />
                   </svg>
                 </div>
               </Field>
 
-              <Field label="Pickup Location">
-                <input type="text" className={inputClasses} />
-              </Field>
-              <Field label="Destination">
-                <input type="text" className={inputClasses} />
-              </Field>
-
-              <Field label="Number of Passengers">
-                <input type="number" min={1} className={inputClasses} />
-              </Field>
-
               <Field label="Message" className="sm:col-span-2">
-                <textarea rows={6} className={`${inputClasses} resize-none`} />
+                <textarea
+                  rows={6}
+                  className={`${inputBase} resize-none`}
+                  placeholder="Any additional information about your journey…"
+                />
               </Field>
             </div>
 
