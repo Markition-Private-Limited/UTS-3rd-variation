@@ -65,6 +65,10 @@ const SERVICE_CARDS = [
 
 const SLIDE_MS = 5000;
 
+const CARD_BG = "linear-gradient(135deg, rgba(255,255,255,0.22) 0%, rgba(255,255,255,0.08) 100%)";
+const CARD_BORDER = "1px solid rgba(255,255,255,0.35)";
+const CARD_SHADOW = "0 4px 24px rgba(0,0,0,0.18), inset 0 1px 0 rgba(255,255,255,0.4)";
+
 function ServiceCard({ title, desc, image, href }: (typeof SERVICE_CARDS)[number]) {
   const cardRef = useRef<HTMLAnchorElement>(null);
   const [active, setActive] = useState(false);
@@ -81,75 +85,87 @@ function ServiceCard({ title, desc, image, href }: (typeof SERVICE_CARDS)[number
 
   return (
     <div className="relative">
-      <div className="rounded-2xl p-3 pointer-events-none select-none" style={{ visibility: "hidden" }} aria-hidden="true">
-        <div className="mb-2 w-full" style={{ paddingBottom: "44%" }} />
-        <p className="mb-1 text-sm leading-tight">&nbsp;</p>
-        <p className="mb-2 text-xs leading-snug" style={{ minHeight: "2.4em" }}>&nbsp;</p>
-        <span className="text-xs">&nbsp;</span>
-      </div>
-    <a
-      href={href}
-      ref={cardRef}
-      onMouseMove={handleMove}
-      onMouseEnter={() => setActive(true)}
-      onMouseLeave={() => { setActive(false); setImgPos({ x: 0, y: 0 }); }}
-      className="absolute inset-x-0 bottom-0 flex flex-col rounded-2xl p-3 no-underline"
-      style={{
-        background: "linear-gradient(135deg, rgba(255,255,255,0.14) 0%, rgba(255,255,255,0) 45%), linear-gradient(135deg, rgba(52,51,59,0.82) 0%, rgba(52,51,59,0.68) 100%)",
-        backdropFilter: "blur(20px) saturate(180%)",
-        WebkitBackdropFilter: "blur(20px) saturate(180%)",
-        border: "1px solid rgba(255,255,255,0.30)",
-        boxShadow: active
-          ? "0 12px 40px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.35)"
-          : "0 4px 24px rgba(0,0,0,0.18), inset 0 1px 0 rgba(255,255,255,0.35)",
-        transition: "box-shadow 0.4s ease",
-        cursor: "pointer",
-        zIndex: active ? 10 : 1,
-      }}
-    >
-      {/* Image */}
-      <div className="overflow-hidden rounded-xl mb-2 relative w-full" style={{ paddingBottom: active ? "56%" : "44%", transition: "padding-bottom 0.55s cubic-bezier(0.25,0.46,0.45,0.94)" }}>
-        <Image
-          src={image}
-          alt={title}
-          fill
-          sizes="(max-width: 1024px) 33vw, 25vw"
-          className="absolute inset-0 w-full h-full object-cover"
-          style={{
-            transform: `translate(${imgPos.x}px, ${imgPos.y}px) scale(1.1)`,
-            filter: active ? "grayscale(0%)" : "grayscale(80%)",
-            transition: active
-              ? "transform 0.08s linear, filter 0.4s ease"
-              : "transform 0.5s ease, filter 0.6s ease",
-          }}
-        />
+      {/* Mobile: direct flow — matches whiteline ParallaxCard style */}
+      <div className="sm:hidden rounded-2xl p-3 flex flex-col" style={{
+        background: CARD_BG,
+        backdropFilter: "blur(24px) saturate(180%)",
+        WebkitBackdropFilter: "blur(24px) saturate(180%)",
+        border: CARD_BORDER,
+        boxShadow: CARD_SHADOW,
+      }}>
+        <div className="overflow-hidden rounded-lg mb-2.5 relative w-full">
+          <div style={{ paddingBottom: "70%" }} />
+          <Image
+            src={image}
+            alt={title}
+            fill
+            sizes="50vw"
+            className="absolute inset-0 w-full h-full object-cover"
+            style={{ transform: "scale(1.1)" }}
+          />
+        </div>
+        <p className="mb-0.5 text-sm font-semibold leading-tight line-clamp-1 text-white">{title}</p>
+        <p className="mb-2.5 text-xs leading-tight line-clamp-2 text-white/50" style={{ minHeight: "2.5em" }}>{desc}</p>
+        <a
+          href={href}
+          className="inline-flex items-center gap-1 text-sm font-medium underline underline-offset-2 mt-auto self-start no-underline"
+          style={{ color: "rgba(255,255,255,0.75)", textDecoration: "underline", textUnderlineOffset: "2px" }}
+        >
+          Book Now <svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M2 6h8M7 3l3 3-3 3" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
+        </a>
       </div>
 
-      {/* Text */}
-      <p
-        className="mb-1 text-sm font-semibold leading-tight"
-        style={{ color: "#ffffff", transition: "color 0.4s ease" }}
-      >
-        {title}
-      </p>
-      <p
-        className="mb-2 text-xs leading-snug"
-        style={{ color: active ? "rgba(255,255,255,0.80)" : "rgba(255,255,255,0.55)", transition: "color 0.4s ease" }}
-      >
-        {desc}
-      </p>
-      <span
-        className="inline-flex items-center gap-1 text-xs font-medium mt-1"
-        style={{
-          color: "#E3E3E3",
-          opacity: active ? 1 : 0.85,
-          letterSpacing: active ? "0.04em" : "0",
-          transition: "opacity 0.4s ease, letter-spacing 0.4s ease",
-        }}
-      >
-        Book Now <svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M2 6h8M7 3l3 3-3 3" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
-      </span>
-    </a>
+      {/* Desktop sm+: ghost sizes the cell; card expands upward on hover */}
+      <div className="hidden sm:block">
+        <div className="rounded-2xl p-3 pointer-events-none select-none" style={{ visibility: "hidden" }} aria-hidden="true">
+          <div className="mb-2 w-full" style={{ paddingBottom: "44%" }} />
+          <p className="mb-0.5 text-sm leading-tight line-clamp-1">&nbsp;</p>
+          <p className="mb-2.5 text-xs leading-tight line-clamp-2" style={{ minHeight: "2.5em" }}>&nbsp;<br />&nbsp;</p>
+          <span className="text-sm">&nbsp;</span>
+        </div>
+        <a
+          href={href}
+          ref={cardRef}
+          onMouseMove={handleMove}
+          onMouseEnter={() => setActive(true)}
+          onMouseLeave={() => { setActive(false); setImgPos({ x: 0, y: 0 }); }}
+          className="absolute inset-x-0 bottom-0 flex flex-col rounded-2xl p-3 no-underline"
+          style={{
+            background: CARD_BG,
+            backdropFilter: "blur(20px) saturate(180%)",
+            WebkitBackdropFilter: "blur(20px) saturate(180%)",
+            border: CARD_BORDER,
+            boxShadow: active
+              ? "0 12px 40px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.4)"
+              : CARD_SHADOW,
+            transition: "box-shadow 0.4s ease",
+            cursor: "pointer",
+            zIndex: active ? 10 : 1,
+          }}
+        >
+          <div className="overflow-hidden rounded-xl mb-2 relative w-full" style={{ paddingBottom: active ? "56%" : "44%", transition: "padding-bottom 0.55s cubic-bezier(0.25,0.46,0.45,0.94)" }}>
+            <Image
+              src={image}
+              alt={title}
+              fill
+              sizes="(max-width: 1024px) 33vw, 25vw"
+              className="absolute inset-0 w-full h-full object-cover"
+              style={{
+                transform: `translate(${imgPos.x}px, ${imgPos.y}px) scale(1.1)`,
+                filter: active ? "grayscale(0%)" : "grayscale(80%)",
+                transition: active
+                  ? "transform 0.08s linear, filter 0.4s ease"
+                  : "transform 0.5s ease, filter 0.6s ease",
+              }}
+            />
+          </div>
+          <p className="mb-0.5 text-sm font-semibold leading-tight line-clamp-1" style={{ color: active ? "#D4FBFF" : "#ffffff", transition: "color 0.4s ease" }}>{title}</p>
+          <p className="mb-2.5 text-xs leading-tight line-clamp-2" style={{ color: active ? "rgba(255,255,255,0.82)" : "rgba(255,255,255,0.50)", transition: "color 0.4s ease", minHeight: "2.5em" }}>{desc}</p>
+          <span className="inline-flex items-center gap-1 text-xs font-medium mt-auto self-start" style={{ color: active ? "#D4FBFF" : "rgba(255,255,255,0.7)", letterSpacing: active ? "0.01em" : "0", transition: "color 0.4s ease, letter-spacing 0.4s ease", textDecoration: "underline", textUnderlineOffset: "2px" }}>
+            Book Now <svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M2 6h8M7 3l3 3-3 3" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
+          </span>
+        </a>
+      </div>
     </div>
   );
 }
@@ -201,34 +217,34 @@ export function HeroSection() {
       />
 
       {/* Content */}
-      <div className="relative z-10 flex min-h-[calc(100vh-16px)] flex-col justify-start sm:justify-between px-6 pb-16 pt-20 sm:pt-[146px] sm:px-10 lg:px-16">
-        {/* Heading + body — fades with slide */}
-        <div className="max-w-xl pt-0 sm:pt-10 lg:max-w-3xl min-h-[330px]">
+      <div className="relative z-10 flex min-h-[calc(100vh-16px)] flex-col justify-start sm:justify-between px-6 pb-16 pt-28 sm:pt-[146px] sm:px-10 lg:px-16">
+        {/* Heading + body — body is line-clamped on mobile so height is stable across slides */}
+        <div className="max-w-xl pt-0 sm:pt-10 lg:max-w-3xl h-[340px] overflow-hidden sm:h-auto sm:overflow-visible sm:min-h-[330px]">
           <AnimatePresence mode="wait">
             <motion.div
               key={index}
-              initial={{ opacity: 0, y: 14 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -14 }}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
               transition={{ duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] }}
             >
               <h1 className="mb-4">
-                <span className="block text-[72px] leading-[121%] tracking-[-0.06em] font-extralight whitespace-nowrap text-white">
+                <span className="block text-[38px] sm:text-[52px] lg:text-[72px] leading-[121%] tracking-[-0.06em] font-extralight text-white">
                   {slide.heading1}
                 </span>
-                <span className="block text-[72px] leading-[121%] tracking-[-0.06em] font-semibold whitespace-nowrap text-white">
+                <span className="block text-[38px] sm:text-[52px] lg:text-[72px] leading-[121%] tracking-[-0.06em] font-semibold text-white">
                   {slide.heading2}
                 </span>
               </h1>
-              <p className="max-w-xl lg:max-w-3xl text-[16px] font-light leading-[200%] tracking-[-0.03em] text-white/90">
+              <p className="max-w-xl lg:max-w-3xl text-[16px] font-light leading-[200%] tracking-[-0.03em] text-white/90 line-clamp-4 sm:line-clamp-none">
                 {slide.body}
               </p>
             </motion.div>
           </AnimatePresence>
         </div>
 
-        {/* Service cards */}
-        <div className="mt-10 sm:mt-16 grid grid-cols-1 gap-4 sm:gap-3 sm:grid-cols-3 lg:grid-cols-5">
+        {/* Service cards — 2-col mobile, 3-col sm, 5-col lg */}
+        <div className="mt-10 sm:mt-16 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">
           {SERVICE_CARDS.map((card) => (
             <ServiceCard key={card.title} {...card} />
           ))}

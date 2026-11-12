@@ -54,13 +54,13 @@ export function AboutSection() {
       `}</style>
 
       {/* Heading */}
-      <div className="mb-14 flex flex-col items-start justify-between gap-8 px-10 md:flex-row md:items-end">
+      <div className="mb-14 flex flex-col items-start justify-between gap-8 px-5 md:px-10 md:flex-row md:items-end">
         <div>
           <span className="ml-3 block text-xs font-medium tracking-[0.3em] text-neutral-400">
             ABOUT UTS
           </span>
-          <h2 className="mt-4 text-[58px] leading-[121%] tracking-[-0.06em] text-neutral-900">
-            <span className="block whitespace-nowrap font-extralight">More than a journey.</span>
+          <h2 className="mt-4 text-[36px] sm:text-[48px] md:text-[58px] leading-[121%] tracking-[-0.06em] text-neutral-900">
+            <span className="block font-extralight">More than a journey.</span>
             <span className="block font-normal">An experience.</span>
           </h2>
         </div>

@@ -91,18 +91,18 @@ export function WhySection() {
       ref={ref}
       className="w-full bg-white px-4 py-16"
     >
-      <div className="max-w-[1920px] mx-auto grid md:grid-cols-2 gap-[4.1667vw] items-center">
+      <div className="max-w-[1920px] mx-auto grid md:grid-cols-2 gap-8 md:gap-[4.1667vw] items-center">
 
         {/* LEFT: 2×2 staggered image mosaic */}
-        <div ref={mosaicRef} className="grid grid-cols-2 gap-[1.25vw] h-[38.5417vw] min-h-[320px]">
+        <div ref={mosaicRef} className="grid grid-cols-2 gap-2 md:gap-[1.25vw] h-[75vw] md:h-[38.5417vw] min-h-[280px]">
           {/* Left column: portrait (tall) + luggage (short) */}
-          <div className="flex flex-col gap-[1.25vw] h-full">
+          <div className="flex flex-col gap-2 md:gap-[1.25vw] h-full">
             <MosaicTile
               src="/images/why-choose-us/Chauffeur portrait.png"
               alt="Chauffeur standing beside the vehicle"
               parallaxY={yPortrait}
               objectPosition="center 12%"
-              className={`rounded-[1.25vw] flex-[1.68] transition-all duration-700 ease-out ${
+              className={`rounded-2xl md:rounded-[1.25vw] flex-[1.68] transition-all duration-700 ease-out ${
                 isInView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
               }`}
             />
@@ -110,7 +110,7 @@ export function WhySection() {
               src="/images/why-choose-us/Luggage assistance.png"
               alt="Chauffeur assisting with luggage"
               parallaxY={yLuggage}
-              className={`rounded-[1.25vw] flex-[1] transition-all duration-700 ease-out ${
+              className={`rounded-2xl md:rounded-[1.25vw] flex-[1] transition-all duration-700 ease-out ${
                 isInView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
               }`}
               style={{ transitionDelay: isInView ? "120ms" : "0ms" }}
@@ -118,12 +118,12 @@ export function WhySection() {
           </div>
 
           {/* Right column: cabin interior (short) + door detail (tall) */}
-          <div className="flex flex-col gap-[1.25vw] h-full">
+          <div className="flex flex-col gap-2 md:gap-[1.25vw] h-full">
             <MosaicTile
               src="/images/why-choose-us/Leather passenger cabin.png"
               alt="Leather passenger cabin interior"
               parallaxY={yCabin}
-              className={`rounded-[1.25vw] flex-[1] transition-all duration-700 ease-out ${
+              className={`rounded-2xl md:rounded-[1.25vw] flex-[1] transition-all duration-700 ease-out ${
                 isInView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
               }`}
               style={{ transitionDelay: isInView ? "240ms" : "0ms" }}
@@ -132,7 +132,7 @@ export function WhySection() {
               src="/images/why-choose-us/Refined interior details.png"
               alt="Refined interior leather and door details"
               parallaxY={yInterior}
-              className={`rounded-[1.25vw] flex-[1.32] transition-all duration-700 ease-out ${
+              className={`rounded-2xl md:rounded-[1.25vw] flex-[1.32] transition-all duration-700 ease-out ${
                 isInView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
               }`}
               style={{ transitionDelay: isInView ? "360ms" : "0ms" }}
@@ -148,10 +148,10 @@ export function WhySection() {
             }`}
           >
             <p
-              className="uppercase text-gray-500 mb-[1.0417vw]"
+              className="uppercase text-gray-500 mb-3 md:mb-[1.0417vw]"
               style={{
                 fontWeight: 600,
-                fontSize: "0.6771vw",
+                fontSize: "clamp(10px, 0.6771vw, 13px)",
                 lineHeight: "1",
                 letterSpacing: "0.18em",
               }}
@@ -160,13 +160,12 @@ export function WhySection() {
             </p>
 
             <h2
-              className="mb-[1.25vw]"
+              className="mb-3 md:mb-[1.25vw] text-[32px] sm:text-[40px] lg:text-[50px]"
               style={{
                 fontFamily: 'Inter, "Inter Fallback", sans-serif',
-                fontSize: "50px",
                 fontWeight: 200,
-                lineHeight: "61px",
-                letterSpacing: "-3px",
+                lineHeight: "1.22",
+                letterSpacing: "-0.06em",
                 color: "#000",
               }}
             >
@@ -174,7 +173,7 @@ export function WhySection() {
             </h2>
 
             <p
-              className="text-gray-600 mb-[1.6667vw] max-w-[40vw]"
+              className="text-gray-600 mb-4 md:mb-[1.6667vw] max-w-full md:max-w-[40vw]"
               style={{
                 fontWeight: 400,
                 fontSize: "clamp(13px, 1.0417vw, 18px)",
@@ -186,11 +185,11 @@ export function WhySection() {
             </p>
           </div>
 
-          <ul className="mb-[1.6667vw]">
+          <ul className="mb-4 md:mb-[1.6667vw]">
             {points.map((point, i) => (
               <li
                 key={i}
-                className={`flex items-start gap-[0.8333vw] py-[1.1458vw] border-b border-gray-200 transition-all duration-700 ease-out ${
+                className={`flex items-start gap-3 md:gap-[0.8333vw] py-3 md:py-[1.1458vw] border-b border-gray-200 transition-all duration-700 ease-out ${
                   isInView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
                 }`}
                 style={{ transitionDelay: isInView ? `${220 + i * 120}ms` : "0ms" }}
@@ -198,7 +197,7 @@ export function WhySection() {
                 <span className="text-black shrink-0 mt-[0.1vw]">{point.icon}</span>
                 <div>
                   <p
-                    className="text-black mb-[0.2083vw]"
+                    className="text-black mb-1 md:mb-[0.2083vw]"
                     style={{
                       fontWeight: 700,
                       fontSize: "clamp(13px, 0.9375vw, 18px)",
@@ -224,12 +223,12 @@ export function WhySection() {
 
           <a
             href="#about"
-            className={`group relative overflow-hidden inline-flex items-center justify-between gap-[1.25vw] bg-black text-white uppercase px-[2.0833vw] py-[1.1458vw] rounded-full border-[1.5px] border-transparent hover:border-white/40 hover:shadow-[0_0_16px_rgba(0,0,0,0.2)] transition-[opacity,transform,border-color,box-shadow] ease-out ${
+            className={`group relative overflow-hidden inline-flex items-center justify-between gap-3 lg:gap-[1.25vw] bg-black text-white uppercase px-6 py-3 lg:px-[2.0833vw] lg:py-[1.1458vw] rounded-full border-[1.5px] border-transparent hover:border-black/30 hover:shadow-[0_0_16px_rgba(0,0,0,0.2)] transition-[opacity,transform,border-color,box-shadow] ease-out ${
               isInView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
             }`}
             style={{
               fontWeight: 700,
-              fontSize: "clamp(9px, 0.6771vw, 13px)",
+              fontSize: "clamp(11px, 0.6771vw, 13px)",
               lineHeight: "1",
               letterSpacing: "0.05em",
               transitionDuration: isInView ? "0.7s, 0.7s, 0.5s, 0.5s" : "0.7s",

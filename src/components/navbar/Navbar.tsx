@@ -32,6 +32,7 @@ export function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [theme, setTheme] = useState<"dark" | "light">("dark");
   const [ctaHovered, setCtaHovered] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
   const headerRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
@@ -136,12 +137,47 @@ export function Navbar() {
         </button>
 
         {/* Mobile hamburger */}
-        <button className="md:hidden flex flex-col gap-1.5 p-2" aria-label="Open menu">
-          <span className={`block w-5 h-px transition-colors duration-300 ${isDark ? "bg-white/60" : "bg-black/60"}`} />
-          <span className={`block w-5 h-px transition-colors duration-300 ${isDark ? "bg-white/60" : "bg-black/60"}`} />
-          <span className={`block w-3 h-px transition-colors duration-300 ${isDark ? "bg-white/60" : "bg-black/60"}`} />
+        <button
+          className="md:hidden flex flex-col gap-1.5 p-2"
+          aria-label={menuOpen ? "Close menu" : "Open menu"}
+          onClick={() => setMenuOpen((o) => !o)}
+        >
+          <span className={`block w-5 h-px transition-all duration-300 origin-center ${isDark ? "bg-white/70" : "bg-black/70"} ${menuOpen ? "rotate-45 translate-y-[7px]" : ""}`} />
+          <span className={`block w-5 h-px transition-all duration-300 ${isDark ? "bg-white/70" : "bg-black/70"} ${menuOpen ? "opacity-0 scale-x-0" : ""}`} />
+          <span className={`block w-3 h-px transition-all duration-300 origin-center ${isDark ? "bg-white/70" : "bg-black/70"} ${menuOpen ? "-rotate-45 -translate-y-[7px] w-5" : ""}`} />
         </button>
       </nav>
+
+      {/* Mobile drawer */}
+      <div
+        className={`md:hidden overflow-hidden transition-all duration-300 ease-in-out ${menuOpen ? "max-h-[400px] opacity-100" : "max-h-0 opacity-0"}`}
+      >
+        <ul className={`flex flex-col pb-3 pt-1 border-t ${isDark ? "border-white/10" : "border-black/10"}`}>
+          {links.map(({ label, href }) => (
+            <li key={label}>
+              <a
+                href={href}
+                onClick={() => setMenuOpen(false)}
+                className={`block px-6 py-3 text-[12px] font-medium tracking-[0.12em] uppercase transition-colors duration-200 ${
+                  isDark
+                    ? "text-white/60 hover:text-white hover:bg-white/5"
+                    : "text-black/60 hover:text-black hover:bg-black/5"
+                }`}
+              >
+                {label}
+              </a>
+            </li>
+          ))}
+          <li className={`px-4 pt-3 pb-1 border-t mt-1 ${isDark ? "border-white/10" : "border-black/10"}`}>
+            <button
+              onClick={() => { router.push("/book"); setMenuOpen(false); }}
+              className={`w-full text-center py-3 rounded-full text-[11px] font-medium tracking-[0.18em] uppercase transition-colors duration-300 ${isDark ? "bg-white/90 text-black" : "bg-black/90 text-white"}`}
+            >
+              Book Your Chauffeur
+            </button>
+          </li>
+        </ul>
+      </div>
     </header>
   );
 }

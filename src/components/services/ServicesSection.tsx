@@ -74,7 +74,7 @@ function ServiceCard({
 }) {
   return (
     <article
-      className="relative h-[450px] w-[340px] flex-none overflow-hidden rounded-3xl md:w-[734px]"
+      className="relative h-[450px] w-[calc(100vw-48px)] sm:w-[340px] flex-none overflow-hidden rounded-3xl md:w-[734px]"
       style={{
         transform: popped ? "scale(1.04)" : "scale(1)",
         boxShadow: popped ? "0 20px 50px rgba(0,0,0,0.45)" : "none",
@@ -234,14 +234,14 @@ export function ServicesSection() {
       style={{ background: "linear-gradient(235.26deg, #595959 0%, #1F1F1F 17.5%)" }}
     >
       <div className="relative">
-        <div className="relative mb-6 flex flex-col items-start justify-between gap-6 px-10 pt-14 md:flex-row md:items-end">
+        <div className="relative mb-6 flex flex-col items-start justify-between gap-6 px-5 sm:px-10 pt-14 md:flex-row md:items-end">
           <div>
             <span className="ml-2 block text-[13px] font-normal tracking-[0.35em] text-neutral-300">
               OUR SERVICES
             </span>
-            <h2 className="mt-5 text-[50px] leading-[121%] tracking-[-0.06em]">
-              <span className="block whitespace-nowrap font-extralight">Premium Chauffeur Services</span>
-              <span className="block whitespace-nowrap font-medium">for Every Occasion.</span>
+            <h2 className="mt-5 text-[32px] sm:text-[42px] lg:text-[50px] leading-[121%] tracking-[-0.06em]">
+              <span className="block font-extralight">Premium Chauffeur Services</span>
+              <span className="block font-medium">for Every Occasion.</span>
             </h2>
           </div>
 
@@ -262,7 +262,7 @@ export function ServicesSection() {
             onPointerMove={onPointerMove}
             onPointerUp={endDrag}
             onPointerLeave={endDrag}
-            className={`flex w-max gap-10 overflow-x-auto px-10 select-none [scrollbar-width:none] [&::-webkit-scrollbar]:hidden ${
+            className={`flex w-max gap-5 sm:gap-10 overflow-x-auto px-5 sm:px-10 select-none [scrollbar-width:none] [&::-webkit-scrollbar]:hidden ${
               dragging ? "cursor-grabbing" : "cursor-grab"
             }`}
           >
@@ -286,7 +286,7 @@ export function ServicesSection() {
       </div>
 
       <div className="mt-16 pb-14 pt-10">
-        <div className="flex flex-wrap justify-between gap-10 px-10 text-center">
+        <div className="flex flex-wrap justify-around gap-8 px-5 sm:px-10 text-center">
           {STATS.map((stat) => (
             <div key={stat.label}>
               <StatCounter
