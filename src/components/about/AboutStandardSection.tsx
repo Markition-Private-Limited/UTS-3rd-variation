@@ -23,7 +23,7 @@ export function AboutStandardSection() {
   return (
     <Reveal>
     <section className="bg-white px-6 py-20 sm:px-10 lg:px-16 lg:py-28">
-      <div className="mx-auto grid max-w-7xl grid-cols-1 gap-12 lg:grid-cols-[568fr_597fr] lg:items-start lg:gap-x-[86px] lg:gap-y-0">
+      <div className="mx-auto grid max-w-[1800px] grid-cols-1 gap-12 lg:grid-cols-[568fr_597fr] lg:items-start lg:gap-x-[86px] lg:gap-y-0">
         {/* Left — label, heading, image */}
         <div>
           <span className="mb-6 block text-[11px] font-medium tracking-[0.3em] text-neutral-400">

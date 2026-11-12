@@ -11,30 +11,35 @@ const SERVICES = [
     alt: "Mercedes-Benz saloon arriving at an airport terminal",
     title: "Airport Transfers",
     body: "A considered connection between your flight and your onward destination.",
+    href: "/services/airport-transfers",
   },
   {
     src: "/services/occasion-corporate-chauffeur.jpg",
     alt: "Chauffeur client walking to a Mercedes-Benz S-Class with luggage",
     title: "Hourly Chauffeur",
     body: "Flexible, private chauffeur service offering comfort and convenience for as long as you need.",
+    href: "/services/hourly-chauffeur",
   },
   {
     src: "/services/occasion-city-to-city.jpg",
     alt: "Bentley Flying Spur driving through the English countryside",
     title: "City to City",
     body: "Private chauffeur journeys connecting your chosen towns, cities and addresses.",
+    href: "/services/city-to-city",
   },
   {
     src: "/services/occasion-sightseeing-chauffeur-v2.webp",
     alt: "Chauffeur greeting a client beside a Mercedes-Benz S-Class in front of Big Ben",
     title: "Sightseeing Chauffeur",
     body: "A private driver to guide you through the city's landmarks in considered comfort.",
+    href: "/services/sightseeing-chauffeur",
   },
   {
     src: "/services/occasion-day-service-v2.webp",
     alt: "Executive passenger seated in the rear cabin of a BMW i7 looking out the window",
     title: "Day Service",
     body: "A dedicated vehicle and driver at your disposal for the full day's engagements.",
+    href: "/services/day-service",
   },
 ];
 
@@ -46,7 +51,7 @@ const SPEED_PX_PER_SEC = 40;
 function ServiceCard({ item }: { item: (typeof SERVICES)[number] }) {
   return (
     <Link
-      href="/#services"
+      href={item.href}
       className="group block shrink-0 basis-[min(380px,calc((100%-40px)/3))]"
     >
       <div className="relative w-full overflow-hidden rounded-2xl" style={{ aspectRatio: "3/2" }}>
@@ -118,7 +123,7 @@ export function AboutServicesSection() {
     <Reveal>
     <section className="bg-white pt-6 pb-14 lg:pt-8 lg:pb-20">
       <div className="px-6 sm:px-10 lg:px-16">
-        <div className="mx-auto max-w-7xl">
+        <div className="mx-auto max-w-[1800px]">
           {/* Header */}
           <div className="mb-12 grid grid-cols-1 gap-10 lg:mb-16 lg:grid-cols-[568fr_597fr] lg:items-start lg:gap-x-[86px]">
             <div>

@@ -84,7 +84,7 @@ export function AboutCollectionSection() {
 
   return (
     <section ref={ref} className="bg-white pt-14 pb-6 lg:pt-20 lg:pb-8">
-      <div className="mx-auto max-w-7xl px-6 sm:px-10 lg:px-16">
+      <div className="mx-auto max-w-[1800px] px-6 sm:px-10 lg:px-16">
         {/* Header */}
         <div className="mb-12 grid grid-cols-1 gap-10 lg:mb-16 lg:grid-cols-[568fr_597fr] lg:items-start lg:gap-x-[86px]">
           <div>
@@ -115,20 +115,19 @@ export function AboutCollectionSection() {
           onScroll={updateEdge}
           onMouseEnter={() => (pausedRef.current = true)}
           onMouseLeave={() => (pausedRef.current = false)}
-          className="mx-auto flex max-w-[1220px] gap-10 overflow-x-auto snap-x snap-mandatory [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+          className="mx-auto flex max-w-[1800px] gap-10 overflow-x-auto px-6 sm:px-10 lg:px-16 snap-x snap-mandatory [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
         >
             {FLEET_VEHICLES.map((car, i) => (
               <motion.div
                 key={car.slug}
-                className="snap-start shrink-0"
-                style={{ flexBasis: "calc((100% - 80px) / 3)" }}
+                className="min-w-0 shrink-0 basis-[85%] snap-start sm:basis-[calc((100%-40px)/2)] lg:basis-[calc((100%-120px)/4)]"
                 initial={{ opacity: 0, y: 24 }}
                 animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 24 }}
                 transition={{ duration: 0.55, delay: i * 0.08, ease: [0.25, 0.1, 0.25, 1] }}
               >
                 <Link
                   href="/#fleet"
-                  className="group/card block overflow-hidden rounded-2xl transition-all duration-500 ease-in-out hover:-translate-y-1 hover:shadow-xl"
+                  className="group/card flex h-full flex-col overflow-hidden rounded-2xl transition-all duration-500 ease-in-out hover:-translate-y-1 hover:shadow-xl"
                 >
                   <div className="relative w-full overflow-hidden" style={{ aspectRatio: "571/330" }}>
                     {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -139,18 +138,18 @@ export function AboutCollectionSection() {
                       draggable={false}
                     />
                   </div>
-                  <div className="px-6 py-6" style={{ background: "#F5F5F5" }}>
+                  <div className="flex flex-1 flex-col px-6 py-6" style={{ background: "#F5F5F5" }}>
                     <span className="mb-3 block text-[11px] font-medium tracking-[0.2em] text-neutral-400">
                       {car.tier.toUpperCase()}
                     </span>
                     <h3 className="mb-3 truncate text-[16px] font-bold tracking-[-0.02em] text-neutral-900">
                       {car.name}
                     </h3>
-                    <p className="mb-5 text-[14px] leading-[160%] text-neutral-500">
+                    <p className="mb-5 line-clamp-2 text-[14px] leading-[160%] text-neutral-500">
                       {car.description}
                     </p>
                     <span
-                      className="group relative inline-flex w-full items-center justify-between gap-4 overflow-hidden whitespace-nowrap rounded-full border border-transparent bg-black text-white transition-colors duration-300 hover:border-white/40"
+                      className="group relative mt-auto inline-flex w-full items-center justify-between gap-4 overflow-hidden whitespace-nowrap rounded-full border border-transparent bg-black text-white transition-colors duration-300 hover:border-white/40"
                       style={{ padding: "16px 28px", fontSize: "0.68rem", letterSpacing: "0.2em", fontWeight: 600, textTransform: "uppercase" }}
                     >
                       <PillButtonContent fill="white">View Vehicle</PillButtonContent>
@@ -161,7 +160,7 @@ export function AboutCollectionSection() {
             ))}
         </div>
 
-        <div className="mx-auto max-w-7xl px-6 sm:px-10 lg:px-16">
+        <div className="mx-auto max-w-[1800px] px-6 sm:px-10 lg:px-16">
           <DotsNav count={edge.pages} activeIndex={edge.page} onDotClick={goToPage} className="mt-8" />
         </div>
       </div>

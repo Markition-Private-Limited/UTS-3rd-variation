@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { DayServiceHeroSection, DayServiceOverviewSection, DayServiceApproachSection, DayServicePerspectiveSection, DayServiceExperienceSection, AirportTransfersFleetSection, DayServiceFaqSection, DayServiceCTASection } from "@/components/services";
+import { DayServiceHeroSection, DayServiceOverviewSection, DayServiceApproachSection, DayServicePerspectiveSection, DayServiceExperienceSection, AirportTransfersFleetSection, FleetDiscoverCTA, DayServiceFaqSection, DayServiceCTASection } from "@/components/services";
 import { FooterSection } from "@/components/footer/FooterSection";
 import { Reveal } from "@/components/ui/reveal";
 
@@ -19,6 +19,7 @@ export default function DayServicePage() {
       <DayServicePerspectiveSection />
       <DayServiceExperienceSection />
       <AirportTransfersFleetSection />
+      <FleetDiscoverCTA compactBottom />
       <DayServiceFaqSection />
       <DayServiceCTASection />
       <div className="bg-white p-4">

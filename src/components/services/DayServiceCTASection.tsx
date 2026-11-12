@@ -32,7 +32,10 @@ export function DayServiceCTASection() {
             </span>
             <h2 className="mb-6">
               <span className="block text-[32px] font-extralight leading-[115%] tracking-[-0.03em] text-white sm:whitespace-nowrap sm:text-[44px] lg:text-[56px]">
-                Let&apos;s Arrange <span className="font-semibold">Your Next Journey.</span>
+                Between Cities,
+              </span>
+              <span className="block text-[32px] font-semibold leading-[115%] tracking-[-0.03em] text-white sm:whitespace-nowrap sm:text-[44px] lg:text-[56px]">
+                Beyond Expectations.
               </span>
             </h2>
             <p className="mb-8 text-[15px] font-normal leading-[170%] tracking-[-0.01em] text-neutral-300">

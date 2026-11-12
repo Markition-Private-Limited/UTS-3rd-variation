@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { StatCounter } from "./StatCounter";
 import PillButtonContent from "@/components/ui/PillButtonContent";
@@ -15,6 +16,7 @@ const SERVICES = [
     description:
       "Enjoy a seamless journey to or from the airport with private transportation planned around your schedule.",
     src: "/services/airport-transfer.jpg",
+    href: "/services/airport-transfers",
   },
   {
     index: "02",
@@ -24,6 +26,7 @@ const SERVICES = [
     description:
       "Travel between destinations in privacy and comfort, with a journey arranged around your timeline.",
     src: "/services/city-to-city.jpg",
+    href: "/services/city-to-city",
   },
   {
     index: "03",
@@ -33,6 +36,7 @@ const SERVICES = [
     description:
       "From suburb to city center, our inter-city service ensures you travel without compromise.",
     src: "/services/inter-city.jpg",
+    href: "/services",
   },
   {
     index: "04",
@@ -42,6 +46,7 @@ const SERVICES = [
     description:
       "Book a dedicated chauffeur by the hour for meetings, events, or wherever the day takes you.",
     src: "/services/hourly-chauffer.jpg",
+    href: "/services/hourly-chauffeur",
   },
   {
     index: "05",
@@ -51,6 +56,7 @@ const SERVICES = [
     description:
       "Reliable, discreet, and professional — our corporate chauffeur service keeps your business moving.",
     src: "/services/co-operate-chauffer.jpg",
+    href: "/services",
   },
 ];
 
@@ -116,7 +122,8 @@ function ServiceCard({
           {item.description}
         </p>
 
-        <button
+        <Link
+          href={item.href}
           className="group mt-5 relative overflow-hidden whitespace-nowrap inline-flex items-center justify-between gap-4 rounded-full border border-white/50 px-4 py-3 text-xs tracking-[0.2em] text-white cursor-pointer"
           onMouseEnter={onPillEnter}
           onMouseLeave={onPillLeave}
@@ -124,7 +131,7 @@ function ServiceCard({
           <PillButtonContent fill="white">
             EXPLORE SERVICE
           </PillButtonContent>
-        </button>
+        </Link>
       </div>
     </article>
   );

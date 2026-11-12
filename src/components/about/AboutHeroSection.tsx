@@ -41,15 +41,15 @@ export function AboutHeroSection() {
 
       {/* Content */}
       <div className="relative z-10 flex h-full flex-col justify-between px-6 pb-8 pt-[120px] sm:px-10 sm:pt-[150px] sm:pb-10 lg:px-16">
-        <div className="max-w-xl lg:max-w-2xl">
+        <div className="max-w-[clamp(20rem,55vw,42rem)]">
           <span className="block text-xs font-medium tracking-[0.3em] text-white/60 mb-6">
             ABOUT UTS
           </span>
           <h1 className="mb-5">
-            <span className="block whitespace-nowrap text-[36px] font-extralight leading-[121%] tracking-[-0.06em] text-white sm:text-[52px] lg:text-[72px]">
+            <span className="block text-[clamp(28px,6vw,72px)] font-extralight leading-[121%] tracking-[-0.06em] text-white sm:whitespace-nowrap">
               Executive Travel,
             </span>
-            <span className="block whitespace-nowrap text-[36px] font-semibold leading-[121%] tracking-[-0.06em] text-white sm:text-[52px] lg:text-[72px]">
+            <span className="block text-[clamp(28px,6vw,72px)] font-semibold leading-[121%] tracking-[-0.06em] text-white sm:whitespace-nowrap">
               Redefined.
             </span>
           </h1>

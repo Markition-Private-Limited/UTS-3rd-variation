@@ -13,7 +13,7 @@ export function AboutIntroSection() {
   return (
     <Reveal>
     <section className="bg-white px-6 pt-20 pb-10 sm:px-10 lg:px-16 lg:pt-28 lg:pb-14">
-      <div className="mx-auto flex max-w-7xl flex-col gap-12 lg:flex-row lg:items-center lg:gap-16">
+      <div className="mx-auto flex max-w-[1800px] flex-col gap-12 lg:flex-row lg:items-center lg:gap-16">
         {/* Left — label, heading, body */}
         <div className="flex-shrink-0 lg:w-[44%]">
           <span className="block text-[11px] font-medium tracking-[0.3em] text-neutral-400 mb-6">
@@ -45,7 +45,7 @@ export function AboutIntroSection() {
       </div>
 
       {/* Stats */}
-      <div className="mx-auto mt-16 max-w-7xl border-t border-neutral-200 pt-12 lg:mt-20 lg:pt-14">
+      <div className="mx-auto mt-16 max-w-[1800px] border-t border-neutral-200 pt-12 lg:mt-20 lg:pt-14">
         <div className="grid grid-cols-2 gap-y-10 sm:grid-cols-4">
           {STATS.map((stat, i) => (
             <AboutStat

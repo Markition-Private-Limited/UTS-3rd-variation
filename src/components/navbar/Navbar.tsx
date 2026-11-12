@@ -101,7 +101,7 @@ export function Navbar() {
         </Link>
 
         {/* Nav Links */}
-        <ul className="hidden md:flex items-center gap-10">
+        <ul className="hidden lg:flex items-center gap-10">
           {links.map(({ label, href }) => (
             <li key={label}>
               <a
@@ -121,7 +121,7 @@ export function Navbar() {
         {/* CTA Button */}
         <button
           onClick={() => router.push("/book")}
-          className="group hidden md:inline-flex relative overflow-hidden whitespace-nowrap items-center justify-between gap-4 text-[11px] font-medium tracking-[0.18em] uppercase px-6 py-3 rounded-full cursor-pointer"
+          className="group hidden lg:inline-flex relative overflow-hidden whitespace-nowrap items-center justify-between gap-4 text-[11px] font-medium tracking-[0.18em] uppercase px-6 py-3 rounded-full cursor-pointer"
           onMouseEnter={() => setCtaHovered(true)}
           onMouseLeave={() => setCtaHovered(false)}
           style={{
@@ -138,7 +138,7 @@ export function Navbar() {
 
         {/* Mobile hamburger */}
         <button
-          className="md:hidden flex flex-col gap-1.5 p-2"
+          className="lg:hidden flex flex-col gap-1.5 p-2"
           aria-label={menuOpen ? "Close menu" : "Open menu"}
           onClick={() => setMenuOpen((o) => !o)}
         >
@@ -150,7 +150,7 @@ export function Navbar() {
 
       {/* Mobile drawer */}
       <div
-        className={`md:hidden overflow-hidden transition-all duration-300 ease-in-out ${menuOpen ? "max-h-[400px] opacity-100" : "max-h-0 opacity-0"}`}
+        className={`lg:hidden overflow-hidden transition-all duration-300 ease-in-out ${menuOpen ? "max-h-[400px] opacity-100" : "max-h-0 opacity-0"}`}
       >
         <ul className={`flex flex-col pb-3 pt-1 border-t ${isDark ? "border-white/10" : "border-black/10"}`}>
           {links.map(({ label, href }) => (

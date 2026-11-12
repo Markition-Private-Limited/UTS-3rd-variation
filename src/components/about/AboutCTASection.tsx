@@ -31,10 +31,10 @@ export function AboutCTASection() {
                 THE NEXT JOURNEY STARTS WITH YOU
               </span>
               <h2 className="mb-6">
-                <span className="block whitespace-nowrap text-[32px] font-extralight leading-[115%] tracking-[-0.03em] text-white sm:text-[44px] lg:text-[56px]">
+                <span className="block text-[32px] font-extralight leading-[115%] tracking-[-0.03em] text-white sm:whitespace-nowrap sm:text-[44px] lg:text-[56px]">
                   Your Journey <span className="font-semibold">Deserves</span>
                 </span>
-                <span className="block whitespace-nowrap text-[32px] font-semibold leading-[115%] tracking-[-0.03em] text-white sm:text-[44px] lg:text-[56px]">
+                <span className="block text-[32px] font-semibold leading-[115%] tracking-[-0.03em] text-white sm:whitespace-nowrap sm:text-[44px] lg:text-[56px]">
                   Exceptional Service.
                 </span>
               </h2>
@@ -43,7 +43,7 @@ export function AboutCTASection() {
               </p>
               <Link
                 href="/book"
-                className="group relative inline-flex w-fit items-center justify-between gap-4 overflow-hidden whitespace-nowrap rounded-full bg-white text-black"
+                className="group relative inline-flex w-fit items-center justify-between gap-4 overflow-hidden whitespace-nowrap rounded-full border border-white bg-white text-black"
                 style={{ padding: "16px 28px", fontSize: "0.68rem", letterSpacing: "0.2em", fontWeight: 600, textTransform: "uppercase" }}
               >
                 <PillButtonContent fill="black">Book Your Chauffeur</PillButtonContent>
