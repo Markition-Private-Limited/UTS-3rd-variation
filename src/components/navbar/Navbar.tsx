@@ -4,6 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import { OriginButton } from "@/components/ui/origin-button";
 import PillButtonContent from "@/components/ui/PillButtonContent";
 
@@ -87,6 +88,7 @@ export function Navbar() {
   const isDark = theme === "dark";
 
   return (
+    <>
     <header
       ref={headerRef}
       className={[
@@ -163,69 +165,104 @@ export function Navbar() {
         </button>
       </nav>
 
-      {/* Side drawer — only mounted while open (or animating closed) */}
-      {drawerMounted && (
+    </header>
+
+    {/* Side drawer — portalled to body so backdrop-blur on header doesn't clip it */}
+    {drawerMounted && createPortal(
       <>
-      {/* Backdrop */}
-      <div
-        onClick={() => setMenuOpen(false)}
-        className={`lg:hidden fixed inset-0 z-[60] bg-black/60 backdrop-blur-sm transition-opacity duration-300 ${
-          menuOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
-        }`}
-      />
+        {/* Backdrop */}
+        <div
+          onClick={() => setMenuOpen(false)}
+          style={{
+            position: "fixed", inset: 0, zIndex: 9998,
+            background: "rgba(0,0,0,0.6)",
+            backdropFilter: "blur(4px)",
+            WebkitBackdropFilter: "blur(4px)",
+            transition: "opacity 300ms",
+            opacity: menuOpen ? 1 : 0,
+            pointerEvents: menuOpen ? "auto" : "none",
+          }}
+        />
 
-      {/* Drawer panel */}
-      <div
-        className={`lg:hidden fixed top-0 right-0 z-[70] h-full w-[80vw] max-w-[320px] bg-[#0d0d0d] flex flex-col transition-transform duration-300 ease-[cubic-bezier(0.25,0.46,0.45,0.94)] ${
-          menuOpen ? "translate-x-0" : "translate-x-full"
-        }`}
-      >
-        {/* Drawer header */}
-        <div className="flex items-center justify-between px-6 py-5 border-b border-white/10">
-          <Image
-            src="/logo.png"
-            alt="United Travel Services"
-            width={120}
-            height={42}
-            className="h-[42px] w-auto object-contain"
-            priority
-          />
-          <button
-            onClick={() => setMenuOpen(false)}
-            className="p-2 text-white/50 hover:text-white transition-colors"
-            aria-label="Close menu"
-          >
-            <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
-              <path d="M1 1l16 16M17 1L1 17" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
-            </svg>
-          </button>
-        </div>
-
-        {/* Nav links */}
-        <nav className="flex flex-col flex-1 px-6 pt-8 pb-6 gap-1">
-          {links.map(({ label, href }) => (
-            <a
-              key={label}
-              href={href}
-              onClick={() => setMenuOpen(false)}
-              className="py-3.5 text-[13px] font-medium tracking-[0.14em] uppercase text-white/50 hover:text-white border-b border-white/5 transition-colors duration-200 last:border-0"
-            >
-              {label}
-            </a>
-          ))}
-
-          <div className="mt-auto pt-8">
+        {/* Drawer panel */}
+        <div
+          style={{
+            position: "fixed", top: 0, right: 0,
+            zIndex: 9999,
+            height: "100dvh",
+            width: "80vw", maxWidth: 320,
+            background: "#0d0d0d",
+            display: "flex", flexDirection: "column",
+            transition: "transform 300ms cubic-bezier(0.25,0.46,0.45,0.94)",
+            transform: menuOpen ? "translateX(0)" : "translateX(100%)",
+          }}
+        >
+          {/* Drawer header */}
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "20px 24px", borderBottom: "1px solid rgba(255,255,255,0.1)" }}>
+            <Image
+              src="/logo.png"
+              alt="United Travel Services"
+              width={120}
+              height={42}
+              style={{ height: 42, width: "auto", objectFit: "contain" }}
+              priority
+            />
             <button
-              onClick={() => { router.push("/book"); setMenuOpen(false); }}
-              className="w-full py-4 rounded-full bg-white text-black text-[11px] font-semibold tracking-[0.18em] uppercase transition-colors duration-300 hover:bg-white/90"
+              onClick={() => setMenuOpen(false)}
+              style={{ padding: 8, color: "rgba(255,255,255,0.5)", background: "none", border: "none", cursor: "pointer" }}
+              aria-label="Close menu"
             >
-              Book Your Chauffeur
+              <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+                <path d="M1 1l16 16M17 1L1 17" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+              </svg>
             </button>
           </div>
-        </nav>
-      </div>
-      </>
-      )}
-    </header>
+
+          {/* Nav links */}
+          <div style={{ display: "flex", flexDirection: "column", flex: 1, padding: "32px 24px 24px", gap: 0 }}>
+            {links.map(({ label, href }) => (
+              <a
+                key={label}
+                href={href}
+                onClick={() => setMenuOpen(false)}
+                style={{
+                  padding: "14px 0",
+                  fontSize: 13, fontWeight: 500,
+                  letterSpacing: "0.14em",
+                  textTransform: "uppercase",
+                  color: "rgba(255,255,255,0.5)",
+                  borderBottom: "1px solid rgba(255,255,255,0.05)",
+                  textDecoration: "none",
+                  transition: "color 200ms",
+                }}
+                onMouseEnter={e => (e.currentTarget.style.color = "#fff")}
+                onMouseLeave={e => (e.currentTarget.style.color = "rgba(255,255,255,0.5)")}
+              >
+                {label}
+              </a>
+            ))}
+
+            <div style={{ marginTop: "auto", paddingTop: 32 }}>
+              <button
+                onClick={() => { router.push("/book"); setMenuOpen(false); }}
+                style={{
+                  width: "100%", padding: "16px 0",
+                  borderRadius: 999,
+                  background: "#fff", color: "#000",
+                  fontSize: 11, fontWeight: 600,
+                  letterSpacing: "0.18em", textTransform: "uppercase",
+                  border: "none", cursor: "pointer",
+                  transition: "background 300ms",
+                }}
+              >
+                Book Your Chauffeur
+              </button>
+            </div>
+          </div>
+        </div>
+      </>,
+      document.body
+    )}
+    </>
   );
 }
