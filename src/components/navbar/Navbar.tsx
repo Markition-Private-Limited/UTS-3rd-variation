@@ -35,12 +35,20 @@ export function Navbar() {
   const [ctaHovered, setCtaHovered] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [drawerMounted, setDrawerMounted] = useState(false);
+  const [drawerVisible, setDrawerVisible] = useState(false);
   const headerRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
     if (menuOpen) {
       setDrawerMounted(true);
+      // Two rAFs: first lets the portal render at translateX(100%),
+      // second triggers the CSS transition to translateX(0).
+      const raf = requestAnimationFrame(() =>
+        requestAnimationFrame(() => setDrawerVisible(true))
+      );
+      return () => cancelAnimationFrame(raf);
     } else {
+      setDrawerVisible(false);
       const t = setTimeout(() => setDrawerMounted(false), 350);
       return () => clearTimeout(t);
     }
@@ -179,8 +187,8 @@ export function Navbar() {
             backdropFilter: "blur(4px)",
             WebkitBackdropFilter: "blur(4px)",
             transition: "opacity 300ms",
-            opacity: menuOpen ? 1 : 0,
-            pointerEvents: menuOpen ? "auto" : "none",
+            opacity: drawerVisible ? 1 : 0,
+            pointerEvents: drawerVisible ? "auto" : "none",
           }}
         />
 
@@ -194,7 +202,7 @@ export function Navbar() {
             background: "#0d0d0d",
             display: "flex", flexDirection: "column",
             transition: "transform 300ms cubic-bezier(0.25,0.46,0.45,0.94)",
-            transform: menuOpen ? "translateX(0)" : "translateX(100%)",
+            transform: drawerVisible ? "translateX(0)" : "translateX(100%)",
           }}
         >
           {/* Drawer header */}
