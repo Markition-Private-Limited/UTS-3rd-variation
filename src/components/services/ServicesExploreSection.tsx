@@ -175,15 +175,15 @@ function ServiceCardItem({ item, index }: { item: ServiceCard; index: number }) 
         <ServiceCardImage src={item.src} alt={item.alt} reduceMotion={reduceMotion} zoomOut={item.zoomOut} />
 
         <div className="mt-5 flex items-center gap-4">
-          <span className="text-[48px] font-extralight leading-none tracking-[-0.06em] text-[#BDBDBD] sm:text-[60px]">
+          <span className="text-[36px] font-extralight leading-none tracking-[-0.06em] text-[#BDBDBD] sm:text-[48px] lg:text-[60px]">
             {item.index}
           </span>
-          <h3 className="text-[22px] font-semibold uppercase leading-[121%] tracking-[-0.06em] text-[#242424] transition-transform duration-300 group-hover:-translate-y-[2px] sm:text-[26px]">
+          <h3 className="text-[18px] font-semibold uppercase leading-[121%] tracking-[-0.06em] text-[#242424] transition-transform duration-300 group-hover:-translate-y-[2px] sm:text-[22px] lg:text-[26px]">
             {item.title}
           </h3>
         </div>
 
-        <p className="mt-3 text-[14px] leading-[165%] text-[#858585]">
+        <p className="mt-3 text-[13px] leading-[160%] text-[#858585] sm:text-[14px] sm:leading-[165%]">
           {item.body}
         </p>
 
@@ -197,9 +197,9 @@ function ServiceCardItem({ item, index }: { item: ServiceCard; index: number }) 
 
 export function ServicesExploreSection() {
   return (
-    <section className="bg-white px-6 pt-0 pb-14 sm:px-10 lg:px-16 lg:pb-20">
+    <section className="bg-white px-4 pt-0 pb-10 sm:px-10 sm:pb-14 lg:px-16 lg:pb-20">
       <div className="mx-auto max-w-7xl">
-        <div className="grid grid-cols-1 gap-x-8 gap-y-12 sm:grid-cols-2 sm:gap-y-14">
+        <div className="grid grid-cols-1 gap-x-6 gap-y-9 sm:grid-cols-2 sm:gap-x-8 sm:gap-y-14">
           {SERVICES.map((item, i) => (
             <ServiceCardItem key={item.slug} item={item} index={i} />
           ))}

@@ -82,17 +82,17 @@ export function ServicesFaqSection() {
 
   return (
     <Reveal>
-    <section style={{ background: "#F6F6F6" }} className="px-12 py-14 sm:px-[68px] lg:px-[88px] lg:py-20">
+    <section style={{ background: "#F6F6F6" }} className="px-5 py-10 sm:px-[68px] sm:py-14 lg:px-[88px] lg:py-20">
       <div className="mx-auto max-w-[1800px]">
-        <div className="grid grid-cols-1 gap-10 lg:grid-cols-[568fr_597fr] lg:items-start lg:gap-x-[86px]">
+        <div className="grid grid-cols-1 gap-8 sm:gap-10 lg:grid-cols-[568fr_597fr] lg:items-start lg:gap-x-[86px]">
           <div>
-            <span className="mb-6 block text-[11px] font-medium tracking-[0.3em] text-neutral-400">
+            <span className="mb-4 block text-[10px] font-medium tracking-[0.3em] text-neutral-400 sm:mb-6 sm:text-[11px]">
               USEFUL TO KNOW
             </span>
-            <h2 className="text-[42px] font-extralight leading-[115%] tracking-[-0.03em] text-neutral-900">
+            <h2 className="text-[30px] font-extralight leading-[115%] tracking-[-0.03em] text-neutral-900 sm:text-[36px] lg:text-[42px]">
               Questions Before <span className="font-semibold">You Book?</span>
             </h2>
-            <p className="mt-6 text-[15px] font-normal leading-[180%] tracking-[-0.01em] text-neutral-500">
+            <p className="mt-4 text-[14px] font-normal leading-[170%] tracking-[-0.01em] text-neutral-500 sm:mt-6 sm:text-[15px] sm:leading-[180%]">
               A few details worth considering before you make your enquiry.
             </p>
           </div>

@@ -16,8 +16,7 @@ export function ServicesHeroSection() {
     <Reveal>
     <section
       data-navbar-theme="dark"
-      className="relative -mx-2 -mt-2 -mb-2 overflow-hidden rounded-[clamp(14px,1.5vw,20px)]"
-      style={{ height: "calc(100svh - 1rem)" }}
+      className="relative -mx-2 -mt-2 -mb-2 h-[82svh] min-h-[560px] overflow-hidden rounded-[clamp(14px,1.5vw,20px)] sm:h-[calc(100svh-1rem)] sm:min-h-0"
     >
       {/* Background image */}
       <Image
@@ -40,30 +39,30 @@ export function ServicesHeroSection() {
       />
 
       {/* Content */}
-      <div className="relative z-10 flex h-full flex-col justify-between px-6 pb-8 pt-[120px] sm:px-10 sm:pt-[150px] sm:pb-10 lg:px-16">
+      <div className="relative z-10 flex h-full flex-col justify-between px-5 pb-6 pt-[104px] sm:px-10 sm:pb-10 sm:pt-[150px] lg:px-16">
         <div className="max-w-xl lg:max-w-2xl">
-          <span className="block text-xs font-medium tracking-[0.3em] text-white/60 mb-6">
+          <span className="mb-4 block text-[11px] font-medium tracking-[0.3em] text-white/60 sm:mb-6 sm:text-xs">
             SERVICES
           </span>
           <h1 className="mb-5">
-            <span className="block whitespace-nowrap text-[36px] font-extralight leading-[121%] tracking-[-0.06em] text-white sm:text-[52px] lg:text-[72px]">
+            <span className="block text-[28px] font-extralight leading-[121%] tracking-[-0.04em] text-white sm:whitespace-nowrap sm:text-[52px] sm:tracking-[-0.06em] lg:text-[72px]">
               Chauffeur Services <span className="font-semibold">Across</span>
             </span>
-            <span className="block whitespace-nowrap text-[36px] font-semibold leading-[121%] tracking-[-0.06em] text-white sm:text-[52px] lg:text-[72px]">
+            <span className="block text-[28px] font-semibold leading-[121%] tracking-[-0.04em] text-white sm:whitespace-nowrap sm:text-[52px] sm:tracking-[-0.06em] lg:text-[72px]">
               the UK.
             </span>
           </h1>
-          <p className="max-w-md text-[15px] font-light leading-[180%] tracking-[-0.02em] text-white/80 mb-8">
+          <p className="mb-6 max-w-md text-[14px] font-light leading-[170%] tracking-[-0.02em] text-white/80 sm:mb-8 sm:text-[15px] sm:leading-[180%]">
             From airport arrivals to executive engagements and private journeys, United Travel Services offers professional chauffeur transportation designed around your schedule, comfort and destination.
           </p>
 
           {/* Pill buttons */}
-          <div className="flex flex-wrap items-center gap-4">
+          <div className="flex flex-wrap items-center gap-3 sm:gap-4">
             <button
               onClick={() => router.push("/services#services")}
               onMouseEnter={() => setBtn1Hovered(true)}
               onMouseLeave={() => setBtn1Hovered(false)}
-              className="group relative inline-flex overflow-hidden whitespace-nowrap items-center justify-between gap-4 text-[11px] font-medium tracking-[0.18em] uppercase px-6 py-3 rounded-full cursor-pointer"
+              className="group relative inline-flex w-fit overflow-hidden whitespace-nowrap items-center justify-between gap-4 text-[10px] font-medium tracking-[0.18em] uppercase px-5 py-2.5 rounded-full cursor-pointer sm:text-[11px] sm:px-6 sm:py-3"
               style={{
                 background: "#F9F9F9",
                 color: "#1a1a1a",
@@ -78,7 +77,7 @@ export function ServicesHeroSection() {
               onClick={() => router.push("/contact")}
               onMouseEnter={() => setBtn2Hovered(true)}
               onMouseLeave={() => setBtn2Hovered(false)}
-              className="group relative inline-flex overflow-hidden whitespace-nowrap items-center justify-between gap-4 text-[11px] font-medium tracking-[0.18em] uppercase px-6 py-3 rounded-full cursor-pointer"
+              className="group relative inline-flex w-fit overflow-hidden whitespace-nowrap items-center justify-between gap-4 text-[10px] font-medium tracking-[0.18em] uppercase px-5 py-2.5 rounded-full cursor-pointer sm:text-[11px] sm:px-6 sm:py-3"
               style={{
                 background: "transparent",
                 color: "#F9F9F9",
@@ -91,14 +90,14 @@ export function ServicesHeroSection() {
           </div>
         </div>
 
-        <div className="flex items-center justify-between text-[11px] font-medium uppercase tracking-[0.2em] text-white/50">
-          <span>
+        <div className="flex items-center justify-between gap-3 text-[9px] font-medium uppercase tracking-[0.15em] text-white/50 sm:text-[11px] sm:tracking-[0.2em]">
+          <span className="whitespace-nowrap">
             <Link href="/" className="transition-colors hover:text-white/80">
               Home
             </Link>
             {" / Services"}
           </span>
-          <span>United Travel Services</span>
+          <span className="whitespace-nowrap">United Travel Services</span>
         </div>
       </div>
     </section>
