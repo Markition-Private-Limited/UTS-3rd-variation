@@ -27,11 +27,11 @@ export function ContactCTASection() {
 
         <div className="relative z-10 py-12">
           <div className="max-w-2xl px-8 sm:px-12 lg:px-16">
-            <span className="mb-6 block text-[11px] font-medium tracking-[0.3em] text-neutral-300">
+            <span className="mb-6 block text-[10px] font-medium tracking-[0.18em] text-neutral-300 sm:text-[11px] sm:tracking-[0.3em]">
               THE NEXT JOURNEY STARTS WITH YOU
             </span>
             <h2 className="mb-6">
-              <span className="block whitespace-nowrap text-[32px] font-extralight leading-[115%] tracking-[-0.03em] text-white sm:text-[44px] lg:text-[56px]">
+              <span className="block text-[28px] font-extralight leading-[112%] tracking-[-0.04em] text-white sm:whitespace-nowrap sm:text-[44px] sm:tracking-[-0.03em] lg:text-[56px]">
                 Your Journey <span className="font-semibold">Starts Here.</span>
               </span>
             </h2>
@@ -40,8 +40,8 @@ export function ContactCTASection() {
             </p>
             <Link
               href="/services"
-              className="group relative inline-flex w-fit items-center justify-between gap-4 overflow-hidden whitespace-nowrap rounded-full bg-white text-black"
-              style={{ padding: "16px 28px", fontSize: "0.68rem", letterSpacing: "0.2em", fontWeight: 600, textTransform: "uppercase" }}
+              className="group relative inline-flex w-fit items-center justify-between gap-4 overflow-hidden whitespace-nowrap rounded-full text-[11px] font-medium tracking-[0.18em] uppercase px-6 py-3"
+              style={{ background: "#F9F9F9", color: "#1a1a1a" }}
             >
               <PillButtonContent fill="black">Explore Our Services</PillButtonContent>
             </Link>

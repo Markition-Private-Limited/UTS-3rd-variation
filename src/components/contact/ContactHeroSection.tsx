@@ -10,6 +10,7 @@ import { Reveal } from "@/components/ui/reveal";
 export function ContactHeroSection() {
   const router = useRouter();
   const [btn1Hovered, setBtn1Hovered] = useState(false);
+  const [btn2Hovered, setBtn2Hovered] = useState(false);
 
   return (
     <Reveal>
@@ -39,7 +40,7 @@ export function ContactHeroSection() {
       />
 
       {/* Content */}
-      <div className="relative z-10 flex h-full flex-col justify-between px-6 pb-8 pt-[120px] sm:px-10 sm:pt-[150px] sm:pb-10 lg:px-16">
+      <div className="relative z-10 flex h-full flex-col justify-center px-6 pb-8 pt-[120px] sm:justify-between sm:px-10 sm:pt-[150px] sm:pb-10 lg:px-16">
         <div className="max-w-xl lg:max-w-2xl">
           <span className="block text-xs font-medium tracking-[0.3em] text-white/60 mb-6">
             GET IN TOUCH
@@ -52,7 +53,7 @@ export function ContactHeroSection() {
               Journey.
             </span>
           </h1>
-          <p className="max-w-md text-[15px] font-light leading-[180%] tracking-[-0.02em] text-white/80 mb-8">
+          <p className="max-w-3xl font-light text-white/80 mb-8" style={{ fontFamily: 'Inter, sans-serif', fontSize: '18px', fontWeight: 300, lineHeight: '32px', letterSpacing: 0 }}>
             Whether you are arranging an airport transfer, planning executive travel or enquiring about a private journey, United Travel Services is here to help you explore the available options.
           </p>
 
@@ -73,19 +74,24 @@ export function ContactHeroSection() {
               <PillButtonContent fill="black">Book a Chauffeur</PillButtonContent>
             </button>
 
-            <Link
-              href="/services"
-              className="group inline-flex items-center gap-2 text-[11px] font-semibold tracking-[0.18em] uppercase text-white"
+            <button
+              onClick={() => router.push("/services")}
+              onMouseEnter={() => setBtn2Hovered(true)}
+              onMouseLeave={() => setBtn2Hovered(false)}
+              className="group relative inline-flex overflow-hidden whitespace-nowrap items-center justify-between gap-4 text-[11px] font-medium tracking-[0.18em] uppercase px-6 py-3 rounded-full cursor-pointer"
+              style={{
+                background: "transparent",
+                color: "#F9F9F9",
+                border: `1px solid ${btn2Hovered ? "rgba(255,255,255,0.6)" : "rgba(255,255,255,0.25)"}`,
+                transition: "border-color 300ms",
+              }}
             >
-              Our Services
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="transition-transform duration-300 group-hover:translate-x-1">
-                <path d="M7 17 17 7M9 7h8v8" strokeLinecap="round" strokeLinejoin="round" />
-              </svg>
-            </Link>
+              <PillButtonContent fill="white">Our Services</PillButtonContent>
+            </button>
           </div>
         </div>
 
-        <div className="flex items-center justify-between text-[11px] font-medium uppercase tracking-[0.2em] text-white/50">
+        <div className="absolute bottom-8 left-6 right-6 flex items-center justify-between text-[11px] font-medium uppercase tracking-[0.2em] text-white/50 sm:relative sm:bottom-auto sm:left-auto sm:right-auto sm:px-0">
           <span>
             <Link href="/" className="transition-colors hover:text-white/80">
               Home

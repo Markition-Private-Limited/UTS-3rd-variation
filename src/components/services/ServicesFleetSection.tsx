@@ -12,8 +12,8 @@ const SPIN_FRICTION = 0.94;
 
 function FleetCard({ car }: { car: (typeof FLEET_VEHICLES)[number] }) {
   return (
-    <div className="w-[250px] shrink-0 overflow-hidden rounded-2xl sm:w-[320px] md:w-[350px] lg:w-[380px]">
-      <div className="relative w-full overflow-hidden" style={{ aspectRatio: "571/330" }}>
+    <div className="flex w-[250px] shrink-0 flex-col overflow-hidden rounded-2xl sm:w-[320px] md:w-[350px] lg:w-[380px]">
+      <div className="relative w-full shrink-0 overflow-hidden rounded-t-2xl" style={{ aspectRatio: "571/330" }}>
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src={car.image}
@@ -22,19 +22,19 @@ function FleetCard({ car }: { car: (typeof FLEET_VEHICLES)[number] }) {
           draggable={false}
         />
       </div>
-      <div className="px-4 py-4 sm:px-5 sm:py-5 lg:px-6 lg:py-6" style={{ background: "#F5F5F5" }}>
+      <div className="flex flex-1 flex-col px-4 py-4 sm:px-5 sm:py-5 lg:px-6 lg:py-6" style={{ background: "#F5F5F5" }}>
         <span className="mb-2 block text-[10px] font-medium tracking-[0.2em] text-neutral-400 sm:mb-3 sm:text-[11px]">
           {car.tier.toUpperCase()}
         </span>
         <h3 className="mb-2 text-[16px] font-bold tracking-[-0.02em] text-neutral-900 sm:mb-3 sm:text-[18px] lg:text-[20px]">
           {car.name}
         </h3>
-        <p className="mb-4 text-[13px] leading-[160%] text-neutral-500 sm:mb-5 sm:text-[14px] lg:text-[15px] lg:leading-[170%]">
+        <p className="mb-4 flex-1 text-[13px] leading-[160%] text-neutral-500 sm:mb-5 sm:text-[14px] lg:text-[15px] lg:leading-[170%]">
           {car.description}
         </p>
         <Link
           href="/#fleet"
-          className="group flex items-center justify-between border-t border-neutral-200 pt-4 text-[10px] font-medium tracking-[0.15em] text-neutral-900 sm:pt-5 sm:text-[11px]"
+          className="group mt-auto flex items-center justify-between border-t border-neutral-200 pt-4 text-[10px] font-medium tracking-[0.15em] text-neutral-900 sm:pt-5 sm:text-[11px]"
         >
           BOOK A CHAUFFEUR
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="transition-transform duration-300 group-hover:translate-x-1">

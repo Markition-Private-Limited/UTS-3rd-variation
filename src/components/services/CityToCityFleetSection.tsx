@@ -12,9 +12,9 @@ function FleetCard({ car }: { car: (typeof FLEET_VEHICLES)[number] }) {
   return (
     <Link
       href="/#fleet"
-      className="group block w-[340px] shrink-0 overflow-hidden rounded-2xl transition-all duration-500 ease-in-out md:w-[380px]"
+      className="group flex w-[340px] shrink-0 flex-col overflow-hidden rounded-2xl transition-all duration-500 ease-in-out md:w-[380px]"
     >
-      <div className="relative w-full overflow-hidden" style={{ aspectRatio: "380/220" }}>
+      <div className="relative w-full shrink-0 overflow-hidden rounded-t-2xl" style={{ aspectRatio: "380/220" }}>
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src={car.image}
@@ -23,17 +23,17 @@ function FleetCard({ car }: { car: (typeof FLEET_VEHICLES)[number] }) {
           draggable={false}
         />
       </div>
-      <div className="px-6 py-6" style={{ background: "#F5F5F5" }}>
+      <div className="flex flex-1 flex-col px-6 py-6" style={{ background: "#F5F5F5" }}>
         <span className="mb-3 block text-[11px] font-medium tracking-[0.2em] text-neutral-400">
           {car.tier.toUpperCase()}
         </span>
         <h3 className="mb-3 text-[18px] font-bold tracking-[-0.02em] text-neutral-900">
           {car.name}
         </h3>
-        <p className="mb-5 text-[14px] leading-[170%] text-neutral-500">
+        <p className="mb-5 flex-1 text-[14px] leading-[170%] text-neutral-500">
           {car.description}
         </p>
-        <span className="flex items-center justify-between border-t border-neutral-200 pt-5 text-[11px] font-medium tracking-[0.15em] text-neutral-900">
+        <span className="mt-auto flex items-center justify-between border-t border-neutral-200 pt-5 text-[11px] font-medium tracking-[0.15em] text-neutral-900">
           BOOK A CHAUFFEUR
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="transition-transform duration-300 group-hover:translate-x-1">
             <path d="M7 17 17 7M9 7h8v8" strokeLinecap="round" strokeLinejoin="round" />

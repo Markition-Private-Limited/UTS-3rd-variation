@@ -1,9 +1,15 @@
 "use client";
 
-import { useState } from "react";
+import dynamic from "next/dynamic";
 import PillButtonContent from "@/components/ui/PillButtonContent";
 import { Reveal } from "@/components/ui/reveal";
 import { DatePicker } from "@/components/ui/DatePicker";
+
+const PhoneFieldClient = dynamic(
+  () =>
+    import("./PhoneFieldClient").then((m) => ({ default: m.PhoneFieldClient })),
+  { ssr: false }
+);
 
 const inputBase =
   "w-full rounded-md border border-neutral-200 bg-white px-4 py-3.5 text-[15px] text-neutral-900 placeholder-neutral-400 outline-none transition-colors duration-200 focus:border-neutral-800 hover:border-neutral-300";
@@ -25,42 +31,10 @@ function Field({
   );
 }
 
-const DIAL_CODES = [
-  { code: "+44", iso: "GB", label: "UK" },
-  { code: "+1",  iso: "US", label: "US" },
-  { code: "+33", iso: "FR", label: "FR" },
-  { code: "+49", iso: "DE", label: "DE" },
-  { code: "+39", iso: "IT", label: "IT" },
-  { code: "+34", iso: "ES", label: "ES" },
-  { code: "+31", iso: "NL", label: "NL" },
-  { code: "+971",iso: "AE", label: "UAE" },
-  { code: "+61", iso: "AU", label: "AU" },
-  { code: "+91", iso: "IN", label: "IN" },
-];
-
 function PhoneField() {
-  const [dial, setDial] = useState("+44");
   return (
     <Field label="Telephone Number">
-      <div className="flex overflow-hidden rounded-md border border-neutral-200 bg-white transition-colors duration-200 hover:border-neutral-300 focus-within:border-neutral-800">
-        <select
-          value={dial}
-          onChange={(e) => setDial(e.target.value)}
-          className="shrink-0 cursor-pointer border-r border-neutral-200 bg-transparent px-3 py-3.5 text-[15px] text-neutral-900 outline-none"
-          aria-label="Country dial code"
-        >
-          {DIAL_CODES.map((d) => (
-            <option key={d.iso} value={d.code}>
-              {d.code} {d.label}
-            </option>
-          ))}
-        </select>
-        <input
-          type="tel"
-          className="min-w-0 flex-1 bg-transparent px-4 py-3.5 text-[15px] text-neutral-900 placeholder-neutral-400 outline-none"
-          placeholder="Phone number"
-        />
-      </div>
+      <PhoneFieldClient />
     </Field>
   );
 }

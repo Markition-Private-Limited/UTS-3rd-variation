@@ -40,20 +40,20 @@ export function AboutHeroSection() {
       />
 
       {/* Content */}
-      <div className="relative z-10 flex h-full flex-col justify-between px-6 pb-8 pt-[120px] sm:px-10 sm:pt-[150px] sm:pb-10 lg:px-16">
-        <div className="max-w-[clamp(20rem,55vw,42rem)]">
+      <div className="relative z-10 flex h-full flex-col justify-center px-6 pb-8 pt-[120px] sm:justify-between sm:px-10 sm:pt-[150px] sm:pb-10 lg:px-16">
+        <div className="max-w-2xl lg:max-w-4xl">
           <span className="block text-xs font-medium tracking-[0.3em] text-white/60 mb-6">
             ABOUT UTS
           </span>
           <h1 className="mb-5">
-            <span className="block text-[clamp(28px,6vw,72px)] font-extralight leading-[121%] tracking-[-0.06em] text-white sm:whitespace-nowrap">
+            <span className="block text-[36px] font-extralight leading-[112%] tracking-[-0.06em] text-white sm:text-[52px] lg:text-[72px]">
               Executive Travel,
             </span>
-            <span className="block text-[clamp(28px,6vw,72px)] font-semibold leading-[121%] tracking-[-0.06em] text-white sm:whitespace-nowrap">
+            <span className="block text-[36px] font-semibold leading-[112%] tracking-[-0.06em] text-white sm:text-[52px] lg:text-[72px]">
               Redefined.
             </span>
           </h1>
-          <p className="max-w-md text-[15px] font-light leading-[180%] tracking-[-0.02em] text-white/80 mb-8">
+          <p className="max-w-3xl font-light text-white/80 mb-8" style={{ fontFamily: 'Inter, sans-serif', fontSize: '18px', fontWeight: 300, lineHeight: '32px', letterSpacing: 0 }}>
             United Travel Services delivers premium chauffeur experiences designed around comfort, reliability and personal attention. From airport arrivals to executive engagements, every journey is carefully considered to help you travel comfortably and arrive with confidence.
           </p>
 
@@ -91,7 +91,7 @@ export function AboutHeroSection() {
           </div>
         </div>
 
-        <div className="flex items-center justify-between text-[11px] font-medium uppercase tracking-[0.2em] text-white/50">
+        <div className="absolute bottom-8 left-6 right-6 flex items-center justify-between text-[11px] font-medium uppercase tracking-[0.2em] text-white/50 sm:relative sm:bottom-auto sm:left-auto sm:right-auto sm:px-0">
           <span>
             <Link href="/" className="transition-colors hover:text-white/80">
               Home
