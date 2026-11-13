@@ -220,7 +220,7 @@ export function HeroSection() {
       <div className="relative z-10 flex min-h-[calc(100vh-16px)] flex-col justify-start sm:justify-between px-6 pb-16 pt-28 sm:pt-[146px] sm:px-10 lg:px-16">
         {/* Heading + body — body is line-clamped on mobile so height is stable across slides */}
         <div className="max-w-xl pt-0 sm:pt-10 lg:max-w-3xl h-[340px] overflow-hidden sm:h-auto sm:overflow-visible sm:min-h-[330px]">
-          <AnimatePresence mode="wait">
+          <AnimatePresence mode="wait" initial={false}>
             <motion.div
               key={index}
               initial={{ opacity: 0 }}

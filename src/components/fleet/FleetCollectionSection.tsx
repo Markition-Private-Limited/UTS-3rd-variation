@@ -35,6 +35,19 @@ export function FleetCollectionSection() {
   const tabsRef = useRef<string[]>(["All Vehicles"]);
   const pausedRef = useRef(false);
   const resumeTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const tabRowRef = useRef<HTMLDivElement>(null);
+  const tabRowInViewRef = useRef(true);
+
+  useEffect(() => {
+    const el = tabRowRef.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => { tabRowInViewRef.current = entry.isIntersecting; },
+      { threshold: 0 }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
 
   useEffect(() => {
     fetch("/api/fleet")
@@ -52,7 +65,7 @@ export function FleetCollectionSection() {
   // Auto-cycle every 3 s; pauses on user interaction, resumes after 5 s idle
   useEffect(() => {
     const interval = setInterval(() => {
-      if (pausedRef.current) return;
+      if (pausedRef.current || !tabRowInViewRef.current) return;
       setActiveTab((current) => {
         const t = tabsRef.current;
         const idx = t.indexOf(current);
@@ -79,6 +92,7 @@ export function FleetCollectionSection() {
 
       {/* Filter tabs */}
       <div
+        ref={tabRowRef}
         className="mb-10 flex items-center gap-2 flex-wrap"
         onMouseEnter={() => { pausedRef.current = true; }}
         onMouseLeave={() => { if (resumeTimerRef.current) clearTimeout(resumeTimerRef.current); resumeTimerRef.current = setTimeout(() => { pausedRef.current = false; }, 2000); }}

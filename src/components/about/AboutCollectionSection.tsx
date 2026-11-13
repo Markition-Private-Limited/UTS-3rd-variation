@@ -115,18 +115,18 @@ export function AboutCollectionSection() {
           onScroll={updateEdge}
           onMouseEnter={() => (pausedRef.current = true)}
           onMouseLeave={() => (pausedRef.current = false)}
-          className="mx-auto flex max-w-[1800px] gap-10 overflow-x-auto px-6 sm:px-10 lg:px-16 snap-x snap-mandatory [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+          className="mx-auto flex max-w-[1800px] gap-10 overflow-x-auto px-4 sm:px-10 lg:px-16 snap-x snap-mandatory [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
         >
             {FLEET_VEHICLES.map((car, i) => (
               <motion.div
                 key={car.slug}
-                className="min-w-0 shrink-0 basis-[85%] snap-start sm:basis-[calc((100%-40px)/2)] lg:basis-[calc((100%-120px)/4)]"
+                className="min-w-0 shrink-0 basis-[calc(100%-32px)] snap-center sm:basis-[calc((100%-40px)/2)] sm:snap-start lg:basis-[calc((100%-120px)/4)]"
                 initial={{ opacity: 0, y: 24 }}
                 animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 24 }}
                 transition={{ duration: 0.55, delay: i * 0.08, ease: [0.25, 0.1, 0.25, 1] }}
               >
                 <Link
-                  href="/#fleet"
+                  href={`/fleet#${car.slug}`}
                   className="group/card flex h-full flex-col overflow-hidden rounded-2xl transition-all duration-500 ease-in-out hover:-translate-y-1 hover:shadow-xl"
                 >
                   <div className="relative w-full overflow-hidden" style={{ aspectRatio: "571/330" }}>

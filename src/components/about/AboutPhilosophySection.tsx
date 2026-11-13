@@ -13,10 +13,10 @@ export function AboutPhilosophySection() {
               OUR PHILOSOPHY
             </span>
             <h2>
-              <span className="block text-[42px] font-extralight leading-[115%] tracking-[-0.04em] text-white sm:text-[52px] lg:text-[56px]">
+              <span className="block text-[36px] font-extralight leading-[115%] tracking-[-0.04em] text-white sm:text-[52px] lg:text-[56px]">
                 Professional Service,
               </span>
-              <span className="block whitespace-nowrap text-[42px] font-semibold leading-[115%] tracking-[-0.04em] text-white sm:text-[52px] lg:text-[56px]">
+              <span className="block text-[36px] font-semibold leading-[115%] tracking-[-0.04em] text-white sm:text-[52px] lg:text-[56px]">
                 Thoughtfully Delivered.
               </span>
             </h2>
@@ -31,7 +31,7 @@ export function AboutPhilosophySection() {
         </div>
 
         {/* Image */}
-        <div className="relative w-full overflow-hidden rounded-[24px]" style={{ aspectRatio: "1760/460" }}>
+        <div className="relative w-full overflow-hidden rounded-[24px] aspect-[1760/640] md:aspect-[1760/460]">
           <Image
             src="/about/uts-philosophy-interior.jpg"
             alt="Interior detail of a United Travel Services executive vehicle"

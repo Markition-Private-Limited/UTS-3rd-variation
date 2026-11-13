@@ -57,6 +57,14 @@ export function FleetSection() {
         if (cancelled) return;
         setTabs(data.categories);
         setFleet(data.vehicles);
+        // After data loads, scroll to the hash target if present
+        const hash = window.location.hash.slice(1);
+        if (hash) {
+          setTimeout(() => {
+            const el = document.getElementById(hash);
+            if (el) el.scrollIntoView({ behavior: "smooth", block: "center" });
+          }, 400);
+        }
       })
       .catch((err) => console.error("Failed to load fleet data:", err))
       .finally(() => !cancelled && setLoading(false));
@@ -234,6 +242,7 @@ export function FleetSection() {
         >
           {visible.map((car, i) => (
             <motion.div
+              id={car.id}
               key={`${car.id}-${activeTab}`}
               className="snap-start shrink-0 basis-[calc(100vw-32px)] md:basis-[min(310px,calc((100vw-80px)/2))] lg:basis-[min(320px,calc((100%-60px)/4))] h-[440px] fleet-card group rounded-[20px] overflow-hidden flex flex-col cursor-pointer transition-all duration-500 ease-in-out hover:-translate-y-2 hover:shadow-xl"
               initial={{ opacity: 0, x: 24, y: 24 }}

@@ -293,7 +293,7 @@ export function ServicesSection() {
       </div>
 
       <div className="mt-16 pb-14 pt-10">
-        <div className="flex flex-wrap justify-around gap-8 px-5 sm:px-10 text-center">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-x-8 gap-y-10 px-5 sm:px-10 text-center">
           {STATS.map((stat) => (
             <div key={stat.label}>
               <StatCounter

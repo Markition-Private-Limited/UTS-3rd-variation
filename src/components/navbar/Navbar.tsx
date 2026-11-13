@@ -33,7 +33,17 @@ export function Navbar() {
   const [theme, setTheme] = useState<"dark" | "light">("dark");
   const [ctaHovered, setCtaHovered] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [drawerMounted, setDrawerMounted] = useState(false);
   const headerRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    if (menuOpen) {
+      setDrawerMounted(true);
+    } else {
+      const t = setTimeout(() => setDrawerMounted(false), 350);
+      return () => clearTimeout(t);
+    }
+  }, [menuOpen]);
 
   useEffect(() => {
     let raf = 0;
@@ -68,6 +78,11 @@ export function Navbar() {
       if (raf) cancelAnimationFrame(raf);
     };
   }, []);
+
+  useEffect(() => {
+    document.body.style.overflow = menuOpen ? "hidden" : "";
+    return () => { document.body.style.overflow = ""; };
+  }, [menuOpen]);
 
   const isDark = theme === "dark";
 
@@ -142,42 +157,75 @@ export function Navbar() {
           aria-label={menuOpen ? "Close menu" : "Open menu"}
           onClick={() => setMenuOpen((o) => !o)}
         >
-          <span className={`block w-5 h-px transition-all duration-300 origin-center ${isDark ? "bg-white/70" : "bg-black/70"} ${menuOpen ? "rotate-45 translate-y-[7px]" : ""}`} />
-          <span className={`block w-5 h-px transition-all duration-300 ${isDark ? "bg-white/70" : "bg-black/70"} ${menuOpen ? "opacity-0 scale-x-0" : ""}`} />
-          <span className={`block w-3 h-px transition-all duration-300 origin-center ${isDark ? "bg-white/70" : "bg-black/70"} ${menuOpen ? "-rotate-45 -translate-y-[7px] w-5" : ""}`} />
+          <span className={`block w-5 h-px transition-all duration-300 origin-center ${isDark ? "bg-white/70" : "bg-black/70"}`} />
+          <span className={`block w-5 h-px transition-all duration-300 ${isDark ? "bg-white/70" : "bg-black/70"}`} />
+          <span className={`block w-3 h-px transition-all duration-300 origin-center ${isDark ? "bg-white/70" : "bg-black/70"}`} />
         </button>
       </nav>
 
-      {/* Mobile drawer */}
+      {/* Side drawer — only mounted while open (or animating closed) */}
+      {drawerMounted && (
+      <>
+      {/* Backdrop */}
       <div
-        className={`lg:hidden overflow-hidden transition-all duration-300 ease-in-out ${menuOpen ? "max-h-[400px] opacity-100" : "max-h-0 opacity-0"}`}
+        onClick={() => setMenuOpen(false)}
+        className={`lg:hidden fixed inset-0 z-[60] bg-black/60 backdrop-blur-sm transition-opacity duration-300 ${
+          menuOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
+        }`}
+      />
+
+      {/* Drawer panel */}
+      <div
+        className={`lg:hidden fixed top-0 right-0 z-[70] h-full w-[80vw] max-w-[320px] bg-[#0d0d0d] flex flex-col transition-transform duration-300 ease-[cubic-bezier(0.25,0.46,0.45,0.94)] ${
+          menuOpen ? "translate-x-0" : "translate-x-full"
+        }`}
       >
-        <ul className={`flex flex-col pb-3 pt-1 border-t ${isDark ? "border-white/10" : "border-black/10"}`}>
+        {/* Drawer header */}
+        <div className="flex items-center justify-between px-6 py-5 border-b border-white/10">
+          <Image
+            src="/logo.png"
+            alt="United Travel Services"
+            width={120}
+            height={42}
+            className="h-[42px] w-auto object-contain"
+            priority
+          />
+          <button
+            onClick={() => setMenuOpen(false)}
+            className="p-2 text-white/50 hover:text-white transition-colors"
+            aria-label="Close menu"
+          >
+            <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+              <path d="M1 1l16 16M17 1L1 17" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+            </svg>
+          </button>
+        </div>
+
+        {/* Nav links */}
+        <nav className="flex flex-col flex-1 px-6 pt-8 pb-6 gap-1">
           {links.map(({ label, href }) => (
-            <li key={label}>
-              <a
-                href={href}
-                onClick={() => setMenuOpen(false)}
-                className={`block px-6 py-3 text-[12px] font-medium tracking-[0.12em] uppercase transition-colors duration-200 ${
-                  isDark
-                    ? "text-white/60 hover:text-white hover:bg-white/5"
-                    : "text-black/60 hover:text-black hover:bg-black/5"
-                }`}
-              >
-                {label}
-              </a>
-            </li>
+            <a
+              key={label}
+              href={href}
+              onClick={() => setMenuOpen(false)}
+              className="py-3.5 text-[13px] font-medium tracking-[0.14em] uppercase text-white/50 hover:text-white border-b border-white/5 transition-colors duration-200 last:border-0"
+            >
+              {label}
+            </a>
           ))}
-          <li className={`px-4 pt-3 pb-1 border-t mt-1 ${isDark ? "border-white/10" : "border-black/10"}`}>
+
+          <div className="mt-auto pt-8">
             <button
               onClick={() => { router.push("/book"); setMenuOpen(false); }}
-              className={`w-full text-center py-3 rounded-full text-[11px] font-medium tracking-[0.18em] uppercase transition-colors duration-300 ${isDark ? "bg-white/90 text-black" : "bg-black/90 text-white"}`}
+              className="w-full py-4 rounded-full bg-white text-black text-[11px] font-semibold tracking-[0.18em] uppercase transition-colors duration-300 hover:bg-white/90"
             >
               Book Your Chauffeur
             </button>
-          </li>
-        </ul>
+          </div>
+        </nav>
       </div>
+      </>
+      )}
     </header>
   );
 }

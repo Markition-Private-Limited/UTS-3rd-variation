@@ -12,23 +12,32 @@ export function CTASection() {
     <section className="w-full bg-white px-4 md:px-8 pt-[6.25vw] pb-[6.25vw]">
       <div
         ref={ref}
-        className={`relative w-full min-h-[480px] md:h-[38.5417vw] rounded-2xl md:rounded-[1.6667vw] overflow-hidden flex items-center bg-gray-800 bg-cover bg-center p-6 md:p-[4.1667vw] transition-all duration-700 ease-out ${
+        className={`relative w-full min-h-[480px] md:h-[38.5417vw] rounded-2xl md:rounded-[1.6667vw] overflow-hidden flex items-end md:items-center bg-gray-800 bg-cover bg-center p-6 md:p-[4.1667vw] transition-all duration-700 ease-out ${
           isInView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
         }`}
         style={{ backgroundImage: "url('/images/Cinematic photograph.png')" }}
       >
-        {/* Light left-to-right gradient so text reads against the image */}
+        {/* Dark bottom-to-top gradient — mobile */}
         <div
-          className="absolute inset-0"
+          className="absolute inset-0 block md:hidden"
+          style={{
+            background:
+              "linear-gradient(to top, rgba(8,8,8,0.88) 0%, rgba(8,8,8,0.60) 45%, rgba(8,8,8,0.15) 100%)",
+          }}
+        />
+
+        {/* Light left-to-right gradient — desktop */}
+        <div
+          className="absolute inset-0 hidden md:block"
           style={{
             background:
               "linear-gradient(90deg, rgba(235,235,235,0.6) 0%, rgba(235,235,235,0.45) 35%, rgba(235,235,235,0.15) 65%, rgba(235,235,235,0) 100%)",
           }}
         />
 
-        <div className="relative z-10 max-w-3xl md:max-w-[40vw] text-black pl-4 sm:pl-[2.0833vw]">
+        <div className="relative z-10 max-w-3xl md:max-w-[40vw] md:text-black text-white sm:pl-[2.0833vw]">
           <p
-            className="uppercase text-black mb-3 md:mb-[1.0417vw]"
+            className="uppercase text-white/70 md:text-black mb-3 md:mb-[1.0417vw]"
             style={{
               fontWeight: 600,
               fontSize: "clamp(10px, 0.6771vw, 13px)",
@@ -40,20 +49,20 @@ export function CTASection() {
           </p>
 
           <h2
-            className="mb-[1.25vw] text-[32px] sm:text-[42px] lg:text-[50px]"
+            className="mb-4 md:mb-[1.25vw] text-[32px] sm:text-[42px] lg:text-[50px]"
             style={{
               fontFamily: 'Inter, "Inter Fallback", sans-serif',
               fontWeight: 200,
               lineHeight: "1.22",
               letterSpacing: "-0.06em",
-              color: "#000",
+              color: "inherit",
             }}
           >
             Your Journey.<br /><span style={{ fontWeight: 500 }}>Our Priority.</span>
           </h2>
 
           <p
-            className="text-black/70 mb-5 md:mb-[2.0833vw] max-w-xl"
+            className="text-white/75 md:text-black/70 mb-5 md:mb-[2.0833vw] max-w-xl"
             style={{
               fontWeight: 400,
               fontSize: "clamp(13px, 1.0417vw, 18px)",
