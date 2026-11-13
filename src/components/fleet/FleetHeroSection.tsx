@@ -14,8 +14,7 @@ export function FleetHeroSection() {
   return (
     <section
       data-navbar-theme="dark"
-      className="relative -mx-2 -mt-2 -mb-2 overflow-hidden rounded-[clamp(14px,1.5vw,20px)]"
-      style={{ height: "calc(100svh - 1rem)" }}
+      className="relative -mx-2 -mt-2 -mb-2 h-[82svh] min-h-[560px] overflow-hidden rounded-[clamp(14px,1.5vw,20px)] sm:h-[calc(100svh-1rem)] sm:min-h-0"
     >
       {/* Background image */}
       <Image
@@ -93,7 +92,7 @@ export function FleetHeroSection() {
           </div>
         </div>
 
-        <div className="absolute bottom-8 left-6 right-6 flex items-center justify-between text-[11px] font-medium uppercase tracking-[0.2em] text-white/50 sm:relative sm:bottom-auto sm:left-auto sm:right-auto sm:px-0">
+        <div className="hidden sm:flex items-center justify-between text-[11px] font-medium uppercase tracking-[0.2em] text-white/50 sm:px-0">
           <span>United Travel Services</span>
           <span>
             <Link href="/" className="transition-colors hover:text-white/80">
