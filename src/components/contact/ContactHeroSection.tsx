@@ -15,7 +15,8 @@ export function ContactHeroSection() {
     <Reveal>
     <section
       data-navbar-theme="dark"
-      className="relative -mx-2 -mt-2 -mb-2 h-[82svh] min-h-[560px] overflow-hidden rounded-[clamp(14px,1.5vw,20px)] sm:h-[calc(100svh-1rem)] sm:min-h-0"
+      className="relative -mx-2 -mt-2 -mb-2 overflow-hidden rounded-[clamp(14px,1.5vw,20px)]"
+      style={{ height: "calc(100svh - 1rem)" }}
     >
       {/* Background image */}
       <Image
