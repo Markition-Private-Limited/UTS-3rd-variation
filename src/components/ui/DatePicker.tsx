@@ -26,14 +26,26 @@ interface DatePickerProps {
 }
 
 export function DatePicker({ value, onChange, inputClassName }: DatePickerProps) {
-  const today = new Date();
+  // `new Date()` is read lazily (in an effect, not during render) so this
+  // component can still be statically prerendered — see
+  // https://nextjs.org/docs/messages/blocking-prerender-current-time-client
+  const [today, setToday] = useState<Date | null>(null);
   const [open, setOpen] = useState(false);
-  const [cursor, setCursor] = useState({
-    year: (value ?? today).getFullYear(),
-    month: (value ?? today).getMonth(),
-  });
+  const [cursor, setCursor] = useState<{ year: number; month: number } | null>(
+    value ? { year: value.getFullYear(), month: value.getMonth() } : null
+  );
   const [selected, setSelected] = useState<Date | null>(value ?? null);
   const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    setToday(new Date());
+  }, []);
+
+  useEffect(() => {
+    if (!cursor && today) {
+      setCursor({ year: today.getFullYear(), month: today.getMonth() });
+    }
+  }, [cursor, today]);
 
   // close on outside click
   useEffect(() => {
@@ -44,29 +56,33 @@ export function DatePicker({ value, onChange, inputClassName }: DatePickerProps)
     return () => document.removeEventListener("mousedown", onDown);
   }, []);
 
+  const activeCursor = cursor ?? { year: 1970, month: 0 };
+
   function prevMonth() {
     setCursor(c => {
-      const m = c.month === 0 ? 11 : c.month - 1;
-      const y = c.month === 0 ? c.year - 1 : c.year;
+      const base = c ?? activeCursor;
+      const m = base.month === 0 ? 11 : base.month - 1;
+      const y = base.month === 0 ? base.year - 1 : base.year;
       return { year: y, month: m };
     });
   }
   function nextMonth() {
     setCursor(c => {
-      const m = c.month === 11 ? 0 : c.month + 1;
-      const y = c.month === 11 ? c.year + 1 : c.year;
+      const base = c ?? activeCursor;
+      const m = base.month === 11 ? 0 : base.month + 1;
+      const y = base.month === 11 ? base.year + 1 : base.year;
       return { year: y, month: m };
     });
   }
-  function pick(day: number) {
-    const d = new Date(cursor.year, cursor.month, day);
+  function pick(day: number, year = activeCursor.year, month = activeCursor.month) {
+    const d = new Date(year, month, day);
     setSelected(d);
     onChange?.(d);
     setOpen(false);
   }
 
-  const daysInMonth = getDaysInMonth(cursor.year, cursor.month);
-  const firstDow = getFirstDayOfWeek(cursor.year, cursor.month);
+  const daysInMonth = getDaysInMonth(activeCursor.year, activeCursor.month);
+  const firstDow = getFirstDayOfWeek(activeCursor.year, activeCursor.month);
   const cells: (number | null)[] = [
     ...Array(firstDow).fill(null),
     ...Array.from({ length: daysInMonth }, (_, i) => i + 1),
@@ -75,13 +91,14 @@ export function DatePicker({ value, onChange, inputClassName }: DatePickerProps)
   while (cells.length % 7 !== 0) cells.push(null);
 
   const isToday = (day: number) =>
-    today.getFullYear() === cursor.year &&
-    today.getMonth() === cursor.month &&
+    !!today &&
+    today.getFullYear() === activeCursor.year &&
+    today.getMonth() === activeCursor.month &&
     today.getDate() === day;
 
   const isSelected = (day: number) =>
-    selected?.getFullYear() === cursor.year &&
-    selected?.getMonth() === cursor.month &&
+    selected?.getFullYear() === activeCursor.year &&
+    selected?.getMonth() === activeCursor.month &&
     selected?.getDate() === day;
 
   return (
@@ -116,7 +133,7 @@ export function DatePicker({ value, onChange, inputClassName }: DatePickerProps)
               </svg>
             </button>
             <span className="text-[14px] font-semibold tracking-[-0.01em] text-white">
-              {MONTHS[cursor.month]} {cursor.year}
+              {MONTHS[activeCursor.month]} {activeCursor.year}
             </span>
             <button type="button" onClick={nextMonth}
               className="flex h-7 w-7 items-center justify-center rounded-full text-neutral-400 transition-colors hover:bg-white/10 hover:text-white">
@@ -165,8 +182,11 @@ export function DatePicker({ value, onChange, inputClassName }: DatePickerProps)
             <button
               type="button"
               onClick={() => {
-                setCursor({ year: today.getFullYear(), month: today.getMonth() });
-                pick(today.getDate());
+                const now = today ?? new Date();
+                const y = now.getFullYear();
+                const m = now.getMonth();
+                setCursor({ year: y, month: m });
+                pick(now.getDate(), y, m);
               }}
               className="text-[12px] font-medium tracking-[0.04em] text-neutral-400 transition-colors hover:text-white"
             >
