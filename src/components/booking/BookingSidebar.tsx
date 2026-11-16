@@ -1,8 +1,9 @@
 'use client';
 
+import LocationInput from '@/components/ui/LocationInput';
 import React, { useState } from 'react';
 import {
-  Plane, User, Briefcase, Plus, Trash2, AlertCircle,
+  MapPin, Plane, User, Briefcase, Plus, Trash2, AlertCircle,
 } from 'lucide-react';
 import { BookingState, Vehicle } from '@/types/booking';
 import { calculatePrice } from '@/data/fleet';
@@ -23,6 +24,8 @@ export const BookingSidebar: React.FC<BookingSidebarProps> = ({
   onContinue,
   onSave,
 }) => {
+  const [editingPickup, setEditingPickup] = useState(false);
+  const [editingDestination, setEditingDestination] = useState(false);
   const [newStopAddress, setNewStopAddress] = useState('');
   const [showAddStopInput, setShowAddStopInput] = useState(false);
 
@@ -45,8 +48,8 @@ export const BookingSidebar: React.FC<BookingSidebarProps> = ({
   };
 
   return (
-    <aside data-lenis-prevent className="no-scrollbar overscroll-contain w-full shrink-0 lg:sticky lg:top-[72px] lg:h-[calc(100vh-72px)] lg:w-[360px] lg:self-start xl:w-[390px]">
-      <div className="flex h-full flex-col overflow-hidden bg-white border border-zinc-200/90 rounded-2xl shadow-sm divide-y divide-zinc-100">
+    <aside data-lenis-prevent className="no-scrollbar overscroll-contain w-full shrink-0 lg:sticky lg:top-[72px] lg:max-h-[calc(100vh-88px)] lg:w-[360px] lg:self-start lg:overflow-y-auto xl:w-[390px]">
+      <div className="overflow-hidden bg-white border border-zinc-200/90 rounded-2xl shadow-sm divide-y divide-zinc-100">
         {/* Route Graphic */}
         <div className="relative bg-[#f4f4f7] p-4 border-b border-zinc-200/70">
           <div className="relative h-44 rounded-xl overflow-hidden bg-gradient-to-br from-zinc-100 to-zinc-200 border border-zinc-300/60 p-3 flex flex-col justify-between">
@@ -170,6 +173,78 @@ export const BookingSidebar: React.FC<BookingSidebarProps> = ({
           </div>
         )}
 
+        {/* Pickup & Destination */}
+        <div className="p-4 sm:p-5 space-y-3.5">
+          <div className="flex items-start gap-2.5">
+            <div className="w-6 h-6 rounded-full bg-zinc-100 flex items-center justify-center shrink-0 mt-0.5">
+              <div className="w-2 h-2 rounded-full bg-zinc-950" />
+            </div>
+            <div className="flex-1 min-w-0">
+              <span className="text-[10px] uppercase font-bold tracking-wider text-zinc-400 block">Pickup address</span>
+              {editingPickup ? (
+                <div className="mt-1 flex gap-2">
+                  <LocationInput value={state.pickupAddress} onChange={(v) => onUpdateState({ pickupAddress: v })} popClassName="!bg-zinc-900/95"
+                    className="w-full text-[16px] sm:text-xs border border-zinc-300 rounded px-2 py-1" />
+                  <button onClick={() => setEditingPickup(false)} className="text-[11px] bg-zinc-950 text-white px-2 py-1 rounded">Done</button>
+                </div>
+              ) : (
+                <p onClick={() => setEditingPickup(true)} className="text-xs font-medium text-zinc-900 truncate hover:underline cursor-pointer">{state.pickupAddress}</p>
+              )}
+            </div>
+          </div>
+
+          {state.serviceType === 'airport-transfer' ? (
+            <div className="flex items-start gap-2.5">
+              <div className="w-6 h-6 rounded-full bg-zinc-100 flex items-center justify-center shrink-0 mt-0.5">
+                <MapPin className="w-3.5 h-3.5 text-zinc-700" />
+              </div>
+              <div className="flex-1 min-w-0">
+                <span className="text-[10px] uppercase font-bold tracking-wider text-zinc-400 block">Airport & terminal</span>
+                {editingDestination ? (
+                  <div className="mt-1 flex gap-2">
+                    <LocationInput value={state.destinationAddress} onChange={(v) => onUpdateState({ destinationAddress: v })} popClassName="!bg-zinc-900/95"
+                      className="w-full text-[16px] sm:text-xs border border-zinc-300 rounded px-2 py-1" />
+                    <button onClick={() => setEditingDestination(false)} className="text-[11px] bg-zinc-950 text-white px-2 py-1 rounded">Done</button>
+                  </div>
+                ) : (
+                  <p onClick={() => setEditingDestination(true)} className="text-xs font-medium text-zinc-900 truncate hover:underline cursor-pointer">{state.destinationAddress}</p>
+                )}
+              </div>
+            </div>
+          ) : (
+            <div className="pt-2 border-t border-zinc-100">
+              <div className="flex items-center justify-between mb-2">
+                <span className="text-[10px] uppercase font-bold tracking-wider text-zinc-400">Planned Stops ({state.stops.length})</span>
+                <button type="button" onClick={() => setShowAddStopInput(true)} className="text-xs text-zinc-900 font-semibold inline-flex items-center gap-1 hover:underline">
+                  <Plus className="w-3 h-3" /><span>Add Stop</span>
+                </button>
+              </div>
+              {state.stops.length === 0 ? (
+                <p className="text-xs text-zinc-400 italic">No intermediate stops specified. Flexible itinerary.</p>
+              ) : (
+                <div className="space-y-2 mb-2">
+                  {state.stops.map((stop, idx) => (
+                    <div key={stop.id} className="flex items-center justify-between text-xs bg-zinc-50 p-2 rounded-lg border border-zinc-200/80">
+                      <div className="flex items-center gap-2 truncate">
+                        <span className="w-4 h-4 rounded-full bg-zinc-200 text-zinc-700 text-[10px] flex items-center justify-center font-bold">{idx + 1}</span>
+                        <span className="truncate font-medium text-zinc-800">{stop.address}</span>
+                      </div>
+                      <button onClick={() => handleRemoveStop(stop.id)} className="text-zinc-400 hover:text-red-600 p-1"><Trash2 className="w-3.5 h-3.5" /></button>
+                    </div>
+                  ))}
+                </div>
+              )}
+              {showAddStopInput && (
+                <div className="mt-2 flex gap-1.5">
+                  <input type="text" placeholder="Enter stop address" value={newStopAddress} onChange={(e) => setNewStopAddress(e.target.value)}
+                    className="flex-1 text-[16px] sm:text-xs border border-zinc-300 rounded px-2.5 py-1.5 focus:outline-none focus:ring-1 focus:ring-zinc-950" />
+                  <button onClick={handleAddStop} className="bg-zinc-950 text-white text-xs px-3 py-1.5 rounded font-medium">Save</button>
+                </div>
+              )}
+            </div>
+          )}
+        </div>
+
         {/* Date & Time */}
         <div className="p-4 sm:p-5 space-y-3">
           <div className="flex items-center justify-between text-xs">
@@ -178,6 +253,17 @@ export const BookingSidebar: React.FC<BookingSidebarProps> = ({
               <p className="font-semibold text-zinc-900 mt-0.5">{state.pickupDate} · {state.pickupTime}</p>
             </div>
           </div>
+          {state.serviceType === 'airport-transfer' && (
+            <div className="flex items-center gap-2.5 pt-1 text-xs text-zinc-600">
+              <Plane className="w-4 h-4 text-zinc-400 shrink-0" />
+              <div className="flex-1">
+                <span className="text-[10px] text-zinc-400 block">Flight number — optional</span>
+                <input type="text" placeholder="e.g. BA 142 / VS 004" value={state.flightNumber}
+                  onChange={(e) => onUpdateState({ flightNumber: e.target.value })}
+                  className="w-full text-[16px] sm:text-xs text-zinc-900 border-b border-zinc-200 py-0.5 focus:outline-none focus:border-zinc-900 placeholder:text-zinc-400" />
+              </div>
+            </div>
+          )}
         </div>
 
         {/* Vehicle Preview */}
@@ -199,7 +285,7 @@ export const BookingSidebar: React.FC<BookingSidebarProps> = ({
         </div>
 
         {/* Passengers & Luggage */}
-        <div className="flex-1 p-4 sm:p-5 space-y-3">
+        <div className="p-4 sm:p-5 space-y-3">
           <div>
             <span className="text-[10px] uppercase font-bold tracking-wider text-zinc-400 block">Passengers & Luggage</span>
             <span className="text-[10px] text-zinc-400 block leading-tight mt-0.5">Requested values. Actual capacity subject to confirmation.</span>
@@ -256,6 +342,10 @@ export const BookingSidebar: React.FC<BookingSidebarProps> = ({
             ) : (
               <span>Continue to Booking</span>
             )}
+          </button>
+          <button type="button" onClick={onSave}
+            className="group relative overflow-hidden w-full py-2.5 px-4 rounded-xl text-xs font-semibold text-zinc-700 bg-zinc-200/70 border-[1.5px] border-transparent transition-all duration-500 hover:border-black/10 flex items-center justify-center">
+            <PillButtonContent fill="black">Save Journey Details</PillButtonContent>
           </button>
         </div>
       </div>

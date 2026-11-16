@@ -5,6 +5,7 @@ import React, { useState } from 'react';
 import { MapPin, Plus, Trash2, Clock, Calendar } from 'lucide-react';
 import { BookingState, Vehicle, VehicleTier } from '@/types/booking';
 import { VehicleSelector } from '@/components/booking/VehicleSelector';
+import { ShowcaseCarousel } from '@/components/booking/ShowcaseCarousel';
 import { WhatsIncluded } from '@/components/booking/WhatsIncluded';
 import { CapacityLuggage } from '@/components/booking/CapacityLuggage';
 import { PriceBreakdown } from '@/components/booking/PriceBreakdown';
@@ -118,6 +119,7 @@ export const DayBookingPage: React.FC<DayBookingPageProps> = ({
         </div>
       </section>
 
+      <ShowcaseCarousel serviceType="day-booking" selectedVehicle={selectedVehicle} />
       <WhatsIncluded serviceType="day-booking" />
       <CapacityLuggage selectedVehicle={selectedVehicle} currentLuggageType={state.luggageType}
         onLuggageTypeChange={(t) => onUpdateState({ luggageType: t })} />
