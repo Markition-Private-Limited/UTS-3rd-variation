@@ -16,7 +16,8 @@ export function ContactHeroSection() {
     <Reveal>
     <section
       data-navbar-theme="dark"
-      className="relative -mx-2 -mt-2 -mb-2 h-[82svh] min-h-[560px] overflow-hidden rounded-[clamp(14px,1.5vw,20px)] sm:h-[calc(100svh-1rem)] sm:min-h-0"
+      className="relative -mx-2 -mt-2 -mb-2 overflow-hidden rounded-[clamp(14px,1.5vw,20px)]"
+      style={{ height: "calc(100svh - 1rem)" }}
     >
       {/* Background image */}
       <Image
@@ -39,35 +40,30 @@ export function ContactHeroSection() {
       />
 
       {/* Content */}
-      <div className="relative z-10 flex h-full flex-col justify-start px-5 pb-6 pt-[96px] sm:justify-between sm:px-10 sm:pb-10 sm:pt-[150px] lg:px-16">
+      <div className="relative z-10 flex h-full flex-col justify-center px-6 pb-8 pt-[120px] sm:justify-between sm:px-10 sm:pt-[150px] sm:pb-10 lg:px-16">
         <div className="max-w-xl lg:max-w-2xl">
-          <span className="mb-4 block text-[11px] font-medium tracking-[0.3em] text-white/60 sm:mb-6 sm:text-xs">
+          <span className="block text-xs font-medium tracking-[0.3em] text-white/60 mb-6">
             GET IN TOUCH
           </span>
-          <h1 className="mb-4 sm:mb-5">
-            <span className="block text-[28px] font-extralight leading-[118%] tracking-[-0.04em] text-white sm:whitespace-nowrap sm:text-[52px] sm:leading-[121%] sm:tracking-[-0.06em] lg:text-[72px]">
+          <h1 className="mb-5">
+            <span className="block whitespace-nowrap text-[36px] font-extralight leading-[121%] tracking-[-0.06em] text-white sm:text-[52px] lg:text-[72px]">
               Let&apos;s Plan <span className="font-semibold">Your Next</span>
             </span>
-            <span className="block text-[28px] font-semibold leading-[118%] tracking-[-0.04em] text-white sm:whitespace-nowrap sm:text-[52px] sm:leading-[121%] sm:tracking-[-0.06em] lg:text-[72px]">
+            <span className="block whitespace-nowrap text-[36px] font-semibold leading-[121%] tracking-[-0.06em] text-white sm:text-[52px] lg:text-[72px]">
               Journey.
             </span>
           </h1>
-          <p className="mb-6 max-w-3xl font-light text-white/80 sm:mb-8" style={{ fontFamily: 'Inter, sans-serif', fontSize: '14px', fontWeight: 300, lineHeight: '24px', letterSpacing: 0 }}>
-            <span className="hidden sm:inline" style={{ fontSize: '18px', lineHeight: '32px' }}>
-              Whether you are arranging an airport transfer, planning executive travel or enquiring about a private journey, United Travel Services is here to help you explore the available options.
-            </span>
-            <span className="sm:hidden">
-              Whether it&apos;s an airport transfer, executive travel or a private journey, we&apos;re here to help you explore the options.
-            </span>
+          <p className="max-w-3xl font-light text-white/80 mb-8" style={{ fontFamily: 'Inter, sans-serif', fontSize: '18px', fontWeight: 300, lineHeight: '32px', letterSpacing: 0 }}>
+            Whether you are arranging an airport transfer, planning executive travel or enquiring about a private journey, United Travel Services is here to help you explore the available options.
           </p>
 
           {/* Pill button + text link */}
-          <div className="flex flex-wrap items-center gap-3 sm:gap-6">
+          <div className="flex flex-wrap items-center gap-6">
             <button
               onClick={() => router.push("#enquiry-form")}
               onMouseEnter={() => setBtn1Hovered(true)}
               onMouseLeave={() => setBtn1Hovered(false)}
-              className="group relative inline-flex w-fit overflow-hidden whitespace-nowrap items-center justify-between gap-4 text-[10px] font-medium tracking-[0.18em] uppercase px-5 py-2.5 rounded-full cursor-pointer sm:text-[11px] sm:px-6 sm:py-3"
+              className="group relative inline-flex overflow-hidden whitespace-nowrap items-center justify-between gap-4 text-[11px] font-medium tracking-[0.18em] uppercase px-6 py-3 rounded-full cursor-pointer"
               style={{
                 background: "#F9F9F9",
                 color: "#1a1a1a",
@@ -82,7 +78,7 @@ export function ContactHeroSection() {
               onClick={() => router.push("/services")}
               onMouseEnter={() => setBtn2Hovered(true)}
               onMouseLeave={() => setBtn2Hovered(false)}
-              className="group relative inline-flex w-fit overflow-hidden whitespace-nowrap items-center justify-between gap-4 text-[10px] font-medium tracking-[0.18em] uppercase px-5 py-2.5 rounded-full cursor-pointer sm:text-[11px] sm:px-6 sm:py-3"
+              className="group relative inline-flex overflow-hidden whitespace-nowrap items-center justify-between gap-4 text-[11px] font-medium tracking-[0.18em] uppercase px-6 py-3 rounded-full cursor-pointer"
               style={{
                 background: "transparent",
                 color: "#F9F9F9",
@@ -95,14 +91,14 @@ export function ContactHeroSection() {
           </div>
         </div>
 
-        <div className="absolute bottom-6 left-5 right-5 flex flex-col gap-1.5 text-[9px] font-medium uppercase tracking-[0.15em] text-white/50 sm:relative sm:bottom-auto sm:left-auto sm:right-auto sm:flex-row sm:items-center sm:justify-between sm:gap-3 sm:px-0 sm:text-[11px] sm:tracking-[0.2em]">
-          <span className="whitespace-nowrap">
+        <div className="absolute bottom-8 left-6 right-6 flex items-center justify-between text-[11px] font-medium uppercase tracking-[0.2em] text-white/50 sm:relative sm:bottom-auto sm:left-auto sm:right-auto sm:px-0">
+          <span>
             <Link href="/" className="transition-colors hover:text-white/80">
               Home
             </Link>
             {" / Contact"}
           </span>
-          <span className="whitespace-nowrap">United Travel Services</span>
+          <span>United Travel Services</span>
         </div>
       </div>
     </section>

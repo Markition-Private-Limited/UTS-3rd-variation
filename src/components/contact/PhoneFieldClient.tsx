@@ -118,7 +118,7 @@ export function PhoneFieldClient() {
             zIndex: 200,
             top: "calc(100% + 4px)",
             left: 0,
-            width: "min(300px, calc(100vw - 2.5rem))",
+            width: 300,
             maxHeight: 300,
             display: "flex",
             flexDirection: "column",
