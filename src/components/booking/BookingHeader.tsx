@@ -86,10 +86,10 @@ export const BookingHeader: React.FC<BookingHeaderProps> = ({
 
   return (
     <header ref={headerRef} className="sticky top-0 z-40 bg-[#0e0f12] text-white border-b border-[#22242a] shadow-md">
-      <div className="relative max-w-[1520px] mx-auto px-4 sm:px-8 h-[64px] flex items-center justify-between sm:justify-center gap-2 sm:gap-4">
+      <div className="relative max-w-[1520px] mx-auto px-4 sm:px-8 h-[64px] flex items-center justify-between gap-2 sm:gap-4">
 
         {/* Back + Logo */}
-        <div className="flex shrink-0 items-center gap-1 sm:absolute sm:left-5 sm:top-1/2 sm:-translate-y-1/2 md:left-8">
+        <div className="flex shrink-0 items-center gap-1">
           <Link
             href="/"
             aria-label="Back to homepage"
@@ -101,6 +101,9 @@ export const BookingHeader: React.FC<BookingHeaderProps> = ({
             <Image src="/logo.png" alt="United Travel Services" width={200} height={70} className="h-8 w-auto object-contain sm:h-12" priority />
           </Link>
         </div>
+
+        {/* Service badge + route/datetime — grouped so they sit together on the right, never overlapping the logo */}
+        <div className="flex h-full min-w-0 items-center justify-end gap-2 overflow-hidden sm:gap-4">
 
         {/* Service badge + dropdown */}
         <div
@@ -144,13 +147,13 @@ export const BookingHeader: React.FC<BookingHeaderProps> = ({
           </div>
         </div>
 
-        {/* Centre section: route + datetime */}
-        <div className="hidden h-full items-center gap-4 md:flex">
+        {/* Centre section: route + datetime — only once lg: width reliably fits both alongside the logo and badge */}
+        <div className="hidden h-full min-w-0 items-center gap-4 lg:flex">
 
           <span className="text-zinc-700 text-base leading-none font-thin select-none">|</span>
 
           {/* Route button + panel */}
-          <div className="relative h-full flex items-center self-stretch leading-none">
+          <div className="relative h-full min-w-0 flex items-center self-stretch leading-none">
             <button
               type="button"
               onClick={() => togglePanel('route')}
@@ -159,7 +162,7 @@ export const BookingHeader: React.FC<BookingHeaderProps> = ({
               }`}
             >
               <MapPin className="w-3.5 h-3.5 text-zinc-500 shrink-0" />
-              <span className="leading-none whitespace-nowrap">
+              <span className="block max-w-[260px] truncate leading-none xl:max-w-[320px]">
                 <span className="text-white font-medium">{pickupSummary}</span>
                 {destinationSummary && (
                   <>
@@ -276,6 +279,7 @@ export const BookingHeader: React.FC<BookingHeaderProps> = ({
             </div>
           </div>
 
+        </div>
         </div>
       </div>
     </header>

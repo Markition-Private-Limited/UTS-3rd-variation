@@ -163,7 +163,7 @@ export default function BookingApp() {
 
       <main className="flex-1 max-w-[1520px] w-full mx-auto px-4 sm:px-6 lg:px-8 pb-8 sm:pb-10">
         <div className="flex flex-col items-stretch gap-4 lg:flex-row lg:items-start xl:gap-6">
-          <div className="flex-1 pt-8 sm:pt-10 min-w-0">
+          <div className="order-2 flex-1 pt-6 sm:pt-10 lg:order-none min-w-0">
             {currentService === 'airport-transfer' && (
               <AirportTransferPage state={bookingState} fleet={FLEET} selectedVehicle={selectedVehicle}
                 onSelectVehicle={handleSelectVehicle} onUpdateState={updateBookingState} />
@@ -178,8 +178,10 @@ export default function BookingApp() {
             )}
           </div>
 
-          <BookingSidebar state={derivedState} selectedVehicle={selectedVehicle}
-            onUpdateState={updateBookingState} onContinue={handleContinueToBooking} onSave={handleSaveJourney} />
+          <div className="order-1 pt-4 sm:pt-6 lg:order-none lg:pt-0 lg:contents">
+            <BookingSidebar state={derivedState} selectedVehicle={selectedVehicle}
+              onUpdateState={updateBookingState} onContinue={handleContinueToBooking} onSave={handleSaveJourney} />
+          </div>
         </div>
       </main>
 

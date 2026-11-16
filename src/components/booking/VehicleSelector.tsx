@@ -224,23 +224,32 @@ export const VehicleSelector: React.FC<VehicleSelectorProps> = ({
     }
   };
 
+  // Cards per view scales with viewport width: a single card with a deliberate
+  // peek of the next one on phones, two on tablets, exactly three from
+  // desktop up (matching the step/dot controls below).
+  const widthForViewport = (w: number) => {
+    if (w < 640) return Math.max(240, Math.floor(w * 0.84));
+    if (w < 1024) return Math.max(260, Math.floor((w - CARD_GAP) / 2) - 1);
+    return Math.max(220, Math.floor((w - CARD_GAP * 2) / 3) - 1);
+  };
+
   // Measure before the first paint so the opening frame already has the
   // right width (no flash of the 220px fallback).
   useLayoutEffect(() => {
     const viewport = viewportRef.current;
     if (!viewport) return;
     const w = viewport.clientWidth;
-    if (w > 0) setCardWidth(Math.max(220, Math.floor((w - CARD_GAP * 2) / 3) - 1));
+    if (w > 0) setCardWidth(widthForViewport(w));
   }, []);
 
-  // Keep exactly 3 cards' worth of width visible, and the track inside its
+  // Keep the per-breakpoint card count visible, and the track inside its
   // bounds, as the viewport resizes.
   useEffect(() => {
     const viewport = viewportRef.current;
     if (!viewport) return;
     const measure = () => {
       const w = viewport.clientWidth;
-      if (w > 0) setCardWidth(Math.max(220, Math.floor((w - CARD_GAP * 2) / 3) - 1));
+      if (w > 0) setCardWidth(widthForViewport(w));
       const { max } = metrics();
       const x = Math.max(-max, Math.min(0, offsetRef.current));
       apply(x, false);
