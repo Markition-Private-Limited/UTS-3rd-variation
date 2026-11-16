@@ -184,7 +184,7 @@ export const BookingSidebar: React.FC<BookingSidebarProps> = ({
               {editingPickup ? (
                 <div className="mt-1 flex gap-2">
                   <LocationInput value={state.pickupAddress} onChange={(v) => onUpdateState({ pickupAddress: v })} popClassName="!bg-zinc-900/95"
-                    className="w-full text-xs border border-zinc-300 rounded px-2 py-1" />
+                    className="w-full text-[16px] sm:text-xs border border-zinc-300 rounded px-2 py-1.5 sm:py-1" />
                   <button onClick={() => setEditingPickup(false)} className="text-[11px] bg-zinc-950 text-white px-2 py-1 rounded">Done</button>
                 </div>
               ) : (
@@ -203,7 +203,7 @@ export const BookingSidebar: React.FC<BookingSidebarProps> = ({
                 {editingDestination ? (
                   <div className="mt-1 flex gap-2">
                     <LocationInput value={state.destinationAddress} onChange={(v) => onUpdateState({ destinationAddress: v })} popClassName="!bg-zinc-900/95"
-                      className="w-full text-xs border border-zinc-300 rounded px-2 py-1" />
+                      className="w-full text-[16px] sm:text-xs border border-zinc-300 rounded px-2 py-1.5 sm:py-1" />
                     <button onClick={() => setEditingDestination(false)} className="text-[11px] bg-zinc-950 text-white px-2 py-1 rounded">Done</button>
                   </div>
                 ) : (
@@ -237,7 +237,7 @@ export const BookingSidebar: React.FC<BookingSidebarProps> = ({
               {showAddStopInput && (
                 <div className="mt-2 flex gap-1.5">
                   <input type="text" placeholder="Enter stop address" value={newStopAddress} onChange={(e) => setNewStopAddress(e.target.value)}
-                    className="flex-1 text-xs border border-zinc-300 rounded px-2.5 py-1.5 focus:outline-none focus:ring-1 focus:ring-zinc-950" />
+                    className="flex-1 text-[16px] sm:text-xs border border-zinc-300 rounded px-2.5 py-2 sm:py-1.5 focus:outline-none focus:ring-1 focus:ring-zinc-950" />
                   <button onClick={handleAddStop} className="bg-zinc-950 text-white text-xs px-3 py-1.5 rounded font-medium">Save</button>
                 </div>
               )}
@@ -260,7 +260,7 @@ export const BookingSidebar: React.FC<BookingSidebarProps> = ({
                 <span className="text-[10px] text-zinc-400 block">Flight number — optional</span>
                 <input type="text" placeholder="e.g. BA 142 / VS 004" value={state.flightNumber}
                   onChange={(e) => onUpdateState({ flightNumber: e.target.value })}
-                  className="w-full text-xs text-zinc-900 border-b border-zinc-200 py-0.5 focus:outline-none focus:border-zinc-900 placeholder:text-zinc-400" />
+                  className="w-full text-[16px] sm:text-xs text-zinc-900 border-b border-zinc-200 py-1 sm:py-0.5 focus:outline-none focus:border-zinc-900 placeholder:text-zinc-400" />
               </div>
             </div>
           )}
@@ -327,7 +327,7 @@ export const BookingSidebar: React.FC<BookingSidebarProps> = ({
             <label className="text-[10px] uppercase font-bold tracking-wider text-zinc-400 block mb-1">Additional pickup instructions (optional)</label>
             <input type="text" placeholder="e.g. entrance, terminal door, child seat" value={state.specialInstructions}
               onChange={(e) => onUpdateState({ specialInstructions: e.target.value })}
-              className="w-full text-xs bg-zinc-50 border border-zinc-200 rounded-lg px-2.5 py-2 text-zinc-900 focus:outline-none focus:ring-1 focus:ring-zinc-950 placeholder:text-zinc-400" />
+              className="w-full text-[16px] sm:text-xs bg-zinc-50 border border-zinc-200 rounded-lg px-2.5 py-2 text-zinc-900 focus:outline-none focus:ring-1 focus:ring-zinc-950 placeholder:text-zinc-400" />
           </div>
         </div>
 

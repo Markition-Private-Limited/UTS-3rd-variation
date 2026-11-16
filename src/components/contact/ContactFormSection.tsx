@@ -11,8 +11,9 @@ const PhoneFieldClient = dynamic(
   { ssr: false }
 );
 
+// text-[16px] on mobile avoids iOS Safari's auto-zoom-on-focus for inputs below 16px.
 const inputBase =
-  "w-full rounded-md border border-neutral-200 bg-white px-4 py-3.5 text-[15px] text-neutral-900 placeholder-neutral-400 outline-none transition-colors duration-200 focus:border-neutral-800 hover:border-neutral-300";
+  "w-full rounded-md border border-neutral-200 bg-white px-4 py-3 text-[16px] text-neutral-900 placeholder-neutral-400 outline-none transition-colors duration-200 focus:border-neutral-800 hover:border-neutral-300 sm:py-3.5 sm:text-[15px]";
 
 function Field({
   label,
@@ -25,7 +26,7 @@ function Field({
 }) {
   return (
     <div className={className}>
-      <label className="mb-3 block text-[15px] font-medium text-neutral-900">{label}</label>
+      <label className="mb-2 block text-[14px] font-medium text-neutral-900 sm:mb-3 sm:text-[15px]">{label}</label>
       {children}
     </div>
   );
@@ -50,35 +51,35 @@ function DateField() {
 export function ContactFormSection() {
   return (
     <Reveal>
-    <section style={{ background: "#F6F6F6" }} className="border-y border-neutral-200 px-6 py-14 sm:px-10 lg:px-16 lg:py-20">
+    <section style={{ background: "#F6F6F6" }} className="border-y border-neutral-200 px-4 py-10 sm:px-10 sm:py-14 lg:px-16 lg:py-20">
       <div className="mx-auto max-w-7xl">
-        <div className="grid grid-cols-1 gap-12 lg:grid-cols-[440fr_780fr] lg:gap-x-[86px]">
+        <div className="grid grid-cols-1 gap-10 sm:gap-12 lg:grid-cols-[440fr_780fr] lg:gap-x-[86px]">
 
           {/* Left — intro copy */}
           <div>
-            <span className="mb-6 block text-[11px] font-medium tracking-[0.3em] text-neutral-400">
+            <span className="mb-4 block text-[10px] font-medium tracking-[0.3em] text-neutral-400 sm:mb-6 sm:text-[11px]">
               SEND AN ENQUIRY
             </span>
-            <h2 className="text-[42px] font-extralight leading-[115%] tracking-[-0.03em] text-neutral-900">
+            <h2 className="text-[28px] font-extralight leading-[115%] tracking-[-0.03em] text-neutral-900 sm:text-[36px] lg:text-[42px]">
               Tell Us <span className="font-semibold">About Your Journey.</span>
             </h2>
-            <p className="mt-6 text-[15px] font-normal leading-[180%] tracking-[-0.01em] text-neutral-500">
+            <p className="mt-4 text-[14px] font-normal leading-[170%] tracking-[-0.01em] text-neutral-500 sm:mt-6 sm:text-[15px] sm:leading-[180%]">
               Share a few details about your plans and requirements so our team can better understand your enquiry and help you discuss the next steps.
             </p>
 
-            <div className="mt-10 border-t border-neutral-200 pt-10">
-              <h3 className="mb-3 text-[18px] font-bold tracking-[-0.02em] text-neutral-900">
+            <div className="mt-8 border-t border-neutral-200 pt-8 sm:mt-10 sm:pt-10">
+              <h3 className="mb-3 text-[16px] font-bold tracking-[-0.02em] text-neutral-900 sm:text-[18px]">
                 A few things worth including
               </h3>
-              <p className="text-[15px] font-normal leading-[170%] tracking-[-0.01em] text-neutral-500">
+              <p className="text-[14px] font-normal leading-[165%] tracking-[-0.01em] text-neutral-500 sm:text-[15px] sm:leading-[170%]">
                 Your travel dates and preferred times, full pickup and destination addresses, passenger numbers, luggage and any particular requirements will help frame the conversation.
               </p>
             </div>
           </div>
 
           {/* Right — form */}
-          <form className="flex flex-col gap-8">
-            <div className="grid grid-cols-1 gap-8 sm:grid-cols-2">
+          <form className="flex flex-col gap-6 sm:gap-8">
+            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 sm:gap-8">
 
               <Field label="First Name">
                 <input type="text" className={inputBase} placeholder="e.g. James" />

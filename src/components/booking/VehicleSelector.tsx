@@ -263,6 +263,7 @@ export const VehicleSelector: React.FC<VehicleSelectorProps> = ({
 
       <div
         ref={viewportRef}
+        data-lenis-prevent
         onPointerDown={handlePointerDown}
         onPointerMove={handlePointerMove}
         onPointerUp={endDrag}

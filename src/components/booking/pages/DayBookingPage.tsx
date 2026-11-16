@@ -60,7 +60,7 @@ export const DayBookingPage: React.FC<DayBookingPageProps> = ({
           <div className="flex items-center gap-2 p-3 bg-zinc-50 rounded-xl border border-zinc-200">
             <MapPin className="w-4 h-4 text-zinc-700 shrink-0" />
             <LocationInput value={state.pickupAddress} onChange={(v) => onUpdateState({ pickupAddress: v })}
-              className="w-full text-xs sm:text-sm bg-transparent focus:outline-none text-zinc-900 font-medium"
+              className="w-full text-[16px] sm:text-sm bg-transparent focus:outline-none text-zinc-900 font-medium"
               placeholder="e.g. The Langham, 1c Portland Place, London" />
           </div>
         </div>
@@ -87,7 +87,7 @@ export const DayBookingPage: React.FC<DayBookingPageProps> = ({
             <input type="text" placeholder="Add another stop (e.g. 1 Canada Square, Canary Wharf)" value={newStop}
               onChange={(e) => setNewStop(e.target.value)}
               onKeyDown={(e) => { if (e.key === 'Enter') { e.preventDefault(); handleAddStop(); } }}
-              className="flex-1 text-xs sm:text-sm border border-zinc-200 rounded-xl px-3.5 py-2.5 bg-white focus:outline-none focus:ring-1 focus:ring-zinc-950" />
+              className="flex-1 text-[16px] sm:text-sm border border-zinc-200 rounded-xl px-3.5 py-2.5 bg-white focus:outline-none focus:ring-1 focus:ring-zinc-950" />
             <button type="button" onClick={handleAddStop}
               className="px-4 py-2.5 bg-zinc-950 hover:bg-zinc-800 text-white rounded-xl text-xs font-bold inline-flex items-center gap-1.5 transition-colors">
               <Plus className="w-3.5 h-3.5" /><span>Add Stop</span>
@@ -101,10 +101,10 @@ export const DayBookingPage: React.FC<DayBookingPageProps> = ({
             <div className="flex items-center gap-2 p-2.5 bg-zinc-50 rounded-xl border border-zinc-200">
               <Calendar className="w-4 h-4 text-zinc-500" />
               <input type="text" value={state.pickupDate} onChange={(e) => onUpdateState({ pickupDate: e.target.value })}
-                className="w-full bg-transparent text-xs font-semibold text-zinc-800 focus:outline-none" />
-              <Clock className="w-4 h-4 text-zinc-500 ml-2" />
+                className="w-full min-w-0 bg-transparent text-[16px] sm:text-xs font-semibold text-zinc-800 focus:outline-none" />
+              <Clock className="w-4 h-4 text-zinc-500 ml-2 shrink-0" />
               <input type="text" value={state.pickupTime} onChange={(e) => onUpdateState({ pickupTime: e.target.value })}
-                className="w-20 bg-transparent text-xs font-semibold text-zinc-800 focus:outline-none" />
+                className="w-16 sm:w-20 bg-transparent text-[16px] sm:text-xs font-semibold text-zinc-800 focus:outline-none" />
             </div>
           </div>
           <div>

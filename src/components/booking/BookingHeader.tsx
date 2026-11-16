@@ -39,17 +39,17 @@ export const BookingHeader: React.FC<BookingHeaderProps> = ({
 
   return (
     <header className="sticky top-0 z-40 bg-[#0e0f12] text-white border-b border-[#22242a] shadow-md">
-      <div className="relative max-w-[1520px] mx-auto px-5 sm:px-8 h-[64px] flex items-center justify-center gap-4">
-        <div className="absolute left-5 sm:left-8 top-1/2 flex -translate-y-1/2 items-center gap-1">
+      <div className="relative max-w-[1520px] mx-auto px-4 sm:px-8 h-[64px] flex items-center justify-between sm:justify-center gap-2 sm:gap-4">
+        <div className="flex shrink-0 items-center gap-1 sm:absolute sm:left-5 sm:top-1/2 sm:-translate-y-1/2 md:left-8">
           <Link
             href="/"
             aria-label="Back to homepage"
-            className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-white/20 text-white transition-colors hover:bg-white/15"
+            className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-white/20 text-white transition-colors hover:bg-white/15 sm:h-9 sm:w-9"
           >
-            <ChevronLeft className="h-5 w-5" />
+            <ChevronLeft className="h-4 w-4 sm:h-5 sm:w-5" />
           </Link>
           <Link href="/" className="flex items-center shrink-0">
-            <Image src="/logo.png" alt="United Travel Services" width={200} height={70} className="h-12 w-auto object-contain" priority />
+            <Image src="/logo.png" alt="United Travel Services" width={200} height={70} className="h-8 w-auto object-contain sm:h-12" priority />
           </Link>
         </div>
 
@@ -65,7 +65,7 @@ export const BookingHeader: React.FC<BookingHeaderProps> = ({
             aria-haspopup="menu"
             aria-expanded={dropdownOpen}
             onClick={() => setDropdownOpen((v) => !v)}
-            className="inline-flex items-center gap-1.5 leading-none hover:bg-white/10 text-white text-[11px] font-bold tracking-[0.12em] uppercase px-3.5 py-2 rounded-full transition-colors"
+            className="inline-flex items-center gap-1 leading-none hover:bg-white/10 text-white text-[10px] font-bold tracking-[0.08em] uppercase px-2.5 py-1.5 rounded-full transition-colors sm:gap-1.5 sm:text-[11px] sm:tracking-[0.12em] sm:px-3.5 sm:py-2"
           >
             <active.icon className="hidden h-3.5 w-3.5 text-zinc-400 sm:inline" />
             {SERVICE_LABELS[currentService]}
@@ -99,7 +99,7 @@ export const BookingHeader: React.FC<BookingHeaderProps> = ({
           </div>
         </div>
 
-        <div className="flex min-w-0 max-w-full items-center gap-4 overflow-hidden whitespace-nowrap">
+        <div className="hidden min-w-0 max-w-full items-center gap-4 overflow-hidden whitespace-nowrap md:flex">
           {/* Divider */}
           <span className="text-zinc-700 text-base leading-none font-thin select-none hidden md:block">|</span>
 

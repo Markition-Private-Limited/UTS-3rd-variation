@@ -41,7 +41,7 @@ export const PriceBreakdown: React.FC<PriceBreakdownProps> = ({
               </span>
             </div>
 
-            <div className="py-3 flex items-center justify-between text-sm">
+            <div className="py-3 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between text-sm">
               <div className="flex items-center gap-2">
                 <span className="text-zinc-600 font-normal">Sample journey distance</span>
                 {onDistanceChange && <span className="text-[11px] text-zinc-400">(configurable)</span>}
@@ -51,7 +51,7 @@ export const PriceBreakdown: React.FC<PriceBreakdownProps> = ({
                   <select
                     value={distanceKm}
                     onChange={(e) => onDistanceChange(Number(e.target.value))}
-                    className="text-xs bg-zinc-50 border border-zinc-200 rounded px-2 py-1 font-semibold text-zinc-800"
+                    className="w-full max-w-full truncate text-[16px] bg-zinc-50 border border-zinc-200 rounded px-2 py-1.5 font-semibold text-zinc-800 sm:w-auto sm:max-w-[220px] sm:text-xs sm:py-1"
                   >
                     <option value={20}>20 km (Inner London)</option>
                     <option value={28}>28 km (Central London → Heathrow T5)</option>
