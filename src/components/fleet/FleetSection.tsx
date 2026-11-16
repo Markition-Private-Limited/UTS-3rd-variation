@@ -155,11 +155,11 @@ export function FleetSection() {
       id="fleet"
       data-navbar-theme="light"
       ref={ref}
-      className={`bg-white px-4 sm:px-8 py-16 transition-all duration-700 ease-out ${
+      className={`bg-white px-8 py-16 transition-all duration-700 ease-out ${
         isInView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
       }`}
     >
-      <div className="mx-auto max-w-[1680px]">
+      <div>
       {/* Header */}
       <div className="mb-14 flex flex-col items-start justify-between gap-8 md:flex-row md:items-end">
         <div>

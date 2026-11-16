@@ -35,31 +35,31 @@ const SERVICE_CARDS = [
     title: "Airport Transfer",
     desc: "Airport pickups and drop-offs.",
     image: "/hero-cards/airport-transfer.png",
-    href: "#services",
+    href: "/book",
   },
   {
     title: "Sightseeing Chauffeur",
     desc: "Sightseeing trips within London",
     image: "/hero-cards/sightseeing-london-v3.webp",
-    href: "#services",
+    href: "/book",
   },
   {
     title: "Hourly Chauffeur",
     desc: "Keep your chauffeur by the hour.",
     image: "/hero-cards/hourly-chauffeur-v3.webp",
-    href: "#services",
+    href: "/book",
   },
   {
     title: "Day Service",
     desc: "Full-day vehicle block.",
     image: "/hero-cards/day-service-v3.webp",
-    href: "#services",
+    href: "/book",
   },
   {
     title: "City to City",
     desc: "Intercity travel between major cities.",
     image: "/hero-cards/city-to-city-v3.webp",
-    href: "#services",
+    href: "/book",
   },
 ];
 

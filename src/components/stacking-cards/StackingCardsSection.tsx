@@ -1,15 +1,17 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { useState } from "react";
 import ScrollStack, { ScrollStackItem } from "@/components/ui/ScrollStack";
 import PillButtonContent from "@/components/ui/PillButtonContent";
 
-function CardButton({ label }: { label: string }) {
+function CardButton({ label, href }: { label: string; href: string }) {
   const [hovered, setHovered] = useState(false);
   return (
-    <button
-      className="group relative overflow-hidden whitespace-nowrap inline-flex items-center justify-between gap-4 w-fit rounded-full bg-white text-black cursor-pointer"
+    <Link
+      href={href}
+      className="group relative overflow-hidden whitespace-nowrap inline-flex items-center justify-between gap-4 w-fit rounded-full bg-white text-black cursor-pointer no-underline"
       style={{
         fontSize: "0.68rem",
         letterSpacing: "0.2em",
@@ -23,7 +25,7 @@ function CardButton({ label }: { label: string }) {
       onMouseLeave={() => setHovered(false)}
     >
       <PillButtonContent fill="black">{label}</PillButtonContent>
-    </button>
+    </Link>
   );
 }
 
@@ -33,6 +35,7 @@ const CARDS = [
     title: "Airport Transfers",
     desc: "Enjoy a smoother airport journey with professional chauffeur service, comfortable vehicles, and coordinated pickup arrangements.",
     cta: "Explore Service",
+    href: "/services/airport-transfers",
     image: "/stacking-cards/airport-transfers-v2.webp",
     imagePosition: "80% center",
   },
@@ -41,6 +44,7 @@ const CARDS = [
     title: "Sightseeing Chauffeur",
     desc: "Explore every destination with professional chauffeur service, comfortable vehicles, and seamless journeys across the city.",
     cta: "Explore Service",
+    href: "/services/sightseeing-chauffeur",
     image: "/stacking-cards/city-trip.webp",
   },
   {
@@ -48,6 +52,7 @@ const CARDS = [
     title: "Hourly Chauffeur",
     desc: "Travel on your own schedule with a dedicated chauffeur, flexible bookings, and premium comfort throughout the day.",
     cta: "Explore Service",
+    href: "/services/hourly-chauffeur",
     image: "/stacking-cards/hourly-chauffeur.webp",
   },
   {
@@ -55,6 +60,7 @@ const CARDS = [
     title: "Day Service",
     desc: "Enjoy a full day of effortless travel with professional chauffeur service, flexible schedules, and exceptional comfort.",
     cta: "Explore Service",
+    href: "/services/day-service",
     image: "/stacking-cards/day-service.webp",
   },
   {
@@ -62,6 +68,7 @@ const CARDS = [
     title: "City to City",
     desc: "Travel between cities with professional chauffeur service, comfortable vehicles, and seamless long-distance journeys.",
     cta: "Explore Service",
+    href: "/services/city-to-city",
     image: "/stacking-cards/sightseeing-chauffeur.webp",
   },
 ];
@@ -178,7 +185,7 @@ export function StackingCardsSection() {
                     {card.desc}
                   </p>
 
-                  <CardButton label={card.cta} />
+                  <CardButton label={card.cta} href={card.href} />
                 </div>
               </div>
             </div>

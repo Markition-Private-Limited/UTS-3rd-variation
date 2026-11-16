@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { LenisProvider } from "@/components/lenis/LenisProvider";
 import { Navbar } from "@/components/navbar";
 import PageLoader from "@/components/ui/PageLoader";
+import { ScrollToTop } from "@/components/ui/ScrollToTop";
 
 export const metadata: Metadata = {
   title: "United Travel Services — Executive Chauffeur",
@@ -11,6 +12,7 @@ export const metadata: Metadata = {
 export default function SiteLayout({ children }: { children: React.ReactNode }) {
   return (
     <div className="flex flex-col bg-white font-sans">
+      <ScrollToTop />
       <PageLoader />
       <Navbar />
       <LenisProvider>{children}</LenisProvider>

@@ -2,23 +2,23 @@ import { Reveal } from "@/components/ui/reveal";
 const APPROACH = [
   {
     index: "01",
-    title: "Journey Coordination",
-    body: "Flight information, terminal details and your onward address help inform the arrangements discussed before travel.",
+    title: "Make Your Enquiry",
+    body: "Provide your airport, flight date, flight details and the address at the other end of your transfer.",
   },
   {
     index: "02",
-    title: "Passenger Comfort",
-    body: "A composed vehicle environment makes the road journey a welcome transition before or after a flight.",
+    title: "Discuss Your Arrangements",
+    body: "Talk through the terminal, proposed pickup time, meeting point and passenger or luggage requirements.",
   },
   {
     index: "03",
-    title: "Chauffeur Assistance",
-    body: "Discuss the assistance your party may need, including luggage and any particular pickup requirements.",
+    title: "Confirm the Details",
+    body: "Check the agreed journey information and pickup arrangements in your booking confirmation.",
   },
   {
     index: "04",
-    title: "Vehicle Choice",
-    body: "Share passenger numbers, luggage and preferred category to explore an appropriate vehicle option.",
+    title: "Enjoy Your Journey",
+    body: "Follow the confirmed meeting arrangements and settle into your road journey to or from the airport.",
   },
 ];
 
