@@ -9,6 +9,14 @@ body {
   font-family: var(--font-inter), sans-serif;
 }
 
+.no-scrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
 /* Fleet card entrance animation */
 @keyframes card-in {
   from { opacity: 0; transform: translateY(32px); }
