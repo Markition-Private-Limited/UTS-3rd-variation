@@ -6,6 +6,7 @@ import { motion } from "motion/react";
 export function SightseeingPlacesSection() {
   return (
     <section className="bg-white px-6 py-14 sm:px-10 sm:py-18 md:px-12 md:py-20 lg:px-16 lg:py-24">
+      <div className="mx-auto max-w-[min(92vw,1800px)]">
       <div className="grid grid-cols-1 items-center gap-10 md:grid-cols-2 lg:gap-16">
 
         {/* Left — image */}
@@ -21,7 +22,7 @@ export function SightseeingPlacesSection() {
             src="/services/sightseeing-places.jpg"
             alt="Group of visitors exploring a historic English countryside courtyard with a classic car"
             fill
-            sizes="(max-width: 768px) 100vw, 50vw"
+            sizes="(max-width: 768px) 100vw, (max-width: 1800px) 50vw, 900px"
             className="object-cover"
             style={{ objectPosition: "center center" }}
           />
@@ -48,6 +49,7 @@ export function SightseeingPlacesSection() {
           </p>
         </motion.div>
 
+      </div>
       </div>
     </section>
   );

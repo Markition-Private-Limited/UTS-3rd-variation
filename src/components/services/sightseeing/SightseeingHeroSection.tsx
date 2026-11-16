@@ -38,7 +38,7 @@ export function SightseeingHeroSection() {
       />
 
       {/* Content */}
-      <div className="relative z-10 flex h-full flex-col justify-center px-6 sm:px-10 lg:px-16">
+      <div className="relative z-10 flex h-full flex-col justify-center px-6 pb-8 pt-[120px] sm:justify-between sm:px-10 sm:pb-10 sm:pt-[150px] lg:px-16">
         <div className="max-w-3xl lg:max-w-4xl">
           <span className="block text-xs font-medium tracking-[0.3em] text-white/60 mb-6">
             SIGHTSEEING CHAUFFEUR
@@ -92,7 +92,7 @@ export function SightseeingHeroSection() {
         </div>
 
         {/* Breadcrumb */}
-        <div className="absolute bottom-8 left-6 right-6 flex items-center justify-between text-[11px] font-medium uppercase tracking-[0.2em] text-white/50 sm:left-10 sm:right-10 lg:left-16 lg:right-16">
+        <div className="absolute bottom-8 left-6 right-6 flex items-center justify-between text-[11px] font-medium uppercase tracking-[0.2em] text-white/50 sm:relative sm:bottom-auto sm:left-auto sm:right-auto sm:px-0">
           <span>United Travel Services</span>
           <span>
             <Link href="/" className="transition-colors hover:text-white/80">Home</Link>

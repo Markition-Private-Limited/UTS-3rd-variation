@@ -26,12 +26,12 @@ export function HourlyChauffeurCTASection() {
         />
 
         <div className="relative z-10 py-12">
-          <div className="max-w-2xl px-8 sm:px-12 lg:px-16">
-            <span className="mb-6 block text-[11px] font-medium tracking-[0.3em] text-neutral-300">
+          <div className="max-w-2xl px-6 sm:px-12 lg:px-16">
+            <span className="mb-4 block text-[11px] font-medium tracking-[0.3em] text-neutral-300 sm:mb-6">
               THE NEXT JOURNEY STARTS WITH YOU
             </span>
             <h2 className="mb-6">
-              <span className="block whitespace-nowrap text-[32px] font-extralight leading-[115%] tracking-[-0.03em] text-white sm:text-[44px] lg:text-[56px]">
+              <span className="block text-[28px] font-extralight leading-[118%] tracking-[-0.02em] text-white sm:whitespace-nowrap sm:text-[44px] sm:leading-[115%] sm:tracking-[-0.03em] lg:text-[56px]">
                 Let&apos;s Arrange <span className="font-semibold">Your Next Journey.</span>
               </span>
             </h2>

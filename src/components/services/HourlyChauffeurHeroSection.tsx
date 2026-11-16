@@ -62,7 +62,7 @@ export function HourlyChauffeurHeroSection() {
               onClick={() => router.push("/contact")}
               onMouseEnter={() => setBtnHovered(true)}
               onMouseLeave={() => setBtnHovered(false)}
-              className="group relative inline-flex overflow-hidden whitespace-nowrap items-center justify-between gap-4 text-[11px] font-medium tracking-[0.18em] uppercase px-6 py-3 rounded-full cursor-pointer"
+              className="group relative inline-flex w-fit overflow-hidden whitespace-nowrap items-center justify-between gap-4 text-[10px] font-medium tracking-[0.18em] uppercase px-5 py-2.5 rounded-full cursor-pointer sm:text-[11px] sm:px-6 sm:py-3"
               style={{
                 background: "#F9F9F9",
                 color: "#1a1a1a",
