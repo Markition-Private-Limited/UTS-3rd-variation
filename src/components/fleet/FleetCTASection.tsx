@@ -32,7 +32,7 @@ export function FleetCTASection() {
         />
 
         {/* Content */}
-        <div className="relative z-10 flex h-full flex-col justify-center px-6 py-10 sm:px-12 sm:py-16 md:px-14 md:py-18 lg:px-16 lg:py-20">
+        <div className="relative z-10 flex h-full flex-col justify-center px-8 py-14 sm:px-12 sm:py-16 md:px-14 md:py-18 lg:px-16 lg:py-20">
           <div className="max-w-xl">
             <span className="mb-5 block text-[11px] font-medium tracking-[0.3em] text-white/60 uppercase">
               The Next Journey Starts With You

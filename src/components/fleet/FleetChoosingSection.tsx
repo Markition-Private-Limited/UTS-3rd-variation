@@ -22,8 +22,8 @@ const items = [
 
 export function FleetChoosingSection() {
   return (
-    <section className="bg-white px-5 pt-8 pb-5 sm:px-10 sm:pt-12 sm:pb-8 md:px-12 lg:px-16 lg:pt-14 lg:pb-10">
-      <div className="grid grid-cols-1 gap-8 sm:gap-12 md:grid-cols-[2fr_3fr] md:gap-16 lg:gap-20">
+    <section className="bg-white px-6 pt-10 pb-6 sm:px-10 sm:pt-12 sm:pb-8 md:px-12 lg:px-16 lg:pt-14 lg:pb-10">
+      <div className="grid grid-cols-1 gap-12 md:grid-cols-[2fr_3fr] md:gap-16 lg:gap-20">
         {/* Left — heading */}
         <motion.div
           initial={{ opacity: 0, y: 16 }}
