@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import PillButtonContent from "@/components/ui/PillButtonContent";
+import { Reveal } from "@/components/ui/reveal";
 
 export function SightseeingHeroSection() {
   const router = useRouter();
@@ -12,6 +13,7 @@ export function SightseeingHeroSection() {
   const [btn2Hovered, setBtn2Hovered] = useState(false);
 
   return (
+    <Reveal>
     <section
       data-navbar-theme="dark"
       className="relative -mx-2 -mt-2 -mb-2 overflow-hidden rounded-[clamp(14px,1.5vw,20px)]"
@@ -38,18 +40,18 @@ export function SightseeingHeroSection() {
       />
 
       {/* Content */}
-      <div className="relative z-10 flex h-full flex-col justify-center px-6 pb-8 pt-[120px] sm:justify-between sm:px-10 sm:pb-10 sm:pt-[150px] lg:px-16">
-        <div className="max-w-3xl lg:max-w-4xl">
+      <div className="relative z-10 flex h-full flex-col justify-between px-6 pb-8 pt-[120px] sm:px-10 sm:pt-[150px] sm:pb-10 lg:px-16">
+        <div className="max-w-[clamp(20rem,55vw,42rem)]">
           <span className="block text-xs font-medium tracking-[0.3em] text-white/60 mb-6">
             SIGHTSEEING CHAUFFEUR
           </span>
 
           <h1 className="mb-5">
-            <span className="block text-[36px] font-extralight leading-[112%] tracking-[-0.06em] text-white sm:text-[52px] lg:text-[68px]">
+            <span className="block text-[clamp(28px,6vw,68px)] font-extralight leading-[112%] tracking-[-0.06em] text-white sm:whitespace-nowrap">
               See More. Take{" "}
               <span className="font-semibold">the Journey</span>
             </span>
-            <span className="block text-[36px] font-semibold leading-[112%] tracking-[-0.06em] text-white sm:text-[52px] lg:text-[68px]">
+            <span className="block text-[clamp(28px,6vw,68px)] font-semibold leading-[112%] tracking-[-0.06em] text-white sm:whitespace-nowrap">
               Personally.
             </span>
           </h1>
@@ -91,10 +93,10 @@ export function SightseeingHeroSection() {
           </div>
         </div>
 
-        {/* Breadcrumb */}
-        <div className="absolute bottom-8 left-6 right-6 flex items-center justify-between text-[11px] font-medium uppercase tracking-[0.2em] text-white/50 sm:relative sm:bottom-auto sm:left-auto sm:right-auto sm:px-0">
-          <span>United Travel Services</span>
-          <span>
+        {/* Breadcrumb — stacks on narrow phones, single row from sm: up */}
+        <div className="flex flex-col gap-1.5 text-[11px] font-medium uppercase tracking-[0.2em] text-white/50 sm:flex-row sm:items-center sm:justify-between">
+          <span className="whitespace-nowrap">United Travel Services</span>
+          <span className="whitespace-nowrap">
             <Link href="/" className="transition-colors hover:text-white/80">Home</Link>
             {" / "}
             <Link href="/services" className="transition-colors hover:text-white/80">Services</Link>
@@ -103,5 +105,6 @@ export function SightseeingHeroSection() {
         </div>
       </div>
     </section>
+    </Reveal>
   );
 }

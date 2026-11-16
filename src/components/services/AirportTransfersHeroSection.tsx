@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import PillButtonContent from "@/components/ui/PillButtonContent";
@@ -74,9 +75,15 @@ export function AirportTransfersHeroSection() {
           </div>
         </div>
 
-        <div className="flex items-center justify-between text-[11px] font-medium uppercase tracking-[0.2em] text-white/50">
-          <span>Airport Transfers</span>
-          <span>United Travel Services</span>
+        {/* Breadcrumb — stacks on narrow phones, single row from sm: up */}
+        <div className="flex flex-col gap-1.5 text-[11px] font-medium uppercase tracking-[0.2em] text-white/50 sm:flex-row sm:items-center sm:justify-between">
+          <span className="whitespace-nowrap">United Travel Services</span>
+          <span className="whitespace-nowrap">
+            <Link href="/" className="transition-colors hover:text-white/80">Home</Link>
+            {" / "}
+            <Link href="/services" className="transition-colors hover:text-white/80">Services</Link>
+            {" / Airport Transfers"}
+          </span>
         </div>
       </div>
     </section>

@@ -87,9 +87,15 @@ export function DayServiceHeroSection() {
           </div>
         </div>
 
-        <div className="flex items-center justify-between text-[11px] font-medium uppercase tracking-[0.2em] text-white/50">
-          <span>United Travel Services</span>
-          <span>Full-Day Chauffeur</span>
+        {/* Breadcrumb — stacks on narrow phones, single row from sm: up */}
+        <div className="flex flex-col gap-1.5 text-[11px] font-medium uppercase tracking-[0.2em] text-white/50 sm:flex-row sm:items-center sm:justify-between">
+          <span className="whitespace-nowrap">United Travel Services</span>
+          <span className="whitespace-nowrap">
+            <Link href="/" className="transition-colors hover:text-white/80">Home</Link>
+            {" / "}
+            <Link href="/services" className="transition-colors hover:text-white/80">Services</Link>
+            {" / Full-Day Chauffeur"}
+          </span>
         </div>
       </div>
     </section>
