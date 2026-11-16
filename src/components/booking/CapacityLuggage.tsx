@@ -43,21 +43,22 @@ export const CapacityLuggage: React.FC<CapacityLuggageProps> = ({
 
   return (
     <section className="mb-14 border-t border-zinc-200/80 pt-10">
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4">
+      <div className="flex items-end justify-between gap-4 mb-4">
         <h2 className="text-[24px] font-light leading-[115%] tracking-[-0.03em] text-neutral-900 sm:text-[28px]">Capacity & <span className="font-semibold">Luggage</span></h2>
-        <div className="inline-flex p-1 bg-zinc-100 rounded-lg text-xs font-semibold">
-          <button
-            onClick={() => setActiveTab('seating')}
-            className={`px-3 py-1.5 rounded-md transition-all ${activeTab === 'seating' ? 'bg-white text-zinc-950 shadow-sm font-bold' : 'text-zinc-600 hover:text-zinc-900'}`}
-          >
-            Seating
-          </button>
-          <button
-            onClick={() => setActiveTab('luggage')}
-            className={`px-3 py-1.5 rounded-md transition-all ${activeTab === 'luggage' ? 'bg-white text-zinc-950 shadow-sm font-bold' : 'text-zinc-600 hover:text-zinc-900'}`}
-          >
-            Luggage
-          </button>
+        <div className="flex gap-5 border-b border-zinc-200 shrink-0 pb-0">
+          {(['seating', 'luggage'] as const).map((tab) => (
+            <button
+              key={tab}
+              onClick={() => setActiveTab(tab)}
+              className={`pb-2.5 text-xs sm:text-sm font-semibold capitalize tracking-wide transition-colors duration-150 ${
+                activeTab === tab
+                  ? 'border-b-2 border-zinc-950 text-zinc-950 -mb-px'
+                  : 'text-zinc-400 hover:text-zinc-700'
+              }`}
+            >
+              {tab}
+            </button>
+          ))}
         </div>
       </div>
 
@@ -86,7 +87,7 @@ export const CapacityLuggage: React.FC<CapacityLuggageProps> = ({
             })}
           </div>
 
-          <div className="relative aspect-[2075/758] rounded-2xl overflow-hidden bg-zinc-900 shadow-md">
+          <div className="relative aspect-[3/2] sm:aspect-[2075/758] rounded-2xl overflow-hidden bg-zinc-900 shadow-md">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               key={`${selectedVehicle.id}-${currentLuggageType}`}

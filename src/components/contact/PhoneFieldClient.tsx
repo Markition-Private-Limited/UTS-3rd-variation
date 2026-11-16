@@ -68,12 +68,13 @@ export function PhoneFieldClient() {
           onClick={() => setOpen((o) => !o)}
           aria-label="Select country"
           aria-expanded={open}
+          className="uts-phone-flag-btn"
           style={{
             display: "flex",
             alignItems: "center",
             gap: 6,
             padding: "0 12px",
-            height: "100%",
+            alignSelf: "stretch",
             background: "transparent",
             border: "none",
             borderRight: "1px solid #e5e7eb",

@@ -221,23 +221,28 @@ export const VehicleSelector: React.FC<VehicleSelectorProps> = ({
     }
   };
 
+  const calcCardWidth = (w: number) => {
+    if (w < 640) return Math.floor(w - CARD_GAP);          // 1 card on mobile
+    if (w < 1024) return Math.floor((w - CARD_GAP) / 2) - 1; // 2 cards on tablet
+    return Math.max(220, Math.floor((w - CARD_GAP * 2) / 3) - 1); // 3 cards on desktop
+  };
+
   // Measure before the first paint so the opening frame already has the
   // right width (no flash of the 220px fallback).
   useLayoutEffect(() => {
     const viewport = viewportRef.current;
     if (!viewport) return;
     const w = viewport.clientWidth;
-    if (w > 0) setCardWidth(Math.max(220, Math.floor((w - CARD_GAP * 2) / 3) - 1));
+    if (w > 0) setCardWidth(calcCardWidth(w));
   }, []);
 
-  // Keep exactly 3 cards' worth of width visible, and the track inside its
-  // bounds, as the viewport resizes.
+  // Keep the right number of cards visible and the track in-bounds on resize.
   useEffect(() => {
     const viewport = viewportRef.current;
     if (!viewport) return;
     const measure = () => {
       const w = viewport.clientWidth;
-      if (w > 0) setCardWidth(Math.max(220, Math.floor((w - CARD_GAP * 2) / 3) - 1));
+      if (w > 0) setCardWidth(calcCardWidth(w));
       const { max } = metrics();
       const x = Math.max(-max, Math.min(0, offsetRef.current));
       apply(x, false);

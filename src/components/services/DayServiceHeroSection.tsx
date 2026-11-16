@@ -39,7 +39,7 @@ export function DayServiceHeroSection() {
       />
 
       {/* Content */}
-      <div className="relative z-10 flex h-full flex-col justify-between px-6 pb-8 pt-[120px] sm:px-10 sm:pt-[150px] sm:pb-10 lg:px-16">
+      <div className="relative z-10 flex h-full flex-col justify-center px-6 pb-8 pt-[120px] sm:justify-between sm:px-10 sm:pt-[150px] sm:pb-10 lg:px-16">
         <div className="max-w-[clamp(20rem,55vw,42rem)]">
           <span className="block text-xs font-medium tracking-[0.3em] text-white/60 mb-6">
             FULL-DAY CHAUFFEUR HIRE
