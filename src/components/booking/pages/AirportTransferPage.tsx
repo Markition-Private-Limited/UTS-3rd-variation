@@ -3,7 +3,6 @@
 import React from 'react';
 import { BookingState, Vehicle, VehicleTier } from '@/types/booking';
 import { VehicleSelector } from '@/components/booking/VehicleSelector';
-import { ShowcaseCarousel } from '@/components/booking/ShowcaseCarousel';
 import { WhatsIncluded } from '@/components/booking/WhatsIncluded';
 import { CapacityLuggage } from '@/components/booking/CapacityLuggage';
 import { PriceBreakdown } from '@/components/booking/PriceBreakdown';
@@ -35,8 +34,6 @@ export const AirportTransferPage: React.FC<AirportTransferPageProps> = ({
 
       <VehicleSelector vehicles={fleet} selectedVehicleId={state.selectedVehicleId} onSelectVehicle={onSelectVehicle}
         serviceType="airport-transfer" distanceKm={state.sampleDistanceKm} durationHours={state.durationHours} />
-
-      <ShowcaseCarousel serviceType="airport-transfer" selectedVehicle={selectedVehicle} />
 
       <WhatsIncluded serviceType="airport-transfer" />
 

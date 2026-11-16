@@ -129,7 +129,7 @@ export default function BookingApp() {
 
   const short = (v: string, n = 28) => (v.length > n ? v.slice(0, n - 1).trimEnd() + '…' : v);
   const shortDate = bookingState.pickupDate.replace(/^(\d+)\s+(\w{3})\w*.*$/, '$1 $2');
-  const destinationSummary = currentService === 'airport-transfer' ? short(bookingState.destinationAddress) : undefined;
+  const destinationSummary = currentService === 'airport-transfer' ? short(bookingState.destinationAddress, 20) : undefined;
   const dateTimeSummary =
     currentService === 'airport-transfer'
       ? `${shortDate} · ${bookingState.pickupTime} · Departure`
@@ -149,25 +149,34 @@ export default function BookingApp() {
       <BookingHeader
         currentService={currentService}
         onServiceChange={handleServiceChange}
-        pickupSummary={short(bookingState.pickupAddress)}
+        pickupSummary={short(bookingState.pickupAddress, 20)}
         destinationSummary={destinationSummary}
         dateTimeSummary={dateTimeSummary}
+        pickupAddress={bookingState.pickupAddress}
+        destinationAddress={bookingState.destinationAddress}
+        pickupDate={bookingState.pickupDate}
+        pickupTime={bookingState.pickupTime}
+        transferDirection={bookingState.transferDirection}
+        durationHours={bookingState.durationHours}
+        onUpdateState={updateBookingState}
       />
 
-      <main className="flex-1 max-w-[1520px] w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-10">
+      <main className="flex-1 max-w-[1520px] w-full mx-auto px-4 sm:px-6 lg:px-8 pb-8 sm:pb-10">
         <div className="flex flex-col items-stretch gap-4 lg:flex-row lg:items-start xl:gap-6">
-          {currentService === 'airport-transfer' && (
-            <AirportTransferPage state={bookingState} fleet={FLEET} selectedVehicle={selectedVehicle}
-              onSelectVehicle={handleSelectVehicle} onUpdateState={updateBookingState} />
-          )}
-          {currentService === 'day-booking' && (
-            <DayBookingPage state={bookingState} fleet={FLEET} selectedVehicle={selectedVehicle}
-              onSelectVehicle={handleSelectVehicle} onUpdateState={updateBookingState} />
-          )}
-          {currentService === 'hourly-chauffeur' && (
-            <HourlyChauffeurPage state={bookingState} fleet={FLEET} selectedVehicle={selectedVehicle}
-              onSelectVehicle={handleSelectVehicle} onUpdateState={updateBookingState} />
-          )}
+          <div className="flex-1 pt-8 sm:pt-10 min-w-0">
+            {currentService === 'airport-transfer' && (
+              <AirportTransferPage state={bookingState} fleet={FLEET} selectedVehicle={selectedVehicle}
+                onSelectVehicle={handleSelectVehicle} onUpdateState={updateBookingState} />
+            )}
+            {currentService === 'day-booking' && (
+              <DayBookingPage state={bookingState} fleet={FLEET} selectedVehicle={selectedVehicle}
+                onSelectVehicle={handleSelectVehicle} onUpdateState={updateBookingState} />
+            )}
+            {currentService === 'hourly-chauffeur' && (
+              <HourlyChauffeurPage state={bookingState} fleet={FLEET} selectedVehicle={selectedVehicle}
+                onSelectVehicle={handleSelectVehicle} onUpdateState={updateBookingState} />
+            )}
+          </div>
 
           <BookingSidebar state={derivedState} selectedVehicle={selectedVehicle}
             onUpdateState={updateBookingState} onContinue={handleContinueToBooking} onSave={handleSaveJourney} />

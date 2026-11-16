@@ -1,10 +1,10 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { MapPin, PlaneTakeoff, Sun, Clock, ChevronDown, ChevronLeft } from 'lucide-react';
-import { ServiceType } from '@/types/booking';
+import { ServiceType, BookingState } from '@/types/booking';
 
 interface BookingHeaderProps {
   currentService: ServiceType;
@@ -12,6 +12,13 @@ interface BookingHeaderProps {
   pickupSummary: string;
   destinationSummary?: string;
   dateTimeSummary: string;
+  pickupAddress: string;
+  destinationAddress: string;
+  pickupDate: string;
+  pickupTime: string;
+  transferDirection: 'departure' | 'arrival';
+  durationHours: number;
+  onUpdateState: (updates: Partial<BookingState>) => void;
 }
 
 const SERVICE_LABELS: Record<ServiceType, string> = {
@@ -26,20 +33,62 @@ const SERVICE_ICONS = {
   'hourly-chauffeur': Clock,
 } as const;
 
+const PANEL_CLS = 'absolute left-1/2 top-full z-50 -translate-x-1/2 overflow-hidden rounded-b-2xl bg-[#0e0f12] border border-[#22242a] border-t-0 shadow-2xl transition-[max-height,opacity] duration-300 ease-out';
+const INPUT_CLS = 'w-full bg-white/5 border border-white/10 rounded-xl px-3.5 py-2.5 text-sm text-white placeholder-zinc-600 focus:outline-none focus:border-white/30 transition-colors';
+const LABEL_CLS = 'text-[9px] uppercase tracking-[0.18em] text-zinc-500 font-bold block mb-1.5';
+
 export const BookingHeader: React.FC<BookingHeaderProps> = ({
   currentService,
   onServiceChange,
   pickupSummary,
   destinationSummary,
   dateTimeSummary,
+  pickupAddress,
+  destinationAddress,
+  pickupDate,
+  pickupTime,
+  transferDirection,
+  durationHours,
+  onUpdateState,
 }) => {
-  const [dropdownOpen, setDropdownOpen] = useState(false);
-  const active = { icon: SERVICE_ICONS[currentService] };
-  const others = (['airport-transfer', 'day-booking', 'hourly-chauffeur'] as ServiceType[]).filter((st) => st !== currentService);
+  const [serviceOpen, setServiceOpen] = useState(false);
+  const [activePanel, setActivePanel] = useState<null | 'route' | 'datetime'>(null);
+  const headerRef = useRef<HTMLElement>(null);
+
+  const ServiceIcon = SERVICE_ICONS[currentService];
+  const others = (['airport-transfer', 'day-booking', 'hourly-chauffeur'] as ServiceType[]).filter((s) => s !== currentService);
+
+  useEffect(() => {
+    const handler = (e: MouseEvent) => {
+      if (headerRef.current && !headerRef.current.contains(e.target as Node)) {
+        setActivePanel(null);
+        setServiceOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handler);
+    return () => document.removeEventListener('mousedown', handler);
+  }, []);
+
+  const togglePanel = (panel: 'route' | 'datetime') => {
+    setActivePanel((p) => (p === panel ? null : panel));
+    setServiceOpen(false);
+  };
+
+  const isAirport = currentService === 'airport-transfer';
+  const isArrival = isAirport && transferDirection === 'arrival';
+
+  const pickupLabel = isAirport ? (isArrival ? 'Arrival Airport' : 'Pickup Address') : 'Pickup Address';
+  const destLabel = isAirport ? (isArrival ? 'Drop-off Address' : 'Airport & Terminal') : 'Destination';
+  const pickupValue = isArrival ? destinationAddress : pickupAddress;
+  const destValue = isArrival ? pickupAddress : destinationAddress;
+  const handlePickupChange = (v: string) => onUpdateState(isArrival ? { destinationAddress: v } : { pickupAddress: v });
+  const handleDestChange = (v: string) => onUpdateState(isArrival ? { pickupAddress: v } : { destinationAddress: v });
 
   return (
-    <header className="sticky top-0 z-40 bg-[#0e0f12] text-white border-b border-[#22242a] shadow-md">
+    <header ref={headerRef} className="sticky top-0 z-40 bg-[#0e0f12] text-white border-b border-[#22242a] shadow-md">
       <div className="relative max-w-[1520px] mx-auto px-4 sm:px-8 h-[64px] flex items-center justify-between sm:justify-center gap-2 sm:gap-4">
+
+        {/* Back + Logo */}
         <div className="flex shrink-0 items-center gap-1 sm:absolute sm:left-5 sm:top-1/2 sm:-translate-y-1/2 md:left-8">
           <Link
             href="/"
@@ -53,31 +102,27 @@ export const BookingHeader: React.FC<BookingHeaderProps> = ({
           </Link>
         </div>
 
-
-        {/* Service badge — hover dropdown with the other two services */}
+        {/* Service badge + dropdown */}
         <div
           className="relative flex h-full shrink-0 items-center self-stretch leading-none"
-          onMouseEnter={() => setDropdownOpen(true)}
-          onMouseLeave={() => setDropdownOpen(false)}
+          onMouseEnter={() => setServiceOpen(true)}
+          onMouseLeave={() => setServiceOpen(false)}
         >
           <button
             type="button"
             aria-haspopup="menu"
-            aria-expanded={dropdownOpen}
-            onClick={() => setDropdownOpen((v) => !v)}
+            aria-expanded={serviceOpen}
+            onClick={() => { setServiceOpen((v) => !v); setActivePanel(null); }}
             className="inline-flex items-center gap-1 leading-none hover:bg-white/10 text-white text-[10px] font-bold tracking-[0.08em] uppercase px-2.5 py-1.5 rounded-full transition-colors sm:gap-1.5 sm:text-[11px] sm:tracking-[0.12em] sm:px-3.5 sm:py-2"
           >
-            <active.icon className="hidden h-3.5 w-3.5 text-zinc-400 sm:inline" />
+            <ServiceIcon className="hidden h-3.5 w-3.5 text-zinc-400 sm:inline" />
             {SERVICE_LABELS[currentService]}
-            <ChevronDown className={`h-3.5 w-3.5 text-zinc-400 transition-transform duration-300 ${dropdownOpen ? 'rotate-180' : ''}`} />
+            <ChevronDown className={`h-3.5 w-3.5 text-zinc-400 transition-transform duration-300 ${serviceOpen ? 'rotate-180' : ''}`} />
           </button>
 
-          {/* Expands straight out of the bar: same surface, no gap, no separate box */}
           <div
             role="menu"
-            className={`absolute left-1/2 top-full z-50 w-64 -translate-x-1/2 overflow-hidden rounded-b-2xl bg-gradient-to-b from-[#0e0f12]/85 via-[#0e0f12]/65 to-black/50 backdrop-blur-lg transition-[max-height,opacity] duration-300 ease-out ${
-              dropdownOpen ? 'max-h-40 opacity-100' : 'pointer-events-none max-h-0 opacity-0'
-            }`}
+            className={`${PANEL_CLS} w-64 ${serviceOpen ? 'max-h-40 opacity-100' : 'pointer-events-none max-h-0 opacity-0'}`}
           >
             <div className="p-1.5">
               {others.map((st) => {
@@ -87,7 +132,7 @@ export const BookingHeader: React.FC<BookingHeaderProps> = ({
                     key={st}
                     type="button"
                     role="menuitem"
-                    onClick={() => { onServiceChange(st); setDropdownOpen(false); }}
+                    onClick={() => { onServiceChange(st); setServiceOpen(false); }}
                     className="flex w-full items-center gap-2.5 rounded-lg px-3 py-2.5 text-left text-[11px] font-semibold uppercase tracking-wider text-white/80 transition-all hover:bg-white/10 hover:text-white"
                   >
                     <Icon className="h-4 w-4" />
@@ -99,34 +144,140 @@ export const BookingHeader: React.FC<BookingHeaderProps> = ({
           </div>
         </div>
 
-        <div className="hidden min-w-0 max-w-full items-center gap-4 overflow-hidden whitespace-nowrap md:flex">
-          {/* Divider */}
-          <span className="text-zinc-700 text-base leading-none font-thin select-none hidden md:block">|</span>
+        {/* Centre section: route + datetime */}
+        <div className="hidden h-full items-center gap-4 md:flex">
 
-          {/* Route */}
-          <div className="hidden md:flex items-center gap-2 leading-none text-[13px] text-zinc-300 min-w-0">
-            <MapPin className="w-3.5 h-3.5 text-zinc-500 shrink-0" />
-            <span className="truncate leading-none">
-              <span className="text-white font-medium">{pickupSummary}</span>
-              {destinationSummary && (
-                <>
-                  <span className="text-zinc-600 mx-1.5">→</span>
-                  <span className="text-zinc-300">{destinationSummary}</span>
-                </>
-              )}
-            </span>
+          <span className="text-zinc-700 text-base leading-none font-thin select-none">|</span>
+
+          {/* Route button + panel */}
+          <div className="relative h-full flex items-center self-stretch leading-none">
+            <button
+              type="button"
+              onClick={() => togglePanel('route')}
+              className={`flex items-center gap-1.5 text-[13px] min-w-0 px-2.5 py-1.5 rounded-lg transition-colors ${
+                activePanel === 'route' ? 'bg-white/10 text-white' : 'text-zinc-300 hover:bg-white/10 hover:text-white'
+              }`}
+            >
+              <MapPin className="w-3.5 h-3.5 text-zinc-500 shrink-0" />
+              <span className="leading-none whitespace-nowrap">
+                <span className="text-white font-medium">{pickupSummary}</span>
+                {destinationSummary && (
+                  <>
+                    <span className="text-zinc-600 mx-1.5">→</span>
+                    <span className="text-zinc-300">{destinationSummary}</span>
+                  </>
+                )}
+              </span>
+              <ChevronDown className={`w-3 h-3 text-zinc-500 shrink-0 transition-transform duration-200 ${activePanel === 'route' ? 'rotate-180' : ''}`} />
+            </button>
+
+            <div className={`${PANEL_CLS} w-80 ${activePanel === 'route' ? 'max-h-[380px] opacity-100' : 'pointer-events-none max-h-0 opacity-0'}`}>
+              <div className="p-4 space-y-3.5">
+                {isAirport && (
+                  <div className="flex gap-1 p-0.5 bg-white/5 rounded-xl">
+                    {(['departure', 'arrival'] as const).map((dir) => (
+                      <button
+                        key={dir}
+                        type="button"
+                        onClick={() => onUpdateState({ transferDirection: dir })}
+                        className={`flex-1 py-1.5 text-[10px] font-bold uppercase tracking-[0.1em] rounded-[10px] transition-all ${
+                          transferDirection === dir ? 'bg-white text-zinc-950 shadow' : 'text-zinc-400 hover:text-white'
+                        }`}
+                      >
+                        {dir === 'departure' ? '↑ Departure' : '↓ Arrival'}
+                      </button>
+                    ))}
+                  </div>
+                )}
+
+                <div>
+                  <label className={LABEL_CLS}>{pickupLabel}</label>
+                  <input
+                    type="text"
+                    value={pickupValue}
+                    onChange={(e) => handlePickupChange(e.target.value)}
+                    className={INPUT_CLS}
+                    placeholder="e.g. The Langham, 1c Portland Place"
+                  />
+                </div>
+
+                {isAirport && (
+                  <div>
+                    <label className={LABEL_CLS}>{destLabel}</label>
+                    <input
+                      type="text"
+                      value={destValue}
+                      onChange={(e) => handleDestChange(e.target.value)}
+                      className={INPUT_CLS}
+                      placeholder={isArrival ? 'e.g. The Langham, 1c Portland Place' : 'e.g. Heathrow Airport · Terminal 5'}
+                    />
+                  </div>
+                )}
+              </div>
+            </div>
           </div>
 
-          {/* Divider */}
           <span className="text-zinc-700 text-base leading-none font-thin select-none hidden lg:block">|</span>
 
-          {/* Date / time */}
-          <span className="hidden lg:flex items-center leading-none text-[13px] text-zinc-300 whitespace-nowrap shrink-0">
-            {dateTimeSummary}
-          </span>
+          {/* DateTime button + panel */}
+          <div className="relative h-full flex items-center self-stretch leading-none hidden lg:flex">
+            <button
+              type="button"
+              onClick={() => togglePanel('datetime')}
+              className={`flex items-center gap-1.5 text-[13px] whitespace-nowrap shrink-0 px-2.5 py-1.5 rounded-lg transition-colors ${
+                activePanel === 'datetime' ? 'bg-white/10 text-white' : 'text-zinc-300 hover:bg-white/10 hover:text-white'
+              }`}
+            >
+              {dateTimeSummary}
+              <ChevronDown className={`w-3 h-3 text-zinc-500 shrink-0 transition-transform duration-200 ${activePanel === 'datetime' ? 'rotate-180' : ''}`} />
+            </button>
+
+            <div className={`absolute right-0 top-full z-50 w-72 overflow-hidden rounded-b-2xl bg-[#0e0f12] border border-[#22242a] border-t-0 shadow-2xl transition-[max-height,opacity] duration-300 ease-out ${activePanel === 'datetime' ? 'max-h-[380px] opacity-100' : 'pointer-events-none max-h-0 opacity-0'}`}>
+              <div className="p-4 space-y-3.5">
+                <div>
+                  <label className={LABEL_CLS}>Pickup Date</label>
+                  <input
+                    type="text"
+                    value={pickupDate}
+                    onChange={(e) => onUpdateState({ pickupDate: e.target.value })}
+                    className={INPUT_CLS}
+                    placeholder="e.g. 18 November 2026"
+                  />
+                </div>
+                <div>
+                  <label className={LABEL_CLS}>Pickup Time</label>
+                  <input
+                    type="time"
+                    value={pickupTime}
+                    onChange={(e) => onUpdateState({ pickupTime: e.target.value })}
+                    style={{ colorScheme: 'dark' }}
+                    className={INPUT_CLS}
+                  />
+                </div>
+                {currentService !== 'airport-transfer' && (
+                  <div>
+                    <label className={LABEL_CLS}>Duration — {durationHours} hrs</label>
+                    <input
+                      type="range"
+                      min={4}
+                      max={currentService === 'day-booking' ? 14 : 12}
+                      step={1}
+                      value={durationHours}
+                      onChange={(e) => onUpdateState({ durationHours: Number(e.target.value) })}
+                      className="w-full accent-white cursor-pointer mt-0.5"
+                    />
+                    <div className="flex justify-between text-[9px] text-zinc-600 mt-1">
+                      <span>4 hrs min</span>
+                      <span>{currentService === 'day-booking' ? '14' : '12'} hrs max</span>
+                    </div>
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+
         </div>
       </div>
-
     </header>
   );
 };

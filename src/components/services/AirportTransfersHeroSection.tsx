@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import PillButtonContent from "@/components/ui/PillButtonContent";
@@ -38,7 +39,7 @@ export function AirportTransfersHeroSection() {
       />
 
       {/* Content */}
-      <div className="relative z-10 flex h-full flex-col justify-between px-6 pb-8 pt-[120px] sm:px-10 sm:pt-[150px] sm:pb-10 lg:px-16">
+      <div className="relative z-10 flex h-full flex-col justify-center px-6 pb-8 pt-[120px] sm:justify-between sm:px-10 sm:pt-[150px] sm:pb-10 lg:px-16">
         <div className="max-w-xl lg:max-w-2xl">
           <span className="block text-xs font-medium tracking-[0.3em] text-white/60 mb-6">
             AIRPORT TRANSFERS
@@ -74,8 +75,13 @@ export function AirportTransfersHeroSection() {
           </div>
         </div>
 
-        <div className="flex items-center justify-between text-[11px] font-medium uppercase tracking-[0.2em] text-white/50">
-          <span>Airport Transfers</span>
+        <div className="absolute bottom-8 left-6 right-6 flex items-center justify-between text-[11px] font-medium uppercase tracking-[0.2em] text-white/50 sm:relative sm:bottom-auto sm:left-auto sm:right-auto sm:px-0">
+          <span>
+            <Link href="/" className="transition-colors hover:text-white/80">Home</Link>
+            {" / "}
+            <Link href="/services" className="transition-colors hover:text-white/80">Services</Link>
+            {" / Airport Transfers"}
+          </span>
           <span>United Travel Services</span>
         </div>
       </div>
