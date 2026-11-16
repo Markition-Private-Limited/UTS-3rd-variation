@@ -88,12 +88,12 @@ export function FleetCollectionSection() {
       : fleet.filter((v) => v.categories.includes(activeTab));
 
   return (
-    <section id="collection" className="bg-white px-6 py-10 sm:px-10 lg:px-16 lg:py-14">
+    <section id="collection" className="bg-white px-4 py-8 sm:px-10 sm:py-10 lg:px-16 lg:py-14">
 
       {/* Filter tabs */}
       <div
         ref={tabRowRef}
-        className="mb-10 flex items-center gap-2 flex-wrap"
+        className="mb-8 flex items-center gap-2 flex-wrap sm:mb-10"
         onMouseEnter={() => { pausedRef.current = true; }}
         onMouseLeave={() => { if (resumeTimerRef.current) clearTimeout(resumeTimerRef.current); resumeTimerRef.current = setTimeout(() => { pausedRef.current = false; }, 2000); }}
       >
@@ -141,7 +141,7 @@ export function FleetCollectionSection() {
             return (
             <div
               key={v.id}
-              className={`grid grid-cols-1 gap-8 py-12 lg:items-center lg:gap-16 first:pt-0 last:pb-0 ${isEven ? "lg:grid-cols-[43fr_57fr] lg:[&>*:first-child]:order-2 lg:[&>*:last-child]:order-1" : "lg:grid-cols-[57fr_43fr]"}`}
+              className={`grid grid-cols-1 gap-6 py-8 sm:gap-8 sm:py-12 lg:items-center lg:gap-16 first:pt-0 last:pb-0 ${isEven ? "lg:grid-cols-[43fr_57fr] lg:[&>*:first-child]:order-2 lg:[&>*:last-child]:order-1" : "lg:grid-cols-[57fr_43fr]"}`}
             >
               {/* Image */}
               <div className="overflow-hidden rounded-[clamp(12px,1.2vw,18px)] bg-neutral-100">
@@ -156,16 +156,16 @@ export function FleetCollectionSection() {
               </div>
 
               {/* Content */}
-              <div className="flex flex-col gap-5">
-                <span className="text-[11px] font-medium tracking-[0.3em] text-neutral-400">
+              <div className="flex flex-col gap-4 sm:gap-5">
+                <span className="text-[10px] font-medium tracking-[0.3em] text-neutral-400 sm:text-[11px]">
                   {v.tier.toUpperCase()}
                 </span>
 
-                <h3 className="text-[36px] font-extralight leading-[115%] tracking-[-0.03em] text-neutral-900 lg:text-[44px]">
+                <h3 className="text-[28px] font-extralight leading-[115%] tracking-[-0.03em] text-neutral-900 sm:text-[36px] lg:text-[44px]">
                   {v.name}
                 </h3>
 
-                <p className="text-[15px] font-normal leading-[180%] tracking-[-0.01em] text-neutral-500">
+                <p className="text-[14px] font-normal leading-[170%] tracking-[-0.01em] text-neutral-500 sm:text-[15px] sm:leading-[180%]">
                   {v.description}
                 </p>
 

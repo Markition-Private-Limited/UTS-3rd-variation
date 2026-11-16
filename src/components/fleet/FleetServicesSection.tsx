@@ -30,7 +30,7 @@ const services = [
 
 export function FleetServicesSection() {
   return (
-    <section className="bg-white px-6 py-14 sm:px-10 sm:py-18 md:px-12 md:py-20 lg:px-16 lg:py-24">
+    <section className="bg-white px-5 py-10 sm:px-10 sm:py-14 md:px-12 md:py-20 lg:px-16 lg:py-24">
       {/* Header */}
       <motion.div
         className="mb-10 md:mb-12 lg:mb-16"
