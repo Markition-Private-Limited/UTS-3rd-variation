@@ -5,6 +5,25 @@
   --font-sans: var(--font-inter);
 }
 
+/* shadcn/Radix primitive tokens — dark, used by components/ui/{popover,scroll-area,separator,button,time-picker} */
+@theme {
+  --color-background: #0b0b0c;
+  --color-foreground: #ffffff;
+  --color-popover: #18181b;
+  --color-popover-foreground: #ffffff;
+  --color-border: #3f3f46;
+  --color-input: #52525b;
+  --color-ring: #a1a1aa;
+  --color-primary: #ffffff;
+  --color-primary-foreground: #0b0b0c;
+  --color-secondary: #27272a;
+  --color-secondary-foreground: #ffffff;
+  --color-accent: #3f3f46;
+  --color-accent-foreground: #ffffff;
+  --color-destructive: #ef4444;
+  --color-destructive-foreground: #ffffff;
+}
+
 body {
   font-family: var(--font-inter), sans-serif;
 }

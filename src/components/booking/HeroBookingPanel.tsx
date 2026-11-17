@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import LocationInput from "@/components/ui/LocationInput";
 import PillButtonContent from "@/components/ui/PillButtonContent";
 import BookingTabs, { type Tab } from "@/components/ui/BookingTabs";
+import { TimePicker as ShadcnTimePicker } from "@/components/ui/time-picker";
 
 export type Direction = "departure" | "arrival";
 
@@ -76,11 +77,6 @@ function Trigger({
 const CalIcon = () => (
   <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
     <rect x="3.5" y="5" width="17" height="15" rx="2" /><path d="M3.5 9.5h17M8 3v4M16 3v4" />
-  </svg>
-);
-const ClockIcon = () => (
-  <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
-    <circle cx="12" cy="12" r="9" /><path d="M12 7v5l3.5 2" />
   </svg>
 );
 const Chevron = () => (
@@ -160,41 +156,41 @@ function DateField({ label, value, onChange, error, lock }: { label: string; val
   );
 }
 
-const TIMES = Array.from({ length: 96 }, (_, i) => `${pad(Math.floor(i / 4))}:${pad((i % 4) * 15)}`);
-const fmt12 = (t: string) => {
-  const [h, m] = t.split(":").map(Number);
-  return `${pad(h % 12 || 12)}:${pad(m)} ${h < 12 ? "AM" : "PM"}`;
-};
-
 function TimeField({ label, value, onChange, error, lock }: { label: string; value: string; onChange: (v: string) => void; error: boolean; lock: (v: boolean) => void }) {
-  const [open, setOpen] = useState(false);
-  const ref = useDismiss(open, () => setOpen(false));
-  const listRef = useRef<HTMLDivElement>(null);
+  // ShadcnTimePicker works on a Date; the form stores "HH:MM". Seed a Date from the
+  // current value (or a sensible default) and only forward onChange after the user
+  // actually interacts, so an untouched field still reads as empty upstream.
+  const [internalDate, setInternalDate] = useState<Date>(() => {
+    const d = new Date();
+    d.setSeconds(0, 0);
+    if (value) {
+      const [h, m] = value.split(":").map(Number);
+      d.setHours(h, m, 0, 0);
+    } else {
+      d.setHours(9, 0, 0, 0);
+    }
+    return d;
+  });
+  const mounted = useRef(false);
 
-  useEffect(() => {
-    if (open) listRef.current?.querySelector<HTMLElement>("[data-sel='true']")?.scrollIntoView({ block: "center" });
-  }, [open]);
+  const handleChange = (d: Date) => {
+    setInternalDate(d);
+    if (!mounted.current) {
+      mounted.current = true;
+      return;
+    }
+    onChange(`${pad(d.getHours())}:${pad(d.getMinutes())}`);
+  };
 
   return (
-    <div ref={ref} onMouseEnter={() => lock(true)} onMouseLeave={() => lock(false)} className="relative flex flex-col gap-2">
-      <Trigger label={label} value={value ? fmt12(value) : ""} placeholder="--:-- --" error={error} open={open} onToggle={() => setOpen((o) => !o)} icon={<ClockIcon />} />
-      {open && (
-        <div ref={listRef} className={`${GLASS_POP} max-h-56 w-40 overflow-y-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden`}>
-          {TIMES.map((t) => (
-            <button
-              key={t}
-              type="button"
-              data-sel={t === value}
-              onClick={() => { onChange(t); setOpen(false); }}
-              className={`block w-full rounded-lg px-3 py-1.5 text-left text-sm transition-colors ${
-                t === value ? "bg-white text-black font-semibold" : "hover:bg-white/15"
-              }`}
-            >
-              {fmt12(t)}
-            </button>
-          ))}
-        </div>
-      )}
+    <div onMouseEnter={() => lock(true)} onMouseLeave={() => lock(false)} className="flex flex-col gap-2">
+      <span className={LABEL}>{label}</span>
+      <ShadcnTimePicker
+        use12HourFormat
+        value={internalDate}
+        onChange={handleChange}
+        hasError={error}
+      />
     </div>
   );
 }
