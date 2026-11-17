@@ -2,7 +2,19 @@
 // hero
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
+import { useRouter } from "next/navigation";
 import { AnimatePresence, motion } from "motion/react";
+import BookingTabs, { type Tab } from "@/components/ui/BookingTabs";
+import HeroBookingPanel, { DURATION_OPTIONS, type HeroForm } from "@/components/booking/HeroBookingPanel";
+import { DRAFT_KEY, type BookingDraft, type ServiceType } from "@/lib/booking";
+
+const TAB_TO_SERVICE: Record<Tab, ServiceType> = {
+  "Airport Transfer": "transfer",
+  "Day Booking": "day",
+  "Hourly Chauffeur": "hourly",
+};
+
+const EMPTY_FORM: HeroForm = { pickup: "", destination: "", date: "", time: "" };
 
 const SLIDES = [
   {
@@ -36,30 +48,35 @@ const SERVICE_CARDS = [
     desc: "Airport pickups and drop-offs.",
     image: "/hero-cards/airport-transfer.png",
     href: "/book",
+    tab: "Airport Transfer" as Tab,
   },
   {
     title: "Sightseeing Chauffeur",
     desc: "Sightseeing trips within London",
     image: "/hero-cards/sightseeing-london-v3.webp",
     href: "/book",
+    tab: "Hourly Chauffeur" as Tab,
   },
   {
     title: "Hourly Chauffeur",
     desc: "Keep your chauffeur by the hour.",
     image: "/hero-cards/hourly-chauffeur-v3.webp",
     href: "/book",
+    tab: "Hourly Chauffeur" as Tab,
   },
   {
     title: "Day Service",
     desc: "Full-day vehicle block.",
     image: "/hero-cards/day-service-v3.webp",
     href: "/book",
+    tab: "Day Booking" as Tab,
   },
   {
     title: "City to City",
     desc: "Intercity travel between major cities.",
     image: "/hero-cards/city-to-city-v3.webp",
     href: "/book",
+    tab: "Airport Transfer" as Tab,
   },
 ];
 
@@ -69,7 +86,14 @@ const CARD_BG = "linear-gradient(135deg, rgba(255,255,255,0.22) 0%, rgba(255,255
 const CARD_BORDER = "1px solid rgba(255,255,255,0.35)";
 const CARD_SHADOW = "0 4px 24px rgba(0,0,0,0.18), inset 0 1px 0 rgba(255,255,255,0.4)";
 
-function ServiceCard({ title, desc, image, href }: (typeof SERVICE_CARDS)[number]) {
+function ServiceCard({
+  title,
+  desc,
+  image,
+  href,
+  tab,
+  onBook,
+}: (typeof SERVICE_CARDS)[number] & { onBook: (tab: Tab) => void }) {
   const cardRef = useRef<HTMLAnchorElement>(null);
   const [active, setActive] = useState(false);
   const [imgPos, setImgPos] = useState({ x: 0, y: 0 });
@@ -81,6 +105,11 @@ function ServiceCard({ title, desc, image, href }: (typeof SERVICE_CARDS)[number
     const x = (e.clientX - left) / width - 0.5;
     const y = (e.clientY - top) / height - 0.5;
     setImgPos({ x: x * 10, y: y * 10 });
+  };
+
+  const handleClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault();
+    onBook(tab);
   };
 
   return (
@@ -108,6 +137,7 @@ function ServiceCard({ title, desc, image, href }: (typeof SERVICE_CARDS)[number
         <p className="mb-2.5 text-xs leading-tight line-clamp-2 text-white/50" style={{ minHeight: "2.5em" }}>{desc}</p>
         <a
           href={href}
+          onClick={handleClick}
           className="inline-flex items-center gap-1 text-sm font-medium underline underline-offset-2 mt-auto self-start no-underline"
           style={{ color: "rgba(255,255,255,0.75)", textDecoration: "underline", textUnderlineOffset: "2px" }}
         >
@@ -126,6 +156,7 @@ function ServiceCard({ title, desc, image, href }: (typeof SERVICE_CARDS)[number
         <a
           href={href}
           ref={cardRef}
+          onClick={handleClick}
           onMouseMove={handleMove}
           onMouseEnter={() => setActive(true)}
           onMouseLeave={() => { setActive(false); setImgPos({ x: 0, y: 0 }); }}
@@ -172,6 +203,14 @@ function ServiceCard({ title, desc, image, href }: (typeof SERVICE_CARDS)[number
 
 export function HeroSection() {
   const [index, setIndex] = useState(0);
+  const router = useRouter();
+
+  const [panelOpen, setPanelOpen] = useState(false);
+  const [tab, setTab] = useState<Tab>("Airport Transfer");
+  const [form, setForm] = useState<HeroForm>(EMPTY_FORM);
+  const [touched, setTouched] = useState(false);
+  const [passengers, setPassengers] = useState(1);
+  const [duration, setDuration] = useState(8);
 
   useEffect(() => {
     const id = setInterval(() => setIndex((i) => (i + 1) % SLIDES.length), SLIDE_MS);
@@ -179,6 +218,48 @@ export function HeroSection() {
   }, []);
 
   const slide = SLIDES[index];
+
+  const openBookingPanel = (nextTab: Tab) => {
+    setTab(nextTab);
+    setDuration(DURATION_OPTIONS[nextTab === "Day Booking" ? "Day Booking" : "Hourly Chauffeur"][0].value);
+    setTouched(false);
+    setPanelOpen(true);
+  };
+
+  const closeBookingPanel = () => setPanelOpen(false);
+
+  const updateField = (key: keyof HeroForm) => (e: React.ChangeEvent<HTMLInputElement>) => {
+    setForm((f) => ({ ...f, [key]: e.target.value }));
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    setTouched(true);
+    const required: (keyof HeroForm)[] =
+      tab === "Airport Transfer" ? ["pickup", "destination", "date", "time"] : ["pickup", "date", "time"];
+    const missing = required.some((k) => !form[k].trim());
+    if (missing) return;
+
+    const draft: BookingDraft = {
+      service: TAB_TO_SERVICE[tab],
+      pickup: form.pickup,
+      dropoff: tab === "Airport Transfer" ? form.destination : undefined,
+      date: form.date,
+      time: form.time,
+      passengers,
+      duration: tab === "Airport Transfer" ? undefined : duration,
+    };
+    try {
+      sessionStorage.setItem(DRAFT_KEY, JSON.stringify(draft));
+    } catch {
+      /* storage unavailable — the booking page just starts blank */
+    }
+    setForm(EMPTY_FORM);
+    setTouched(false);
+    setPanelOpen(false);
+    setPassengers(1);
+    router.push("/book");
+  };
 
   return (
     <section data-navbar-theme="dark" className="relative -mx-2 -mt-2 min-h-[calc(100vh-16px)] overflow-hidden rounded-[clamp(14px,1.5vw,20px)]">
@@ -246,11 +327,68 @@ export function HeroSection() {
         {/* Service cards — 2-col mobile, 3-col sm, 5-col lg */}
         <div className="mt-10 sm:mt-16 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">
           {SERVICE_CARDS.map((card) => (
-            <ServiceCard key={card.title} {...card} />
+            <ServiceCard key={card.title} {...card} onBook={openBookingPanel} />
           ))}
         </div>
       </div>
 
+      {/* Booking panel overlay — opens when a service card above is clicked */}
+      <AnimatePresence>
+        {panelOpen && (
+          <motion.div
+            className="absolute inset-0 z-30 flex items-end justify-center bg-black/60 p-4 backdrop-blur-sm sm:items-center"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.25 }}
+            onClick={closeBookingPanel}
+          >
+            <motion.div
+              className="relative w-full max-w-5xl"
+              initial={{ opacity: 0, y: 24 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: 24 }}
+              transition={{ duration: 0.3, ease: [0.25, 0.46, 0.45, 0.94] }}
+              onClick={(e) => e.stopPropagation()}
+            >
+              <button
+                type="button"
+                onClick={closeBookingPanel}
+                aria-label="Close booking panel"
+                className="absolute -top-10 right-0 flex h-8 w-8 items-center justify-center rounded-full border border-white/30 text-white transition-colors hover:bg-white/15 sm:-top-12"
+              >
+                <svg width="14" height="14" viewBox="0 0 12 12" fill="none">
+                  <path d="M1 1l10 10M11 1L1 11" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+                </svg>
+              </button>
+
+              <div className="mb-3 flex justify-center">
+                <BookingTabs
+                  value={tab}
+                  onChange={(t) => {
+                    setTab(t);
+                    setDuration(t === "Day Booking" ? 8 : 4);
+                    setTouched(false);
+                  }}
+                />
+              </div>
+
+              <HeroBookingPanel
+                tab={tab}
+                duration={duration}
+                onDuration={setDuration}
+                form={form}
+                onField={updateField}
+                onValue={(k, v) => setForm((f) => ({ ...f, [k]: v }))}
+                passengers={passengers}
+                onPassengers={setPassengers}
+                touched={touched}
+                onSubmit={handleSubmit}
+              />
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </section>
   );
 }
