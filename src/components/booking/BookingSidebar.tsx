@@ -100,13 +100,13 @@ export const BookingSidebar: React.FC<BookingSidebarProps> = ({
 
   return (
     <aside data-lenis-prevent className="no-scrollbar overscroll-contain w-full shrink-0 lg:sticky lg:top-[72px] lg:h-[calc(100vh-88px)] lg:w-[360px] lg:self-start lg:overflow-hidden xl:w-[390px]">
-      <div className="bg-white border border-zinc-200/90 rounded-2xl shadow-sm divide-y divide-zinc-100 lg:flex lg:flex-col lg:h-full lg:overflow-hidden">
+      <div className="bg-white border border-zinc-200/90 rounded-2xl shadow-sm divide-y divide-zinc-100 lg:flex lg:flex-col lg:h-full lg:overflow-y-auto lg:overscroll-contain lg:[scrollbar-width:none] lg:[&::-webkit-scrollbar]:hidden">
 
         {isAirport ? (
           <>
             {/* Route Graphic */}
-            <div className="relative bg-[#f4f4f7] p-4 border-b border-zinc-200/70 lg:flex-1 lg:flex lg:flex-col lg:min-h-0">
-              <div className="relative rounded-xl overflow-hidden bg-gradient-to-br from-zinc-100 to-zinc-200 border border-zinc-300/60 p-3 flex flex-col justify-between lg:flex-1 lg:min-h-0" style={{minHeight: '8rem'}}>
+            <div className="relative bg-[#f4f4f7] p-4 border-b border-zinc-200/70 lg:shrink-0">
+              <div className="relative rounded-xl overflow-hidden bg-gradient-to-br from-zinc-100 to-zinc-200 border border-zinc-300/60 p-3 flex flex-col justify-between" style={{minHeight: '8rem'}}>
                 <svg className="absolute inset-0 w-full h-full text-zinc-300/60" viewBox="0 0 300 180" fill="currentColor" preserveAspectRatio="none">
                   <polygon points="20,40 80,20 160,25 240,15 280,60 260,130 190,165 110,160 40,120" />
                 </svg>
