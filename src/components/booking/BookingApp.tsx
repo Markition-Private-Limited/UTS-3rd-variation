@@ -179,7 +179,8 @@ export default function BookingApp() {
           </div>
 
           <BookingSidebar state={derivedState} selectedVehicle={selectedVehicle}
-            onUpdateState={updateBookingState} onContinue={handleContinueToBooking} onSave={handleSaveJourney} />
+            onUpdateState={updateBookingState} onServiceChange={handleServiceChange}
+            onContinue={handleContinueToBooking} onSave={handleSaveJourney} />
         </div>
       </main>
 
