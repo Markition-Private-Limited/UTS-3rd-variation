@@ -3,7 +3,7 @@
 import LocationInput from '@/components/ui/LocationInput';
 import React, { useState } from 'react';
 import {
-  MapPin, Plane, Plus, Trash2, AlertCircle,
+  MapPin, Plane,
 } from 'lucide-react';
 import { BookingState, ServiceType, Vehicle } from '@/types/booking';
 import { calculatePrice } from '@/data/fleet';
@@ -41,8 +41,6 @@ export const BookingSidebar: React.FC<BookingSidebarProps> = ({
 }) => {
   const [editingPickup, setEditingPickup] = useState(false);
   const [editingDestination, setEditingDestination] = useState(false);
-  const [newStopAddress, setNewStopAddress] = useState('');
-  const [showAddStopInput, setShowAddStopInput] = useState(false);
 
   const priceCalc = calculatePrice(state.serviceType, selectedVehicle, {
     distanceKm: state.sampleDistanceKm,
@@ -52,29 +50,22 @@ export const BookingSidebar: React.FC<BookingSidebarProps> = ({
   const isMinHoursValid = state.serviceType === 'airport-transfer' || state.durationHours >= 4;
   const isAirport = state.serviceType === 'airport-transfer';
 
-  const handleAddStop = () => {
-    if (!newStopAddress.trim()) return;
-    onUpdateState({ stops: [...state.stops, { id: `stop-${Date.now()}`, address: newStopAddress.trim() }] });
-    setNewStopAddress('');
-    setShowAddStopInput(false);
-  };
-
-  const handleRemoveStop = (stopId: string) => {
-    onUpdateState({ stops: state.stops.filter((s) => s.id !== stopId) });
-  };
-
   const passengerOptions = Array.from({ length: selectedVehicle.passengers + 2 }, (_, i) => i + 1);
   const luggageOptions = Array.from({ length: selectedVehicle.luggage + 4 }, (_, i) => i);
   const luggageLabel = LUGGAGE_TYPE_LABEL[state.luggageType];
 
-  const passengersLuggageSelects = (
+  const renderPassengersLuggage = (boldHeading: boolean) => (
     <div className="space-y-3">
       <div>
-        <span className="text-[10px] uppercase font-bold tracking-wider text-zinc-400 block">Passengers &amp; Luggage</span>
-        <span className="text-[10px] text-zinc-400 block leading-tight mt-0.5">Requested values. Actual capacity depends on the assigned vehicle and UTS confirmation.</span>
+        {boldHeading ? (
+          <span className="text-[11px] font-bold text-zinc-800 block">Passengers &amp; Luggage</span>
+        ) : (
+          <span className="text-[10px] uppercase font-bold tracking-wider text-zinc-400 block">Passengers &amp; Luggage</span>
+        )}
+        <span className="text-[11px] text-zinc-400 block leading-tight mt-0.5">Requested values. Actual capacity depends on the assigned vehicle and UTS confirmation.</span>
       </div>
       <div>
-        <label className="text-[11px] font-semibold text-zinc-700 block mb-1">Passengers</label>
+        <label className={`block mb-1 ${boldHeading ? 'text-[11px] text-zinc-500' : 'text-[11px] font-semibold text-zinc-700'}`}>Passengers</label>
         <select
           value={state.passengers}
           onChange={(e) => onUpdateState({ passengers: Number(e.target.value) })}
@@ -86,7 +77,7 @@ export const BookingSidebar: React.FC<BookingSidebarProps> = ({
         </select>
       </div>
       <div>
-        <label className="text-[11px] font-semibold text-zinc-700 block mb-1">Luggage</label>
+        <label className={`block mb-1 ${boldHeading ? 'text-[11px] text-zinc-500' : 'text-[11px] font-semibold text-zinc-700'}`}>Luggage</label>
         <select
           value={state.luggageCount}
           onChange={(e) => onUpdateState({ luggageCount: Number(e.target.value) })}
@@ -315,7 +306,7 @@ export const BookingSidebar: React.FC<BookingSidebarProps> = ({
 
             {/* Passengers & Luggage + instructions */}
             <div className="p-4 sm:p-5 space-y-4">
-              {passengersLuggageSelects}
+              {renderPassengersLuggage(false)}
               <div>
                 <label className="text-[10px] uppercase font-bold tracking-wider text-zinc-400 block mb-1">Additional pickup instructions (optional)</label>
                 <input type="text" placeholder="e.g. entrance or luggage details" value={state.specialInstructions}
@@ -365,7 +356,7 @@ export const BookingSidebar: React.FC<BookingSidebarProps> = ({
               </div>
 
               <div>
-                <span className="text-[10px] uppercase font-bold tracking-wider text-zinc-400 block">Pickup address</span>
+                <span className="text-[11px] text-zinc-500 block">Pickup address</span>
                 {editingPickup ? (
                   <div className="mt-1 flex gap-2">
                     <LocationInput value={state.pickupAddress} onChange={(v) => onUpdateState({ pickupAddress: v })} popClassName="!bg-zinc-900/95"
@@ -378,7 +369,7 @@ export const BookingSidebar: React.FC<BookingSidebarProps> = ({
               </div>
 
               <div>
-                <span className="text-[10px] uppercase font-bold tracking-wider text-zinc-400 block">Date &amp; Pickup Time</span>
+                <span className="text-[11px] text-zinc-500 block">Date &amp; Pickup Time</span>
                 <p className="text-xs font-medium text-zinc-900">{state.pickupDate} · {state.pickupTime}</p>
                 <p className="text-xs text-zinc-600 mt-0.5">{state.durationHours} hours · Estimated end {addHours(state.pickupTime, state.durationHours)}</p>
                 <p className="text-[11px] text-zinc-400 mt-0.5">{state.pickupDate} · Same day</p>
@@ -387,67 +378,23 @@ export const BookingSidebar: React.FC<BookingSidebarProps> = ({
               <div>
                 {state.stops.length > 0 ? (
                   <>
-                    <div className="flex items-center justify-between mb-1.5">
-                      <span className="text-[10px] uppercase font-bold tracking-wider text-zinc-400">Optional Stops · {state.stops.length}</span>
-                      <button type="button" onClick={() => setShowAddStopInput(true)} className="text-[11px] text-zinc-900 font-semibold inline-flex items-center gap-1 hover:underline">
-                        <Plus className="w-3 h-3" /><span>Add Stop</span>
-                      </button>
-                    </div>
-                    <div className="space-y-2">
+                    <span className="text-[11px] text-zinc-500 block mb-1.5">Optional Stops · {state.stops.length}</span>
+                    <div className="space-y-1">
                       {state.stops.map((stop, idx) => (
-                        <div key={stop.id} className="flex items-center justify-between text-xs bg-zinc-50 p-2 rounded-lg border border-zinc-200/80">
-                          <div className="flex items-center gap-2 truncate">
-                            <span className="w-4 h-4 rounded-full bg-zinc-200 text-zinc-700 text-[10px] flex items-center justify-center font-bold shrink-0">{idx + 1}</span>
-                            <span className="truncate font-medium text-zinc-800">{stop.address}</span>
-                          </div>
-                          <button onClick={() => handleRemoveStop(stop.id)} className="text-zinc-400 hover:text-red-600 p-1 shrink-0"><Trash2 className="w-3.5 h-3.5" /></button>
-                        </div>
+                        <p key={stop.id} className="text-xs font-medium text-zinc-900">
+                          <span className="font-bold">{idx + 1}</span>&nbsp;&nbsp;{stop.address}
+                        </p>
                       ))}
                     </div>
                   </>
                 ) : (
                   <>
-                    <span className="text-[10px] uppercase font-bold tracking-wider text-zinc-400 block mb-1">Final destination · Optional</span>
-                    <div className="flex items-center justify-between">
-                      <p className="text-xs font-bold text-zinc-900">Flexible itinerary — not specified</p>
-                      <button type="button" onClick={() => setShowAddStopInput(true)} className="text-[11px] text-zinc-900 font-semibold inline-flex items-center gap-1 hover:underline shrink-0">
-                        <Plus className="w-3 h-3" /><span>Add Stop</span>
-                      </button>
-                    </div>
+                    <span className="text-[11px] text-zinc-500 block mb-1">Final destination · Optional</span>
+                    <p className="text-xs font-bold text-zinc-900">Flexible itinerary — not specified</p>
                   </>
                 )}
                 <p className="text-[11px] text-zinc-400 mt-1.5">Multiple stops possible within the booked period.</p>
-                {showAddStopInput && (
-                  <div className="mt-2 flex gap-1.5">
-                    <input type="text" placeholder="Enter stop address" value={newStopAddress} onChange={(e) => setNewStopAddress(e.target.value)}
-                      className="flex-1 text-[16px] sm:text-xs border border-zinc-300 rounded px-2.5 py-1.5 focus:outline-none focus:ring-1 focus:ring-zinc-950" />
-                    <button onClick={handleAddStop} className="bg-zinc-950 text-white text-xs px-3 py-1.5 rounded font-medium">Save</button>
-                  </div>
-                )}
               </div>
-            </div>
-
-            {/* Duration stepper */}
-            <div className="p-4 sm:p-5 bg-zinc-50/60">
-              <div className="flex items-center justify-between mb-2">
-                <label className="text-xs font-bold text-zinc-800">Booking Duration (Hours)</label>
-                <span className="text-[11px] text-zinc-500">Minimum: 4 hours</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <button type="button" onClick={() => onUpdateState({ durationHours: Math.max(1, state.durationHours - 1) })}
-                  className="w-9 h-9 rounded-lg bg-white border border-zinc-200 text-zinc-800 hover:bg-zinc-100 flex items-center justify-center font-bold text-sm">-</button>
-                <div className="flex-1 text-center py-1.5 px-3 bg-white border border-zinc-200 rounded-lg">
-                  <span className="text-base font-bold text-zinc-950">{state.durationHours} Hours</span>
-                </div>
-                <button type="button" onClick={() => onUpdateState({ durationHours: Math.min(16, state.durationHours + 1) })}
-                  className="w-9 h-9 rounded-lg bg-white border border-zinc-200 text-zinc-800 hover:bg-zinc-100 flex items-center justify-center font-bold text-sm">+</button>
-              </div>
-              {!isMinHoursValid && (
-                <div className="mt-2.5 p-2 bg-amber-50 border border-amber-200 text-amber-900 rounded-lg text-xs flex items-start gap-2">
-                  <AlertCircle className="w-4 h-4 text-amber-600 shrink-0 mt-0.5" />
-                  <span>UTS policy enforces a strict <strong>4-hour minimum</strong> for {state.serviceType === 'day-booking' ? 'Day Booking' : 'Hourly Chauffeur'}.</span>
-                </div>
-              )}
             </div>
 
             {/* Price breakdown */}
@@ -484,9 +431,9 @@ export const BookingSidebar: React.FC<BookingSidebarProps> = ({
 
             {/* Passengers & Luggage + accessibility */}
             <div className="p-4 sm:p-5 space-y-4">
-              {passengersLuggageSelects}
+              {renderPassengersLuggage(true)}
               <div>
-                <label className="text-[10px] uppercase font-bold tracking-wider text-zinc-400 block mb-1">Accessibility / additional requirements (optional)</label>
+                <label className="text-[11px] text-zinc-500 block mb-1">Accessibility / additional requirements (optional)</label>
                 <textarea rows={2} placeholder="Tell us how we can assist" value={state.specialInstructions}
                   onChange={(e) => onUpdateState({ specialInstructions: e.target.value })}
                   className="w-full text-[16px] sm:text-xs bg-zinc-50 border border-zinc-200 rounded-lg px-2.5 py-2 text-zinc-900 focus:outline-none focus:ring-1 focus:ring-zinc-950 placeholder:text-zinc-400 resize-none" />
