@@ -22,13 +22,13 @@ const STANDARDS = [
 export function AboutStandardSection() {
   return (
     <Reveal>
-    <section className="bg-white px-6 py-20 sm:px-10 lg:px-16 lg:py-28">
+    <section className="bg-white px-6 pt-20 pb-[80px] sm:px-10 lg:px-16 lg:pt-28 lg:pb-[80px]">
+      <span className="mx-auto mb-6 block max-w-[1800px] text-[11px] font-medium tracking-[0.3em] text-neutral-400">
+        THE UTS STANDARD
+      </span>
       <div className="mx-auto grid max-w-[1800px] grid-cols-1 gap-12 lg:grid-cols-[568fr_597fr] lg:items-start lg:gap-x-[86px] lg:gap-y-0">
-        {/* Left — label, heading, image */}
+        {/* Left — heading, image */}
         <div>
-          <span className="mb-6 block text-[11px] font-medium tracking-[0.3em] text-neutral-400">
-            THE UTS STANDARD
-          </span>
           <h2 className="mb-8 text-[42px] font-extralight leading-[115%] tracking-[-0.03em] text-neutral-900 lg:whitespace-nowrap">
             Excellence in <span className="font-semibold">Every Detail.</span>
           </h2>
