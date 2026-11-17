@@ -7,6 +7,7 @@ import {
 } from 'lucide-react';
 import { BookingState, ServiceType, Vehicle } from '@/types/booking';
 import { calculatePrice } from '@/data/fleet';
+import { addHours } from '@/lib/booking';
 import PillButtonContent from '@/components/ui/PillButtonContent';
 
 interface BookingSidebarProps {
@@ -29,16 +30,6 @@ const LUGGAGE_TYPE_LABEL: Record<BookingState['luggageType'], string> = {
   'check-in': 'check-in bag',
   large: 'large bag',
 };
-
-// "08:00" + 8 -> "16:00" (wraps past midnight; this prototype never books more than 16 hrs)
-function addHours(time: string, hours: number): string {
-  const [h, m] = time.split(':').map((n) => parseInt(n, 10));
-  if (Number.isNaN(h) || Number.isNaN(m)) return time;
-  const total = (h * 60 + m + hours * 60) % (24 * 60);
-  const endH = Math.floor(total / 60);
-  const endM = total % 60;
-  return `${String(endH).padStart(2, '0')}:${String(endM).padStart(2, '0')}`;
-}
 
 export const BookingSidebar: React.FC<BookingSidebarProps> = ({
   state,
