@@ -14,7 +14,7 @@ export const ShowcaseCarousel: React.FC<ShowcaseCarouselProps> = ({ serviceType,
       {
         image: '/booking/images/uts_airport_hero_v3.webp',
         caption: 'A composed, private journey from door to terminal.',
-        subtext: `Refined executive travel for every airport journey. ${selectedVehicle.name} provides a composed, private environment with a professional chauffeur and full luggage assistance across London airports.`,
+        subtext: `Refined executive travel for every airport journey. The ${selectedVehicle.name} provides a composed, private environment with a professional chauffeur and full luggage assistance.`,
       },
       {
         image: selectedVehicle.image2,

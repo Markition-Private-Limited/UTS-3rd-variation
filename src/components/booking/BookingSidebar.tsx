@@ -3,7 +3,7 @@
 import LocationInput from '@/components/ui/LocationInput';
 import React, { useState } from 'react';
 import {
-  MapPin, Plane,
+  MapPin, Plane, User, Briefcase,
 } from 'lucide-react';
 import { BookingState, ServiceType, Vehicle } from '@/types/booking';
 import { calculatePrice } from '@/data/fleet';
@@ -306,7 +306,26 @@ export const BookingSidebar: React.FC<BookingSidebarProps> = ({
 
             {/* Passengers & Luggage + instructions */}
             <div className="p-4 sm:p-5 space-y-4">
-              {renderPassengersLuggage(false)}
+              <div>
+                <span className="text-[11px] font-bold text-zinc-800 block">Passengers &amp; Luggage</span>
+                <span className="text-[11px] text-zinc-400 block leading-tight mt-0.5">Requested values below. Actual vehicle capacity subject to confirmation with UTS.</span>
+                <div className="grid grid-cols-2 gap-4 mt-3">
+                  <div className="flex items-center gap-2">
+                    <User className="w-4 h-4 text-zinc-500 shrink-0" />
+                    <div>
+                      <span className="text-[10px] text-zinc-400 block">Requested</span>
+                      <span className="text-xs font-semibold text-zinc-900">{state.passengers} passenger{state.passengers === 1 ? '' : 's'}</span>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <Briefcase className="w-4 h-4 text-zinc-500 shrink-0" />
+                    <div>
+                      <span className="text-[10px] text-zinc-400 block">Requested</span>
+                      <span className="text-xs font-semibold text-zinc-900">{state.luggageCount} {luggageLabel}{state.luggageCount === 1 ? '' : 's'}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
               <div>
                 <label className="text-[10px] uppercase font-bold tracking-wider text-zinc-400 block mb-1">Additional pickup instructions (optional)</label>
                 <input type="text" placeholder="e.g. entrance or luggage details" value={state.specialInstructions}

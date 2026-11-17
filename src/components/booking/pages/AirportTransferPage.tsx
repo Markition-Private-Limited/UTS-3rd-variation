@@ -41,11 +41,10 @@ export const AirportTransferPage: React.FC<AirportTransferPageProps> = ({
       <WhatsIncluded serviceType="airport-transfer" />
 
       <CapacityLuggage selectedVehicle={selectedVehicle} currentLuggageType={state.luggageType}
-        onLuggageTypeChange={(t) => onUpdateState({ luggageType: t })} />
+        onLuggageTypeChange={(t) => onUpdateState({ luggageType: t })} serviceType="airport-transfer" />
 
       <PriceBreakdown serviceType="airport-transfer" selectedVehicle={selectedVehicle}
-        distanceKm={state.sampleDistanceKm} durationHours={state.durationHours}
-        onDistanceChange={(d) => onUpdateState({ sampleDistanceKm: d })} />
+        distanceKm={state.sampleDistanceKm} durationHours={state.durationHours} />
     </div>
   );
 };

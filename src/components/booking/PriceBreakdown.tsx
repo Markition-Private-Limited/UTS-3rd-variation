@@ -10,7 +10,6 @@ interface PriceBreakdownProps {
   selectedVehicle: Vehicle;
   distanceKm: number;
   durationHours: number;
-  onDistanceChange?: (newDist: number) => void;
 }
 
 export const PriceBreakdown: React.FC<PriceBreakdownProps> = ({
@@ -18,7 +17,6 @@ export const PriceBreakdown: React.FC<PriceBreakdownProps> = ({
   selectedVehicle,
   distanceKm,
   durationHours,
-  onDistanceChange,
 }) => {
   const calculation = calculatePrice(serviceType, selectedVehicle, { distanceKm, durationHours });
 
@@ -35,53 +33,19 @@ export const PriceBreakdown: React.FC<PriceBreakdownProps> = ({
         {serviceType === 'airport-transfer' && (
           <>
             <div className="py-3 flex items-center justify-between text-sm">
-              <span className="text-zinc-600 font-normal">{selectedVehicle.name} base tariff rate</span>
+              <span className="text-zinc-600 font-normal">{selectedVehicle.name} base fare (illustrative)</span>
               <span className="font-semibold text-zinc-900">
-                {selectedVehicle.airportRateKm !== null ? `£${selectedVehicle.airportRateKm.toFixed(2)} / km` : 'To be confirmed'}
-              </span>
-            </div>
-
-            <div className="py-3 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between text-sm">
-              <div className="flex items-center gap-2">
-                <span className="text-zinc-600 font-normal">Sample journey distance</span>
-                {onDistanceChange && <span className="text-[11px] text-zinc-400">(configurable)</span>}
-              </div>
-              <div className="flex items-center gap-2">
-                {onDistanceChange ? (
-                  <select
-                    value={distanceKm}
-                    onChange={(e) => onDistanceChange(Number(e.target.value))}
-                    className="w-full max-w-full truncate text-[16px] bg-zinc-50 border border-zinc-200 rounded px-2 py-1.5 font-semibold text-zinc-800 sm:w-auto sm:max-w-[220px] sm:text-xs sm:py-1"
-                  >
-                    <option value={20}>20 km (Inner London)</option>
-                    <option value={28}>28 km (Central London → Heathrow T5)</option>
-                    <option value={45}>45 km (Mayfair → Gatwick)</option>
-                    <option value={60}>60 km (London → Stansted)</option>
-                    <option value={75}>75 km (London → Luton / Outlying)</option>
-                  </select>
-                ) : (
-                  <span className="font-semibold text-zinc-900">{distanceKm} km</span>
-                )}
-              </div>
-            </div>
-
-            <div className="py-3 flex items-center justify-between text-sm">
-              <span className="text-zinc-600 font-normal">Calculated illustrative base fare ({distanceKm} km)</span>
-              <span className="font-semibold text-zinc-900">
-                {calculation.baseFare !== null ? `£${calculation.baseFare.toFixed(2)}` : 'Price to be confirmed'}
+                {calculation.baseFare !== null ? `£${calculation.baseFare.toFixed(2)}` : 'To be confirmed'}
               </span>
             </div>
 
             <div className="py-3 flex items-center justify-between text-sm">
-              <span className="text-zinc-600 font-normal">Booking & administration fee</span>
+              <span className="text-zinc-600 font-normal">Booking & administration fee (illustrative)</span>
               <span className="text-zinc-400 font-normal italic">Not configured (omitted per UTS schedule)</span>
             </div>
 
             <div className="pt-4 pb-1 flex items-baseline justify-between">
-              <div>
-                <span className="text-base font-bold text-zinc-950 block">Illustrative estimated total</span>
-                <span className="text-[11px] text-zinc-400">Per-km distance tariff estimate</span>
-              </div>
+              <span className="text-base font-bold text-zinc-950">Illustrative estimated total</span>
               <span className="text-xl sm:text-2xl font-extrabold tracking-tight text-zinc-950">
                 {calculation.total !== null ? `£${calculation.total.toFixed(2)}` : 'Price to be confirmed'}
               </span>

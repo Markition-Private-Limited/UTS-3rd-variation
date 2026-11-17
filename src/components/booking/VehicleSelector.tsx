@@ -360,7 +360,7 @@ export const VehicleSelector: React.FC<VehicleSelectorProps> = ({
                   <CardArrow className={`absolute z-[1] left-4 opacity-0 -translate-x-2 transition-all duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] group-hover/btn:opacity-100 group-hover/btn:translate-x-0 ${isSelected ? 'text-zinc-950' : 'text-white'}`} />
                   {/* Label — centered, shifts right slightly on hover */}
                   <span className={`relative z-[1] flex-1 text-center transition-all duration-500 ease-out group-hover/btn:translate-x-[0.5em] ${isSelected ? 'group-hover/btn:text-zinc-950' : 'group-hover/btn:text-white'}`}>
-                    {isSelected ? 'Selected' : 'Select'}
+                    Select {vehicle.name}
                   </span>
                   {/* Exiting arrow — absolute right, exits right on hover */}
                   <CardArrow className={`absolute z-[1] right-4 transition-all duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] group-hover/btn:opacity-0 group-hover/btn:translate-x-3 ${isSelected ? 'group-hover/btn:text-zinc-950' : 'group-hover/btn:text-white'}`} />

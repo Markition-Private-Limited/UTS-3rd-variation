@@ -52,7 +52,7 @@ export const HourlyChauffeurPage: React.FC<HourlyChauffeurPageProps> = ({
       <ShowcaseCarousel serviceType="hourly-chauffeur" selectedVehicle={selectedVehicle} />
       <WhatsIncluded serviceType="hourly-chauffeur" />
       <CapacityLuggage selectedVehicle={selectedVehicle} currentLuggageType={state.luggageType}
-        onLuggageTypeChange={(t) => onUpdateState({ luggageType: t })} />
+        onLuggageTypeChange={(t) => onUpdateState({ luggageType: t })} serviceType="hourly-chauffeur" />
       <PriceBreakdown serviceType="hourly-chauffeur" selectedVehicle={selectedVehicle}
         distanceKm={state.sampleDistanceKm} durationHours={state.durationHours} />
     </div>

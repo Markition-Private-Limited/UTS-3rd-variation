@@ -2,19 +2,21 @@
 
 import React, { useState } from 'react';
 import { Users } from 'lucide-react';
-import { Vehicle } from '@/types/booking';
+import { ServiceType, Vehicle } from '@/types/booking';
 import { getLuggageImage } from '@/data/fleet';
 
 interface CapacityLuggageProps {
   selectedVehicle: Vehicle;
   currentLuggageType: 'carry-on' | 'check-in' | 'large';
   onLuggageTypeChange: (type: 'carry-on' | 'check-in' | 'large') => void;
+  serviceType: ServiceType;
 }
 
 export const CapacityLuggage: React.FC<CapacityLuggageProps> = ({
   selectedVehicle,
   currentLuggageType,
   onLuggageTypeChange,
+  serviceType,
 }) => {
   const [activeTab, setActiveTab] = useState<'seating' | 'luggage'>('luggage');
 
@@ -107,9 +109,11 @@ export const CapacityLuggage: React.FC<CapacityLuggageProps> = ({
               </span>
             </div>
           </div>
-          <p className="text-[11px] text-zinc-400 mt-2">
-            {selectedVehicle.name} · {luggageOptions.find((o) => o.id === currentLuggageType)?.label.replace('×', 'x')} shown · Illustrative configuration only
-          </p>
+          {serviceType !== 'airport-transfer' && (
+            <p className="text-[11px] text-zinc-400 mt-2">
+              {selectedVehicle.name} · {luggageOptions.find((o) => o.id === currentLuggageType)?.label.replace('×', 'x')} shown · Illustrative configuration only
+            </p>
+          )}
         </>
       ) : (
         <div className="bg-zinc-50 border border-zinc-200 rounded-2xl p-6">

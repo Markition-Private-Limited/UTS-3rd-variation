@@ -52,7 +52,7 @@ export const DayBookingPage: React.FC<DayBookingPageProps> = ({
       <ShowcaseCarousel serviceType="day-booking" selectedVehicle={selectedVehicle} />
       <WhatsIncluded serviceType="day-booking" />
       <CapacityLuggage selectedVehicle={selectedVehicle} currentLuggageType={state.luggageType}
-        onLuggageTypeChange={(t) => onUpdateState({ luggageType: t })} />
+        onLuggageTypeChange={(t) => onUpdateState({ luggageType: t })} serviceType="day-booking" />
       <PriceBreakdown serviceType="day-booking" selectedVehicle={selectedVehicle}
         distanceKm={state.sampleDistanceKm} durationHours={state.durationHours} />
     </div>
