@@ -145,7 +145,13 @@ export function Navbar() {
 
         {/* CTA Button */}
         <button
-          onClick={() => router.push("/book")}
+          onClick={() => {
+            if (onHome) {
+              window.dispatchEvent(new CustomEvent("openBookingPanel"));
+            } else {
+              router.push("/book");
+            }
+          }}
           className="group hidden lg:inline-flex relative overflow-hidden whitespace-nowrap items-center justify-between gap-4 text-[11px] font-medium tracking-[0.18em] uppercase px-6 py-3 rounded-full cursor-pointer"
           onMouseEnter={() => setCtaHovered(true)}
           onMouseLeave={() => setCtaHovered(false)}
@@ -252,7 +258,15 @@ export function Navbar() {
 
             <div style={{ marginTop: "auto", paddingTop: 32 }}>
               <button
-                onClick={() => { router.push("/book"); setMenuOpen(false); }}
+                onClick={() => {
+                  if (onHome) {
+                    setMenuOpen(false);
+                    window.dispatchEvent(new CustomEvent("openBookingPanel"));
+                  } else {
+                    router.push("/book");
+                    setMenuOpen(false);
+                  }
+                }}
                 style={{
                   width: "100%", padding: "16px 0",
                   borderRadius: 999,

@@ -1,8 +1,8 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useLayoutEffect, useRef, useState } from "react";
 
-export const TABS = ["Airport Transfer", "Day Booking", "Hourly Chauffeur"] as const;
+export const TABS = ["Airport Transfer", "Sightseeing Chauffeur", "Hourly Chauffeur", "Day Service", "City to City"] as const;
 export type Tab = (typeof TABS)[number];
 
 export default function BookingTabs({
@@ -19,7 +19,9 @@ export default function BookingTabs({
     onChange?.(tab);
   };
   const cardRef = useRef<HTMLDivElement>(null);
+  const buttonRefs = useRef<(HTMLButtonElement | null)[]>([]);
   const [tilt, setTilt] = useState({ rx: 0, ry: 0, mx: 50, my: 50 });
+  const [pill, setPill] = useState({ left: 0, width: 0 });
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     const el = cardRef.current;
@@ -40,75 +42,90 @@ export default function BookingTabs({
 
   const activeIdx = TABS.indexOf(activeTab);
 
+  useLayoutEffect(() => {
+    const measure = () => {
+      const btn = buttonRefs.current[activeIdx];
+      const container = cardRef.current;
+      if (!btn || !container) return;
+      setPill({ left: btn.offsetLeft, width: btn.offsetWidth });
+    };
+    measure();
+    window.addEventListener("resize", measure);
+    return () => window.removeEventListener("resize", measure);
+  }, [activeIdx]);
+
   return (
-    <div
-      ref={cardRef}
-      onMouseMove={handleMouseMove}
-      onMouseLeave={handleMouseLeave}
-      className="relative inline-grid grid-cols-3 overflow-hidden"
-      style={{
-        borderRadius: "20px",
-        padding: "0.45vw",
-        backgroundColor: "rgba(255,255,255,0.02)",
-        border: "1px solid rgba(255,255,255,0.4)",
-        backdropFilter: "blur(24px) saturate(160%)",
-        WebkitBackdropFilter: "blur(24px) saturate(160%)",
-        boxShadow:
-          "0 8px 40px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.4), inset 0 -1px 0 rgba(255,255,255,0.08), inset 0 0 30px rgba(255,255,255,0.02)",
-        transform: `perspective(800px) rotateX(${tilt.rx}deg) rotateY(${tilt.ry}deg)`,
-        transition: "transform 0.25s cubic-bezier(0.4,0,0.2,1)",
-        transformStyle: "preserve-3d",
-      }}
-    >
-      {/* Cursor-following glare */}
+    <div className="w-full overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
       <div
-        aria-hidden
-        className="pointer-events-none absolute inset-0 z-0"
+        ref={cardRef}
+        onMouseMove={handleMouseMove}
+        onMouseLeave={handleMouseLeave}
+        className="relative inline-flex overflow-hidden mx-auto"
         style={{
-          background: `radial-gradient(circle 160px at ${tilt.mx}% ${tilt.my}%, rgba(255,255,255,0.16), transparent 70%)`,
-          transition: "background 0.25s cubic-bezier(0.4,0,0.2,1)",
+          borderRadius: "20px",
+          padding: "4px",
+          backgroundColor: "rgba(255,255,255,0.02)",
+          border: "1px solid rgba(255,255,255,0.4)",
+          backdropFilter: "blur(24px) saturate(160%)",
+          WebkitBackdropFilter: "blur(24px) saturate(160%)",
+          boxShadow:
+            "0 8px 40px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.4), inset 0 -1px 0 rgba(255,255,255,0.08), inset 0 0 30px rgba(255,255,255,0.02)",
+          transform: `perspective(800px) rotateX(${tilt.rx}deg) rotateY(${tilt.ry}deg)`,
+          transition: "transform 0.25s cubic-bezier(0.4,0,0.2,1)",
+          transformStyle: "preserve-3d",
         }}
-      />
-
-      {/* Sliding active pill */}
-      <div
-        aria-hidden
-        className="absolute pointer-events-none"
-        style={{
-          top: "0.45vw",
-          bottom: "0.45vw",
-          left: "0.45vw",
-          width: `calc((100% - 0.9vw) / ${TABS.length})`,
-          borderRadius: "14px",
-          backgroundColor: "rgba(255,255,255,0.08)",
-          border: "1px solid rgba(255,255,255,0.22)",
-          backdropFilter: "blur(10px)",
-          WebkitBackdropFilter: "blur(10px)",
-          transform: `translateX(${activeIdx * 100}%)`,
-          transition: "transform 0.35s cubic-bezier(0.4,0,0.2,1)",
-        }}
-      />
-
-      {/* Tab buttons */}
-      {TABS.map((tab) => (
-        <button
-          key={tab}
-          onClick={() => setActiveTab(tab)}
-          className="relative z-10 px-5 whitespace-nowrap"
+      >
+        {/* Cursor-following glare */}
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-0 z-0"
           style={{
-            paddingTop: "0.8vw",
-            paddingBottom: "0.8vw",
-            fontSize: "clamp(9px, 0.625vw, 11px)",
-            fontWeight: 600,
-            letterSpacing: "0.18em",
-            textTransform: "uppercase",
-            color: activeTab === tab ? "rgba(255,255,255,0.95)" : "rgba(255,255,255,0.38)",
-            transition: "color 0.25s ease",
+            background: `radial-gradient(circle 160px at ${tilt.mx}% ${tilt.my}%, rgba(255,255,255,0.16), transparent 70%)`,
+            transition: "background 0.25s cubic-bezier(0.4,0,0.2,1)",
           }}
-        >
-          {tab}
-        </button>
-      ))}
+        />
+
+        {/* Sliding active pill */}
+        <div
+          aria-hidden
+          className="absolute pointer-events-none"
+          style={{
+            top: "4px",
+            bottom: "4px",
+            left: 0,
+            width: pill.width,
+            borderRadius: "14px",
+            backgroundColor: "rgba(255,255,255,0.08)",
+            border: "1px solid rgba(255,255,255,0.22)",
+            backdropFilter: "blur(10px)",
+            WebkitBackdropFilter: "blur(10px)",
+            transform: `translateX(${pill.left}px)`,
+            transition: "transform 0.35s cubic-bezier(0.4,0,0.2,1), width 0.35s cubic-bezier(0.4,0,0.2,1)",
+          }}
+        />
+
+        {/* Tab buttons */}
+        {TABS.map((tab, i) => (
+          <button
+            key={tab}
+            ref={(el) => { buttonRefs.current[i] = el; }}
+            onClick={() => setActiveTab(tab)}
+            className="relative z-10 px-3 whitespace-nowrap shrink-0"
+            style={{
+              paddingTop: "8px",
+              paddingBottom: "8px",
+              fontSize: "11px",
+              fontWeight: 600,
+              letterSpacing: "0.18em",
+              textTransform: "uppercase",
+              color: activeTab === tab ? "rgba(255,255,255,0.95)" : "rgba(255,255,255,0.38)",
+              transition: "color 0.25s ease",
+            }}
+          >
+            {tab}
+          </button>
+        ))}
+      </div>
     </div>
   );
 }

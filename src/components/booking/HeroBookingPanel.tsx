@@ -3,7 +3,9 @@
 import { useEffect, useRef, useState } from "react";
 import LocationInput from "@/components/ui/LocationInput";
 import PillButtonContent from "@/components/ui/PillButtonContent";
-import type { Tab } from "@/components/ui/BookingTabs";
+import BookingTabs, { type Tab } from "@/components/ui/BookingTabs";
+
+export type Direction = "departure" | "arrival";
 
 export type HeroForm = { pickup: string; destination: string; date: string; time: string };
 
@@ -236,14 +238,15 @@ function DurationField({
   );
 }
 
-export const DURATION_OPTIONS: Record<"Day Booking" | "Hourly Chauffeur", { value: number; label: string }[]> = {
-  "Day Booking": [
+export const DURATION_OPTIONS: Record<"Day Service" | "Sightseeing Chauffeur" | "Hourly Chauffeur", { value: number; label: string }[]> = {
+  "Day Service": [
     { value: 4, label: "Half Day · 4 hours" },
     { value: 8, label: "Full Day · 8 hours" },
     { value: 10, label: "Extended · 10 hours" },
     { value: 12, label: "Long Day · 12 hours" },
     { value: 24, label: "Multi-Day · 24 hours" },
   ],
+  "Sightseeing Chauffeur": [2, 3, 4, 5, 6, 8].map((h) => ({ value: h, label: `${h} hours` })),
   "Hourly Chauffeur": [4, 5, 6, 7, 8, 9, 10, 12].map((h) => ({ value: h, label: `${h} hours` })),
 };
 
@@ -275,6 +278,10 @@ function PassengerField({ value, onChange, lock }: { value: number; onChange: (n
 
 export default function HeroBookingPanel({
   tab,
+  onTab,
+  showTabs,
+  direction,
+  onDirection,
   duration,
   onDuration,
   form,
@@ -286,6 +293,10 @@ export default function HeroBookingPanel({
   onSubmit,
 }: {
   tab: Tab;
+  onTab?: (t: Tab) => void;
+  showTabs?: boolean;
+  direction: Direction;
+  onDirection: (d: Direction) => void;
   duration: number;
   onDuration: (n: number) => void;
   form: HeroForm;
@@ -315,7 +326,7 @@ export default function HeroBookingPanel({
 
   return (
     <div
-      className="relative z-20 rounded-2xl border border-white/20 px-6 pb-4 pt-4 text-white backdrop-blur-xl backdrop-saturate-150 md:px-14"
+      className="relative z-20 rounded-2xl border border-white/20 px-4 pb-4 pt-4 text-white backdrop-blur-xl backdrop-saturate-150 md:px-14 max-h-[calc(100svh-5rem)] overflow-y-auto sm:max-h-none sm:overflow-visible"
       onMouseMove={onMove}
       onMouseLeave={onLeave}
       style={{
@@ -356,50 +367,117 @@ export default function HeroBookingPanel({
         />
       </div>
 
+      {/* Optional service tab switcher (shown when opened from "Book Your Chauffeur") */}
+      {showTabs && onTab && (
+        <div className="relative z-10 mb-4 w-full">
+          <BookingTabs value={tab} onChange={onTab} />
+        </div>
+      )}
+
       <form
         onSubmit={onSubmit}
         noValidate
         className="relative z-10 grid grid-cols-1 items-end gap-5 sm:grid-cols-2 lg:grid-cols-6"
       >
-        <label className="flex flex-col gap-2">
-          <span className={LABEL}>{tab === "Airport Transfer" ? "Pickup Location" : "Pickup Location"}</span>
-          <LocationInput
-            dropUp
-            value={form.pickup}
-            onChange={(v) => onValue("pickup", v)}
-            placeholder="Street, Hotel or Airport"
-            className={`${INPUT} ${border("pickup")}`}
-          />
-        </label>
-
-        {tab === "Airport Transfer" ? (
-          <label className="flex flex-col gap-2">
-          <span className={LABEL}>Drop off Location</span>
-          <LocationInput
-            dropUp
-            value={form.destination}
-            onChange={(v) => onValue("destination", v)}
-            placeholder="Destination Address"
-            className={`${INPUT} ${border("destination")}`}
-          />
-          </label>
-        ) : (
-          <DurationField
-            lock={lockOn}
-            label={tab === "Day Booking" ? "Day Package" : "Hours Required"}
-            options={DURATION_OPTIONS[tab]}
-            value={duration}
-            onChange={onDuration}
-          />
+        {/* Airport Transfer: Arrival / Departure toggle */}
+        {tab === "Airport Transfer" && (
+          <div className="flex flex-col gap-2 lg:col-span-6">
+            <span className={LABEL}>Transfer Type</span>
+            <div className="inline-flex gap-2">
+              {(["departure", "arrival"] as Direction[]).map((d) => (
+                <button
+                  key={d}
+                  type="button"
+                  onClick={() => onDirection(d)}
+                  className="px-4 py-1.5 rounded-full text-[11px] font-semibold uppercase tracking-[0.12em] transition-all duration-200"
+                  style={{
+                    background: direction === d ? "rgba(255,255,255,0.95)" : "rgba(255,255,255,0.08)",
+                    color: direction === d ? "#111" : "rgba(255,255,255,0.65)",
+                    border: direction === d ? "1px solid rgba(255,255,255,0.9)" : "1px solid rgba(255,255,255,0.2)",
+                  }}
+                >
+                  {d === "departure" ? "↑ Departure" : "↓ Arrival"}
+                </button>
+              ))}
+            </div>
+          </div>
         )}
 
-        <DateField lock={lockOn} label={tab === "Airport Transfer" ? "Pickup Date" : "Booking Date"} value={form.date} onChange={(v) => onValue("date", v)} error={touched && !form.date} />
-        <TimeField lock={lockOn} label={tab === "Airport Transfer" ? "Pickup Time" : "Start Time"} value={form.time} onChange={(v) => onValue("time", v)} error={touched && !form.time} />
+        {tab === "Airport Transfer" ? (
+          <>
+            <label className="flex flex-col gap-2">
+              <span className={LABEL}>{direction === "arrival" ? "Arrival Airport" : "Pickup Address"}</span>
+              <LocationInput
+                dropUp
+                value={form.pickup}
+                onChange={(v) => onValue("pickup", v)}
+                placeholder={direction === "arrival" ? "e.g. Heathrow Terminal 5" : "Street, Hotel or Address"}
+                className={`${INPUT} ${border("pickup")}`}
+              />
+            </label>
+            <label className="flex flex-col gap-2">
+              <span className={LABEL}>{direction === "arrival" ? "Drop-off Address" : "Airport & Terminal"}</span>
+              <LocationInput
+                dropUp
+                value={form.destination}
+                onChange={(v) => onValue("destination", v)}
+                placeholder={direction === "arrival" ? "Hotel, Office or Address" : "e.g. Heathrow Terminal 5"}
+                className={`${INPUT} ${border("destination")}`}
+              />
+            </label>
+          </>
+        ) : tab === "City to City" ? (
+          <>
+            <label className="flex flex-col gap-2">
+              <span className={LABEL}>Departure City</span>
+              <LocationInput
+                dropUp
+                value={form.pickup}
+                onChange={(v) => onValue("pickup", v)}
+                placeholder="e.g. London"
+                className={`${INPUT} ${border("pickup")}`}
+              />
+            </label>
+            <label className="flex flex-col gap-2">
+              <span className={LABEL}>Destination City</span>
+              <LocationInput
+                dropUp
+                value={form.destination}
+                onChange={(v) => onValue("destination", v)}
+                placeholder="e.g. Manchester"
+                className={`${INPUT} ${border("destination")}`}
+              />
+            </label>
+          </>
+        ) : (
+          <>
+            <label className="flex flex-col gap-2">
+              <span className={LABEL}>Pickup Location</span>
+              <LocationInput
+                dropUp
+                value={form.pickup}
+                onChange={(v) => onValue("pickup", v)}
+                placeholder="Street, Hotel or Address"
+                className={`${INPUT} ${border("pickup")}`}
+              />
+            </label>
+            <DurationField
+              lock={lockOn}
+              label={tab === "Day Service" ? "Day Package" : "Hours Required"}
+              options={DURATION_OPTIONS[tab as "Day Service" | "Sightseeing Chauffeur" | "Hourly Chauffeur"]}
+              value={duration}
+              onChange={onDuration}
+            />
+          </>
+        )}
+
+        <DateField lock={lockOn} label={(tab === "Airport Transfer" || tab === "City to City") ? "Travel Date" : "Booking Date"} value={form.date} onChange={(v) => onValue("date", v)} error={touched && !form.date} />
+        <TimeField lock={lockOn} label={(tab === "Airport Transfer" || tab === "City to City") ? "Pickup Time" : "Start Time"} value={form.time} onChange={(v) => onValue("time", v)} error={touched && !form.time} />
         <PassengerField lock={lockOn} value={passengers} onChange={onPassengers} />
 
         <button
           type="submit"
-          className="group relative inline-flex h-fit items-center justify-center gap-2 overflow-hidden whitespace-nowrap rounded-full border-[1.5px] border-transparent bg-white px-6 py-[0.9rem] text-[11px] font-semibold uppercase tracking-[0.12em] text-black transition-all duration-500 hover:border-white/50 hover:shadow-[0_0_16px_rgba(255,255,255,0.25)]"
+          className="group relative inline-flex h-fit w-full sm:w-auto items-center justify-center gap-2 overflow-hidden whitespace-nowrap rounded-full border-[1.5px] border-transparent bg-white px-6 py-[0.9rem] text-[11px] font-semibold uppercase tracking-[0.12em] text-black transition-all duration-500 hover:border-white/50 hover:shadow-[0_0_16px_rgba(255,255,255,0.25)]"
           style={{ minWidth: "168px" }}
         >
           <PillButtonContent fill="black">Find Your Ride</PillButtonContent>

@@ -5,13 +5,15 @@ import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { AnimatePresence, motion } from "motion/react";
 import { type Tab } from "@/components/ui/BookingTabs";
-import HeroBookingPanel, { DURATION_OPTIONS, type HeroForm } from "@/components/booking/HeroBookingPanel";
+import HeroBookingPanel, { DURATION_OPTIONS, type HeroForm, type Direction } from "@/components/booking/HeroBookingPanel";
 import { DRAFT_KEY, type BookingDraft, type ServiceType } from "@/lib/booking";
 
 const TAB_TO_SERVICE: Record<Tab, ServiceType> = {
   "Airport Transfer": "transfer",
-  "Day Booking": "day",
+  "Sightseeing Chauffeur": "hourly",
   "Hourly Chauffeur": "hourly",
+  "Day Service": "day",
+  "City to City": "transfer",
 };
 
 const EMPTY_FORM: HeroForm = { pickup: "", destination: "", date: "", time: "" };
@@ -55,7 +57,7 @@ const SERVICE_CARDS = [
     desc: "Sightseeing trips within London",
     image: "/hero-cards/sightseeing-london-v3.webp",
     href: "/book",
-    tab: "Hourly Chauffeur" as Tab,
+    tab: "Sightseeing Chauffeur" as Tab,
   },
   {
     title: "Hourly Chauffeur",
@@ -69,14 +71,14 @@ const SERVICE_CARDS = [
     desc: "Full-day vehicle block.",
     image: "/hero-cards/day-service-v3.webp",
     href: "/book",
-    tab: "Day Booking" as Tab,
+    tab: "Day Service" as Tab,
   },
   {
     title: "City to City",
     desc: "Intercity travel between major cities.",
     image: "/hero-cards/city-to-city-v3.webp",
     href: "/book",
-    tab: "Airport Transfer" as Tab,
+    tab: "City to City" as Tab,
   },
 ];
 
@@ -206,7 +208,9 @@ export function HeroSection() {
   const router = useRouter();
 
   const [panelOpen, setPanelOpen] = useState(false);
+  const [showTabs, setShowTabs] = useState(false);
   const [tab, setTab] = useState<Tab>("Airport Transfer");
+  const [direction, setDirection] = useState<Direction>("departure");
   const [form, setForm] = useState<HeroForm>(EMPTY_FORM);
   const [touched, setTouched] = useState(false);
   const [passengers, setPassengers] = useState(1);
@@ -219,14 +223,39 @@ export function HeroSection() {
 
   const slide = SLIDES[index];
 
+  const getDurationForTab = (t: Tab) => {
+    if (t === "Day Service") return DURATION_OPTIONS["Day Service"][1].value; // 8h default
+    if (t === "Sightseeing Chauffeur") return DURATION_OPTIONS["Sightseeing Chauffeur"][2].value; // 4h default
+    return DURATION_OPTIONS["Hourly Chauffeur"][4].value; // 8h default
+  };
+
   const openBookingPanel = (nextTab: Tab) => {
     setTab(nextTab);
-    setDuration(DURATION_OPTIONS[nextTab === "Day Booking" ? "Day Booking" : "Hourly Chauffeur"][0].value);
+    setShowTabs(false);
+    setDirection("departure");
+    setDuration(getDurationForTab(nextTab));
+    setTouched(false);
+    setPanelOpen(true);
+  };
+
+  const openBookingPanelAllServices = () => {
+    setTab("Airport Transfer");
+    setShowTabs(true);
+    setDirection("departure");
+    setDuration(DURATION_OPTIONS["Hourly Chauffeur"][4].value);
     setTouched(false);
     setPanelOpen(true);
   };
 
   const closeBookingPanel = () => setPanelOpen(false);
+
+  // Listen for the custom event dispatched by the Navbar "Book Your Chauffeur" button on the homepage.
+  useEffect(() => {
+    const handler = () => openBookingPanelAllServices();
+    window.addEventListener("openBookingPanel", handler);
+    return () => window.removeEventListener("openBookingPanel", handler);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const updateField = (key: keyof HeroForm) => (e: React.ChangeEvent<HTMLInputElement>) => {
     setForm((f) => ({ ...f, [key]: e.target.value }));
@@ -235,15 +264,17 @@ export function HeroSection() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setTouched(true);
-    const required: (keyof HeroForm)[] =
-      tab === "Airport Transfer" ? ["pickup", "destination", "date", "time"] : ["pickup", "date", "time"];
+    const needsDestination = tab === "Airport Transfer" || tab === "City to City";
+    const required: (keyof HeroForm)[] = needsDestination
+      ? ["pickup", "destination", "date", "time"]
+      : ["pickup", "date", "time"];
     const missing = required.some((k) => !form[k].trim());
     if (missing) return;
 
     const draft: BookingDraft = {
       service: TAB_TO_SERVICE[tab],
       pickup: form.pickup,
-      dropoff: tab === "Airport Transfer" ? form.destination : undefined,
+      dropoff: needsDestination ? form.destination : undefined,
       date: form.date,
       time: form.time,
       passengers,
@@ -336,7 +367,7 @@ export function HeroSection() {
       <AnimatePresence>
         {panelOpen && (
           <motion.div
-            className="absolute inset-0 z-30 flex items-end justify-center bg-black/60 p-4 backdrop-blur-sm sm:items-center"
+            className="absolute inset-0 z-30 flex items-center justify-center bg-black/60 p-4 backdrop-blur-sm"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -364,6 +395,10 @@ export function HeroSection() {
 
               <HeroBookingPanel
                 tab={tab}
+                onTab={(t) => { setTab(t); setDirection("departure"); setDuration(getDurationForTab(t)); }}
+                showTabs={showTabs}
+                direction={direction}
+                onDirection={setDirection}
                 duration={duration}
                 onDuration={setDuration}
                 form={form}
