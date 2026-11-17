@@ -4,7 +4,7 @@ import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { AnimatePresence, motion } from "motion/react";
-import BookingTabs, { type Tab } from "@/components/ui/BookingTabs";
+import { type Tab } from "@/components/ui/BookingTabs";
 import HeroBookingPanel, { DURATION_OPTIONS, type HeroForm } from "@/components/booking/HeroBookingPanel";
 import { DRAFT_KEY, type BookingDraft, type ServiceType } from "@/lib/booking";
 
@@ -361,17 +361,6 @@ export function HeroSection() {
                   <path d="M1 1l10 10M11 1L1 11" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
                 </svg>
               </button>
-
-              <div className="mb-3 flex justify-center">
-                <BookingTabs
-                  value={tab}
-                  onChange={(t) => {
-                    setTab(t);
-                    setDuration(t === "Day Booking" ? 8 : 4);
-                    setTouched(false);
-                  }}
-                />
-              </div>
 
               <HeroBookingPanel
                 tab={tab}

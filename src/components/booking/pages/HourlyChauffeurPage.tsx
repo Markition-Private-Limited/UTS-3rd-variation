@@ -2,8 +2,7 @@
 
 import React from 'react';
 import { BookingState, Vehicle, VehicleTier } from '@/types/booking';
-import { JourneyPlanner } from '@/components/booking/JourneyPlanner';
-import { SimpleVehicleGrid } from '@/components/booking/SimpleVehicleGrid';
+import { VehicleSelector } from '@/components/booking/VehicleSelector';
 import { ShowcaseCarousel } from '@/components/booking/ShowcaseCarousel';
 import { WhatsIncluded } from '@/components/booking/WhatsIncluded';
 import { CapacityLuggage } from '@/components/booking/CapacityLuggage';
@@ -34,20 +33,8 @@ export const HourlyChauffeurPage: React.FC<HourlyChauffeurPageProps> = ({
         </p>
       </div>
 
-      <JourneyPlanner
-        state={state}
-        onUpdateState={onUpdateState}
-        minHours={4}
-        hourOptions={[4, 5, 6, 8, 10, 12]}
-        heading="Plan Your Journey"
-        durationLabel="Number of Hours"
-        stopsMode="list"
-        stopsNote="You do not need to preplan all stops. Share your plans with your chauffeur."
-        notesPlaceholder="Tell us about your appointments, stops or travel preferences."
-      />
-
-      <SimpleVehicleGrid vehicles={fleet} selectedVehicleId={state.selectedVehicleId} onSelectVehicle={onSelectVehicle}
-        serviceType="hourly-chauffeur" durationHours={state.durationHours} />
+      <VehicleSelector vehicles={fleet} selectedVehicleId={state.selectedVehicleId} onSelectVehicle={onSelectVehicle}
+        serviceType="hourly-chauffeur" distanceKm={state.sampleDistanceKm} durationHours={state.durationHours} />
 
       <ShowcaseCarousel serviceType="hourly-chauffeur" selectedVehicle={selectedVehicle} />
       <WhatsIncluded serviceType="hourly-chauffeur" />

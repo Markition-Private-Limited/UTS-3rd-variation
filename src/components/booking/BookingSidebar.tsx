@@ -5,7 +5,7 @@ import React, { useState } from 'react';
 import {
   MapPin, Plane, User, Briefcase,
 } from 'lucide-react';
-import { BookingState, ServiceType, Vehicle } from '@/types/booking';
+import { BookingState, Vehicle } from '@/types/booking';
 import { calculatePrice } from '@/data/fleet';
 import { addHours } from '@/lib/booking';
 import PillButtonContent from '@/components/ui/PillButtonContent';
@@ -14,16 +14,8 @@ interface BookingSidebarProps {
   state: BookingState;
   selectedVehicle: Vehicle;
   onUpdateState: (updates: Partial<BookingState>) => void;
-  onServiceChange: (service: ServiceType) => void;
   onContinue: () => void;
-  onSave: () => void;
 }
-
-const SERVICE_TABS: { id: ServiceType; label: string }[] = [
-  { id: 'airport-transfer', label: 'Airport Transfer' },
-  { id: 'day-booking', label: 'Day Chauffeur' },
-  { id: 'hourly-chauffeur', label: 'Hourly Chauffeur' },
-];
 
 const LUGGAGE_TYPE_LABEL: Record<BookingState['luggageType'], string> = {
   'carry-on': 'carry-on bag',
@@ -35,9 +27,7 @@ export const BookingSidebar: React.FC<BookingSidebarProps> = ({
   state,
   selectedVehicle,
   onUpdateState,
-  onServiceChange,
   onContinue,
-  onSave,
 }) => {
   const [editingPickup, setEditingPickup] = useState(false);
   const [editingDestination, setEditingDestination] = useState(false);
@@ -62,7 +52,6 @@ export const BookingSidebar: React.FC<BookingSidebarProps> = ({
         ) : (
           <span className="text-[10px] uppercase font-bold tracking-wider text-zinc-400 block">Passengers &amp; Luggage</span>
         )}
-        <span className="text-[11px] text-zinc-400 block leading-tight mt-0.5">Requested values. Actual capacity depends on the assigned vehicle and UTS confirmation.</span>
       </div>
       <div>
         <label className={`block mb-1 ${boldHeading ? 'text-[11px] text-zinc-500' : 'text-[11px] font-semibold text-zinc-700'}`}>Passengers</label>
@@ -96,59 +85,28 @@ export const BookingSidebar: React.FC<BookingSidebarProps> = ({
     </div>
   );
 
-  const disclaimer = (
-    <p className="text-[10px] text-zinc-400 leading-relaxed">
-      Prices shown in this prototype are illustrative and do not represent confirmed UTS fares. Final pricing and service inclusions are subject to confirmation by UTS.
-    </p>
-  );
-
   const actions = (
-    <>
-      <button type="button" disabled={!isMinHoursValid} onClick={onContinue}
-        className={`group relative overflow-hidden w-full py-3.5 px-4 rounded-xl text-xs sm:text-sm font-bold tracking-wide shadow-md flex items-center justify-center border-[1.5px] border-transparent transition-all duration-500 disabled:pointer-events-none ${
-          isMinHoursValid ? 'bg-zinc-950 hover:border-white/30 text-white cursor-pointer' : 'bg-zinc-300 text-zinc-500 cursor-not-allowed'
-        }`}>
-        {isMinHoursValid ? (
-          <PillButtonContent fill="white">Continue to Booking</PillButtonContent>
-        ) : (
-          <span>Continue to Booking</span>
-        )}
-      </button>
-      <button type="button" onClick={onSave}
-        className="group relative overflow-hidden w-full py-2.5 px-4 rounded-xl text-xs font-semibold text-zinc-700 bg-zinc-200/70 border-[1.5px] border-transparent transition-all duration-500 hover:border-black/10 flex items-center justify-center">
-        <PillButtonContent fill="black">Save Journey Details</PillButtonContent>
-      </button>
-      <p className="text-center text-[10px] text-zinc-400 pt-0.5">Static design only · No booking submitted</p>
-    </>
+    <button type="button" disabled={!isMinHoursValid} onClick={onContinue}
+      className={`group relative overflow-hidden w-full py-3.5 px-4 rounded-xl text-xs sm:text-sm font-bold tracking-wide shadow-md flex items-center justify-center border-[1.5px] border-transparent transition-all duration-500 disabled:pointer-events-none ${
+        isMinHoursValid ? 'bg-zinc-950 hover:border-white/30 text-white cursor-pointer' : 'bg-zinc-300 text-zinc-500 cursor-not-allowed'
+      }`}>
+      {isMinHoursValid ? (
+        <PillButtonContent fill="white">Continue to Booking</PillButtonContent>
+      ) : (
+        <span>Continue to Booking</span>
+      )}
+    </button>
   );
 
   return (
-    <aside data-lenis-prevent className="no-scrollbar overscroll-contain w-full shrink-0 lg:sticky lg:top-[72px] lg:max-h-[calc(100vh-88px)] lg:w-[360px] lg:self-start lg:overflow-y-auto xl:w-[390px]">
-      <div className="overflow-hidden bg-white border border-zinc-200/90 rounded-2xl shadow-sm divide-y divide-zinc-100">
-
-        {/* Service switcher */}
-        <div className="p-3">
-          <div className="grid grid-cols-3 gap-1 bg-zinc-100 p-1 rounded-xl text-[10px] sm:text-[11px] font-bold">
-            {SERVICE_TABS.map((tab) => (
-              <button
-                key={tab.id}
-                type="button"
-                onClick={() => onServiceChange(tab.id)}
-                className={`py-2 px-1.5 rounded-lg transition-all leading-tight ${
-                  state.serviceType === tab.id ? 'bg-zinc-950 text-white shadow-sm' : 'text-zinc-500 hover:text-zinc-950'
-                }`}
-              >
-                {tab.label}
-              </button>
-            ))}
-          </div>
-        </div>
+    <aside data-lenis-prevent className="no-scrollbar overscroll-contain w-full shrink-0 lg:sticky lg:top-[72px] lg:h-[calc(100vh-88px)] lg:w-[360px] lg:self-start lg:overflow-hidden xl:w-[390px]">
+      <div className="bg-white border border-zinc-200/90 rounded-2xl shadow-sm divide-y divide-zinc-100 lg:flex lg:flex-col lg:h-full lg:overflow-hidden">
 
         {isAirport ? (
           <>
             {/* Route Graphic */}
-            <div className="relative bg-[#f4f4f7] p-4 border-b border-zinc-200/70">
-              <div className="relative h-44 rounded-xl overflow-hidden bg-gradient-to-br from-zinc-100 to-zinc-200 border border-zinc-300/60 p-3 flex flex-col justify-between">
+            <div className="relative bg-[#f4f4f7] p-4 border-b border-zinc-200/70 lg:flex-1 lg:flex lg:flex-col lg:min-h-0">
+              <div className="relative rounded-xl overflow-hidden bg-gradient-to-br from-zinc-100 to-zinc-200 border border-zinc-300/60 p-3 flex flex-col justify-between lg:flex-1 lg:min-h-0" style={{minHeight: '8rem'}}>
                 <svg className="absolute inset-0 w-full h-full text-zinc-300/60" viewBox="0 0 300 180" fill="currentColor" preserveAspectRatio="none">
                   <polygon points="20,40 80,20 160,25 240,15 280,60 260,130 190,165 110,160 40,120" />
                 </svg>
@@ -179,41 +137,8 @@ export const BookingSidebar: React.FC<BookingSidebarProps> = ({
               </div>
             </div>
 
-            {/* Departure / Arrival + price */}
-            <div className="p-4 sm:p-5">
-              <div className="grid grid-cols-2 gap-1.5 bg-zinc-100 p-1 rounded-xl mb-4 text-xs font-semibold">
-                <button
-                  onClick={() => onUpdateState({ transferDirection: 'departure' })}
-                  className={`py-2 px-3 rounded-lg transition-all ${state.transferDirection === 'departure' ? 'bg-zinc-950 text-white shadow-sm font-bold' : 'text-zinc-600 hover:text-zinc-950'}`}
-                >
-                  Airport Departure
-                </button>
-                <button
-                  onClick={() => onUpdateState({ transferDirection: 'arrival' })}
-                  className={`py-2 px-3 rounded-lg transition-all ${state.transferDirection === 'arrival' ? 'bg-zinc-950 text-white shadow-sm font-bold' : 'text-zinc-600 hover:text-zinc-950'}`}
-                >
-                  Airport Arrival
-                </button>
-              </div>
-              <div className="flex items-start justify-between">
-                <div>
-                  <span className="text-[10px] uppercase font-bold tracking-wider text-zinc-400">
-                    Airport {state.transferDirection === 'departure' ? 'Departure Drop-Off' : 'Arrival Pickup'}
-                  </span>
-                  <h4 className="text-base font-bold text-zinc-950 capitalize">{state.transferDirection}</h4>
-                  <p className="text-[11px] text-zinc-500 mt-0.5">{selectedVehicle.name} · One-way · Illustrative price only</p>
-                </div>
-                <div className="text-right">
-                  <span className="text-[10px] text-zinc-400 block">Illustrative est.</span>
-                  <span className="text-xl font-extrabold text-zinc-950">
-                    {priceCalc.total !== null ? `£${priceCalc.total.toFixed(2)}` : 'To be confirmed'}
-                  </span>
-                </div>
-              </div>
-            </div>
-
             {/* Price breakdown */}
-            <div className="p-4 sm:p-5">
+            <div className="p-4 sm:p-5 lg:shrink-0">
               <div className="bg-zinc-50 rounded-xl border border-zinc-200/80 p-3.5 text-xs text-zinc-600 space-y-1.5">
                 <div className="flex items-center justify-between">
                   <span>Base fare (illustrative)</span>
@@ -233,14 +158,14 @@ export const BookingSidebar: React.FC<BookingSidebarProps> = ({
             </div>
 
             {/* Pickup / Drop-off */}
-            <div className="p-4 sm:p-5 space-y-3.5">
+            <div className="p-4 sm:p-5 space-y-3.5 lg:shrink-0">
               <span className="text-[11px] font-bold text-zinc-800 block">Pickup / Drop-off</span>
               <div className="flex items-start gap-2.5">
                 <div className="w-6 h-6 rounded-full bg-zinc-100 flex items-center justify-center shrink-0 mt-0.5">
                   <div className="w-2 h-2 rounded-full bg-zinc-950" />
                 </div>
                 <div className="flex-1 min-w-0">
-                  <span className="text-[10px] uppercase font-bold tracking-wider text-zinc-400 block">Pickup address (hotel, home or office)</span>
+                  <span className="text-[10px] uppercase font-bold tracking-wider text-zinc-400 block">Pickup address</span>
                   {editingPickup ? (
                     <div className="mt-1 flex gap-2">
                       <LocationInput value={state.pickupAddress} onChange={(v) => onUpdateState({ pickupAddress: v })} popClassName="!bg-zinc-900/95"
@@ -257,7 +182,7 @@ export const BookingSidebar: React.FC<BookingSidebarProps> = ({
                   <MapPin className="w-3.5 h-3.5 text-zinc-700" />
                 </div>
                 <div className="flex-1 min-w-0">
-                  <span className="text-[10px] uppercase font-bold tracking-wider text-zinc-400 block">Airport &amp; terminal (e.g. LHR T5, LGW North, STN, LTN, LCY)</span>
+                  <span className="text-[10px] uppercase font-bold tracking-wider text-zinc-400 block">Airport &amp; terminal</span>
                   {editingDestination ? (
                     <div className="mt-1 flex gap-2">
                       <LocationInput value={state.destinationAddress} onChange={(v) => onUpdateState({ destinationAddress: v })} popClassName="!bg-zinc-900/95"
@@ -271,23 +196,8 @@ export const BookingSidebar: React.FC<BookingSidebarProps> = ({
               </div>
             </div>
 
-            {/* Date & Time */}
-            <div className="p-4 sm:p-5 space-y-3">
-              <span className="text-[11px] font-bold text-zinc-800 block">Date &amp; Pickup Time</span>
-              <p className="text-xs font-semibold text-zinc-900">{state.pickupDate} · {state.pickupTime}</p>
-              <div className="flex items-center gap-2.5 pt-1 text-xs text-zinc-600">
-                <Plane className="w-4 h-4 text-zinc-400 shrink-0" />
-                <div className="flex-1">
-                  <span className="text-[10px] text-zinc-400 block">Flight number — optional, for airport arrival pickup only</span>
-                  <input type="text" placeholder="Not provided" value={state.flightNumber}
-                    onChange={(e) => onUpdateState({ flightNumber: e.target.value })}
-                    className="w-full text-[16px] sm:text-xs text-zinc-900 border-b border-zinc-200 py-0.5 focus:outline-none focus:border-zinc-900 placeholder:text-zinc-400" />
-                </div>
-              </div>
-            </div>
-
             {/* Vehicle */}
-            <div className="p-4 sm:p-5">
+            <div className="p-4 sm:p-5 lg:shrink-0">
               <div className="flex items-center justify-between mb-2">
                 <span className="text-[10px] uppercase font-bold tracking-wider text-zinc-400">Selected Vehicle</span>
                 <span className="text-xs font-bold text-zinc-950">
@@ -305,22 +215,21 @@ export const BookingSidebar: React.FC<BookingSidebarProps> = ({
             </div>
 
             {/* Passengers & Luggage + instructions */}
-            <div className="p-4 sm:p-5 space-y-4">
+            <div className="p-4 sm:p-5 space-y-4 lg:shrink-0">
               <div>
-                <span className="text-[11px] font-bold text-zinc-800 block">Passengers &amp; Luggage</span>
-                <span className="text-[11px] text-zinc-400 block leading-tight mt-0.5">Requested values below. Actual vehicle capacity subject to confirmation with UTS.</span>
-                <div className="grid grid-cols-2 gap-4 mt-3">
+                <span className="text-[11px] font-bold text-zinc-800 block mb-3">Passengers &amp; Luggage</span>
+                <div className="grid grid-cols-2 gap-4">
                   <div className="flex items-center gap-2">
                     <User className="w-4 h-4 text-zinc-500 shrink-0" />
                     <div>
-                      <span className="text-[10px] text-zinc-400 block">Requested</span>
-                      <span className="text-xs font-semibold text-zinc-900">{state.passengers} passenger{state.passengers === 1 ? '' : 's'}</span>
+                      <span className="text-[10px] text-zinc-400 block">Passengers</span>
+                      <span className="text-xs font-semibold text-zinc-900">{state.passengers}</span>
                     </div>
                   </div>
                   <div className="flex items-center gap-2">
                     <Briefcase className="w-4 h-4 text-zinc-500 shrink-0" />
                     <div>
-                      <span className="text-[10px] text-zinc-400 block">Requested</span>
+                      <span className="text-[10px] text-zinc-400 block">Luggage</span>
                       <span className="text-xs font-semibold text-zinc-900">{state.luggageCount} {luggageLabel}{state.luggageCount === 1 ? '' : 's'}</span>
                     </div>
                   </div>
@@ -334,7 +243,7 @@ export const BookingSidebar: React.FC<BookingSidebarProps> = ({
               </div>
             </div>
 
-            <div className="p-4 sm:p-5 space-y-2.5 bg-zinc-50/50">
+            <div className="p-4 sm:p-5 bg-zinc-50/50 lg:shrink-0">
               {actions}
             </div>
           </>
@@ -391,7 +300,6 @@ export const BookingSidebar: React.FC<BookingSidebarProps> = ({
                 <span className="text-[11px] text-zinc-500 block">Date &amp; Pickup Time</span>
                 <p className="text-xs font-medium text-zinc-900">{state.pickupDate} · {state.pickupTime}</p>
                 <p className="text-xs text-zinc-600 mt-0.5">{state.durationHours} hours · Estimated end {addHours(state.pickupTime, state.durationHours)}</p>
-                <p className="text-[11px] text-zinc-400 mt-0.5">{state.pickupDate} · Same day</p>
               </div>
 
               <div>
@@ -417,35 +325,22 @@ export const BookingSidebar: React.FC<BookingSidebarProps> = ({
                     <p className="text-xs font-bold text-zinc-900">Flexible itinerary — not specified</p>
                   </>
                 )}
-                <p className="text-[11px] text-zinc-400 mt-1.5">Multiple stops possible within the booked period.</p>
               </div>
             </div>
 
             {/* Price breakdown */}
-            <div className="p-4 sm:p-5">
+            <div className="px-4 pb-4 sm:px-5 sm:pb-5">
               <div className="bg-zinc-50 rounded-xl border border-zinc-200/80 p-3.5 text-xs text-zinc-600 space-y-1.5">
                 <div className="flex items-center justify-between">
                   <span>
                     {state.serviceType === 'hourly-chauffeur' && priceCalc.ratePerUnit !== null
-                      ? `£${priceCalc.ratePerUnit.toFixed(2)} × ${state.durationHours} hours`
-                      : `Base fare · ${state.durationHours} hours`}
+                      ? `£${priceCalc.ratePerUnit.toFixed(2)} × ${state.durationHours} hrs`
+                      : `Base fare · ${state.durationHours} hrs`}
                   </span>
-                  <span className="font-semibold text-zinc-900">{priceCalc.baseFare !== null ? `£${priceCalc.baseFare.toFixed(2)}` : 'To be confirmed'}</span>
-                </div>
-                <div className="flex items-center justify-between">
-                  <span>Additional duration</span>
-                  <span className="font-semibold text-zinc-900">£0.00</span>
-                </div>
-                <div className="flex items-center justify-between">
-                  <span>Optional add-ons · Not selected</span>
-                  <span className="font-semibold text-zinc-900">£0.00</span>
-                </div>
-                <div className="flex items-center justify-between">
-                  <span>Fees · Not configured</span>
-                  <span className="font-semibold text-zinc-900">£0.00</span>
+                  <span className="font-semibold text-zinc-900">{priceCalc.baseFare !== null ? `£${priceCalc.baseFare.toFixed(2)}` : 'TBC'}</span>
                 </div>
                 <div className="pt-1.5 mt-1 border-t border-zinc-200 flex items-center justify-between">
-                  <span className="font-bold text-zinc-950">Illustrative total · GBP</span>
+                  <span className="font-bold text-zinc-950">Illustrative total</span>
                   <span className="font-extrabold text-zinc-950 text-sm">
                     {priceCalc.total !== null ? `£${priceCalc.total.toFixed(2)}` : 'To be confirmed'}
                   </span>
@@ -453,16 +348,9 @@ export const BookingSidebar: React.FC<BookingSidebarProps> = ({
               </div>
             </div>
 
-            {/* Passengers & Luggage + accessibility */}
-            <div className="p-4 sm:p-5 space-y-4">
+            {/* Passengers & Luggage */}
+            <div className="p-4 sm:p-5">
               {renderPassengersLuggage(true)}
-              <div>
-                <label className="text-[11px] text-zinc-500 block mb-1">Accessibility / additional requirements (optional)</label>
-                <textarea rows={2} placeholder="Tell us how we can assist" value={state.specialInstructions}
-                  onChange={(e) => onUpdateState({ specialInstructions: e.target.value })}
-                  className="w-full text-[16px] sm:text-xs bg-zinc-50 border border-zinc-200 rounded-lg px-2.5 py-2 text-zinc-900 focus:outline-none focus:ring-1 focus:ring-zinc-950 placeholder:text-zinc-400 resize-none" />
-              </div>
-              {disclaimer}
             </div>
 
             <div className="p-4 sm:p-5 space-y-2.5 bg-zinc-50/50">

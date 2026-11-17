@@ -21,6 +21,7 @@ interface BookingHeaderProps {
   onUpdateState: (updates: Partial<BookingState>) => void;
 }
 
+
 const SERVICE_LABELS: Record<ServiceType, string> = {
   'airport-transfer': 'AIRPORT TRANSFER',
   'day-booking': 'DAY BOOKING',
@@ -86,7 +87,7 @@ export const BookingHeader: React.FC<BookingHeaderProps> = ({
 
   return (
     <header ref={headerRef} className="sticky top-0 z-40 bg-[#0e0f12] text-white border-b border-[#22242a] shadow-md">
-      <div className="relative max-w-[1520px] mx-auto px-4 sm:px-8 h-[64px] flex items-center justify-between gap-2 sm:gap-4">
+      <div className="relative max-w-[1520px] mx-auto px-4 sm:px-8 h-[64px] flex items-center justify-between gap-2 sm:gap-4 lg:h-[64px]">
 
         {/* Back + Logo */}
         <div className="flex shrink-0 items-center gap-1">
@@ -158,7 +159,7 @@ export const BookingHeader: React.FC<BookingHeaderProps> = ({
               }`}
             >
               <MapPin className="w-3.5 h-3.5 text-zinc-500 shrink-0" />
-              <span className="block max-w-[260px] truncate leading-none xl:max-w-[320px]">
+              <span className="block max-w-[340px] truncate leading-none xl:max-w-[480px] 2xl:max-w-[600px]">
                 <span className="text-white font-medium">{pickupSummary}</span>
                 {destinationSummary && (
                   <>
@@ -277,6 +278,22 @@ export const BookingHeader: React.FC<BookingHeaderProps> = ({
 
         </div>
         </div>
+      </div>
+
+      {/* Mobile summary bar — hidden on lg+ where the inline pills are shown */}
+      <div className="lg:hidden border-t border-[#22242a] bg-[#0a0b0e] px-4 py-2 flex items-center gap-2 overflow-x-auto no-scrollbar">
+        <span className="shrink-0 text-[10px] font-bold uppercase tracking-widest text-zinc-500 pr-1 border-r border-zinc-700 mr-1">
+          {SERVICE_LABELS[currentService].split(' ')[0]}
+        </span>
+        <span className="text-[11px] text-white font-medium truncate shrink-0 max-w-[130px]">{pickupSummary}</span>
+        {destinationSummary && (
+          <>
+            <span className="text-zinc-600 text-[10px] shrink-0">→</span>
+            <span className="text-[11px] text-zinc-300 truncate shrink-0 max-w-[110px]">{destinationSummary}</span>
+          </>
+        )}
+        <span className="text-zinc-700 shrink-0">·</span>
+        <span className="text-[11px] text-zinc-400 whitespace-nowrap shrink-0">{dateTimeSummary}</span>
       </div>
     </header>
   );

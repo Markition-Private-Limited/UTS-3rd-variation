@@ -8,7 +8,7 @@ import { BookingState, ServiceType, VehicleTier } from '@/types/booking';
 import { BookingHeader } from '@/components/booking/BookingHeader';
 import { BookingSidebar } from '@/components/booking/BookingSidebar';
 import { FooterSection } from '@/components/footer/FooterSection';
-import { BookingReviewModal } from '@/components/booking/BookingReviewModal';
+import { BookingFlowModal } from '@/components/booking/BookingFlowModal';
 import { AirportTransferPage } from '@/components/booking/pages/AirportTransferPage';
 import { DayBookingPage } from '@/components/booking/pages/DayBookingPage';
 import { HourlyChauffeurPage } from '@/components/booking/pages/HourlyChauffeurPage';
@@ -179,8 +179,8 @@ export default function BookingApp() {
           </div>
 
           <BookingSidebar state={derivedState} selectedVehicle={selectedVehicle}
-            onUpdateState={updateBookingState} onServiceChange={handleServiceChange}
-            onContinue={handleContinueToBooking} onSave={handleSaveJourney} />
+            onUpdateState={updateBookingState}
+            onContinue={handleContinueToBooking} />
         </div>
       </main>
 
@@ -188,7 +188,7 @@ export default function BookingApp() {
         <FooterSection />
       </div>
 
-      <BookingReviewModal isOpen={reviewModalOpen} onClose={() => setReviewModalOpen(false)}
+      <BookingFlowModal isOpen={reviewModalOpen} onClose={() => setReviewModalOpen(false)}
         state={derivedState} vehicle={selectedVehicle} />
     </div>
   );
