@@ -27,7 +27,7 @@ export const PriceBreakdown: React.FC<PriceBreakdownProps> = ({
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-6">
         <h2 className="text-[24px] font-light leading-[115%] tracking-[-0.03em] text-neutral-900 sm:text-[28px]">Price <span className="font-semibold">Breakdown</span></h2>
         <span className="text-[11px] font-medium text-zinc-500 bg-zinc-100 px-2.5 py-1 rounded-md">
-          Illustrative prototype values — not official UTS quote
+          Illustrative prototype values — not UTS rates
         </span>
       </div>
 
@@ -92,36 +92,31 @@ export const PriceBreakdown: React.FC<PriceBreakdownProps> = ({
         {(serviceType === 'day-booking' || serviceType === 'hourly-chauffeur') && (
           <>
             <div className="py-3 flex items-center justify-between text-sm">
-              <span className="text-zinc-600 font-normal">{selectedVehicle.name} hourly rate</span>
+              <span className="text-zinc-600 font-normal">
+                {serviceType === 'day-booking' ? 'Day Chauffeur' : 'Hourly Chauffeur'} Base Fare ({durationHours} hours)
+              </span>
               <span className="font-semibold text-zinc-900">
-                {serviceType === 'day-booking'
-                  ? selectedVehicle.dayRateHour !== null ? `£${selectedVehicle.dayRateHour.toFixed(2)} / hr` : 'To be confirmed'
-                  : selectedVehicle.hourlyRateHour !== null ? `£${selectedVehicle.hourlyRateHour.toFixed(2)} / hr` : 'To be confirmed'}
+                {calculation.baseFare !== null ? `£${calculation.baseFare.toFixed(2)}` : 'To be confirmed'}
               </span>
             </div>
 
             <div className="py-3 flex items-center justify-between text-sm">
-              <span className="text-zinc-600 font-normal">Booked duration</span>
-              <span className="font-semibold text-zinc-900">{durationHours} hours</span>
+              <span className="text-zinc-600 font-normal">Additional Duration Charge</span>
+              <span className="font-semibold text-zinc-900">£0.00</span>
             </div>
 
             <div className="py-3 flex items-center justify-between text-sm">
-              <span className="text-zinc-600 font-normal">Minimum booking requirement</span>
-              <span className="font-medium text-zinc-700">4 hours (enforced)</span>
+              <span className="text-zinc-600 font-normal">Optional Add-ons · Not selected</span>
+              <span className="font-semibold text-zinc-900">£0.00</span>
             </div>
 
             <div className="py-3 flex items-center justify-between text-sm">
-              <span className="text-zinc-600 font-normal">Additional configured surcharges</span>
-              <span className="text-zinc-400 font-normal italic">None configured (omitted per UTS schedule)</span>
+              <span className="text-zinc-600 font-normal">Applicable Fees · Not configured</span>
+              <span className="font-semibold text-zinc-900">£0.00</span>
             </div>
 
             <div className="pt-4 pb-1 flex items-baseline justify-between">
-              <div>
-                <span className="text-base font-bold text-zinc-950 block">Illustrative estimated total</span>
-                <span className="text-[11px] text-zinc-400">
-                  {serviceType === 'day-booking' ? 'Day Booking' : 'Hourly Chauffeur'} ({durationHours} hrs)
-                </span>
-              </div>
+              <span className="text-base font-bold text-zinc-950">Illustrative Estimated Total · GBP</span>
               <span className="text-xl sm:text-2xl font-extrabold tracking-tight text-zinc-950">
                 {calculation.total !== null ? `£${calculation.total.toFixed(2)}` : 'Price to be confirmed'}
               </span>
@@ -132,14 +127,29 @@ export const PriceBreakdown: React.FC<PriceBreakdownProps> = ({
 
       <div className="text-xs text-zinc-500 space-y-2 bg-zinc-50/70 p-4 rounded-xl border border-zinc-200/70">
         <p className="font-semibold text-zinc-700 text-xs">Please note:</p>
-        <div className="flex items-start gap-2">
-          <Info className="w-3.5 h-3.5 text-zinc-400 mt-0.5 shrink-0" />
-          <p>All prices shown are illustrative prototype values only and do not represent confirmed UTS fares, rates or fleet. Route details, vehicle models, fees and service inclusions are examples for demonstration purposes.</p>
-        </div>
-        <div className="flex items-start gap-2">
-          <Info className="w-3.5 h-3.5 text-zinc-400 mt-0.5 shrink-0" />
-          <p>Please confirm route, airport, terminal, passenger and luggage details with UTS before completing your booking. Actual fare will be confirmed by UTS directly.</p>
-        </div>
+        {serviceType === 'airport-transfer' ? (
+          <>
+            <div className="flex items-start gap-2">
+              <Info className="w-3.5 h-3.5 text-zinc-400 mt-0.5 shrink-0" />
+              <p>All prices shown are illustrative prototype values only and do not represent confirmed UTS fares, rates or fleet. Route details, vehicle models, fees and service inclusions are examples for demonstration purposes.</p>
+            </div>
+            <div className="flex items-start gap-2">
+              <Info className="w-3.5 h-3.5 text-zinc-400 mt-0.5 shrink-0" />
+              <p>Please confirm route, airport, terminal, passenger and luggage details with UTS before completing your booking. Actual fare will be confirmed by UTS directly.</p>
+            </div>
+          </>
+        ) : (
+          <>
+            <div className="flex items-start gap-2">
+              <Info className="w-3.5 h-3.5 text-zinc-400 mt-0.5 shrink-0" />
+              <p>Prices shown in this prototype are illustrative and do not represent confirmed UTS fares. Final pricing and service inclusions are subject to confirmation by UTS.</p>
+            </div>
+            <div className="flex items-start gap-2">
+              <Info className="w-3.5 h-3.5 text-zinc-400 mt-0.5 shrink-0" />
+              <p>Pricing policies, minimum duration, inclusions and capacities are configurable examples, not approved UTS terms. No mandatory fees have been assumed.</p>
+            </div>
+          </>
+        )}
       </div>
     </section>
   );

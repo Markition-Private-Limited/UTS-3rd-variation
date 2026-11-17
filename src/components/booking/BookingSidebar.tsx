@@ -376,7 +376,12 @@ export const BookingSidebar: React.FC<BookingSidebarProps> = ({
               </div>
 
               <div>
-                {state.stops.length > 0 ? (
+                {state.serviceType === 'day-booking' ? (
+                  <>
+                    <span className="text-[11px] text-zinc-500 block mb-1">Final destination · Optional</span>
+                    <p className="text-xs font-bold text-zinc-900">{state.destinationAddress || 'Flexible itinerary — not specified'}</p>
+                  </>
+                ) : state.stops.length > 0 ? (
                   <>
                     <span className="text-[11px] text-zinc-500 block mb-1.5">Optional Stops · {state.stops.length}</span>
                     <div className="space-y-1">
@@ -402,7 +407,7 @@ export const BookingSidebar: React.FC<BookingSidebarProps> = ({
               <div className="bg-zinc-50 rounded-xl border border-zinc-200/80 p-3.5 text-xs text-zinc-600 space-y-1.5">
                 <div className="flex items-center justify-between">
                   <span>
-                    {priceCalc.ratePerUnit !== null
+                    {state.serviceType === 'hourly-chauffeur' && priceCalc.ratePerUnit !== null
                       ? `£${priceCalc.ratePerUnit.toFixed(2)} × ${state.durationHours} hours`
                       : `Base fare · ${state.durationHours} hours`}
                   </span>

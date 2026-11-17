@@ -19,12 +19,12 @@ export const WhatsIncluded: React.FC<WhatsIncludedProps> = ({ serviceType }) => 
   ];
 
   const dayBookingItems = [
-    { title: 'Dedicated chauffeur for the booked period', icon: UserCheck },
-    { title: 'Flexible itinerary planning across London', icon: Compass },
-    { title: 'Business and personal travel support', icon: Building2 },
-    { title: 'Multiple-stop planning with wait-time', icon: CalendarCheck },
-    { title: 'Professional door-to-door service', icon: MapPin },
-    { title: 'Comfortable travel between appointments', icon: ShieldCheck },
+    { title: 'Professional Private Chauffeur', icon: UserCheck },
+    { title: 'Dedicated Vehicle for the Booked Period', icon: Building2 },
+    { title: 'Flexible Journey Planning', icon: Compass },
+    { title: 'Assistance with Personal Belongings', icon: Briefcase },
+    { title: 'Comfortable Executive Travel', icon: ShieldCheck },
+    { title: 'Convenient Travel Between Multiple Stops', icon: CalendarCheck },
   ];
 
   const hourlyItems = [
@@ -61,7 +61,7 @@ export const WhatsIncluded: React.FC<WhatsIncludedProps> = ({ serviceType }) => 
       </div>
       {serviceType !== 'airport-transfer' && (
         <p className="text-[11px] text-zinc-500 mt-6 bg-zinc-50 p-3 rounded-lg border border-zinc-200/60">
-          <strong>Please note:</strong> No specific unlimited mileage allowance is included in the base rates. Any applicable journey mileage boundaries outside Greater London must be confirmed directly with UTS.
+          Service inclusions are illustrative and configurable, subject to UTS configuration and confirmation. No guaranteed extensions are implied.
         </p>
       )}
     </section>

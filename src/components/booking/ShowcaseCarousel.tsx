@@ -9,7 +9,7 @@ interface ShowcaseCarouselProps {
 }
 
 export const ShowcaseCarousel: React.FC<ShowcaseCarouselProps> = ({ serviceType, selectedVehicle }) => {
-  const slidesByService: Record<ServiceType, Array<{ image: string; caption: string; subtext: string }>> = {
+  const slidesByService: Record<ServiceType, Array<{ image: string; caption: string; heading?: string; subtext: string }>> = {
     'airport-transfer': [
       {
         image: '/booking/images/uts_airport_hero_v3.webp',
@@ -30,8 +30,9 @@ export const ShowcaseCarousel: React.FC<ShowcaseCarouselProps> = ({ serviceType,
       },
       {
         image: selectedVehicle.image2,
-        caption: `Mobile sanctuary for your full working day.`,
-        subtext: `Conduct conference calls, review documents, or relax between appointments in the private cabin of your ${selectedVehicle.modelExample}.`,
+        caption: 'One dedicated chauffeur. A day entirely your own.',
+        heading: 'Your Schedule. Your Chauffeur. Your Pace.',
+        subtext: 'From early meetings in the City to afternoon appointments in Mayfair, enjoy the convenience of a private chauffeur who stays with your schedule throughout the booked period.',
       },
     ],
     'hourly-chauffeur': [
@@ -42,8 +43,9 @@ export const ShowcaseCarousel: React.FC<ShowcaseCarouselProps> = ({ serviceType,
       },
       {
         image: selectedVehicle.image2,
-        caption: `Flawless presentation and quiet elegance.`,
-        subtext: `Your personal chauffeur ensures punctuality, discretion, and courteous British hospitality for every stop on your itinerary.`,
+        caption: 'London, on your terms.',
+        heading: 'More Freedom in Every Hour.',
+        subtext: 'From back-to-back appointments to an afternoon exploring the capital, enjoy a private chauffeur experience designed around your plans.',
       },
     ],
   };
@@ -66,6 +68,9 @@ export const ShowcaseCarousel: React.FC<ShowcaseCarouselProps> = ({ serviceType,
         </div>
       </div>
       <div className="mt-5 max-w-3xl">
+        {activeSlide.heading && (
+          <h3 className="text-lg sm:text-xl font-bold text-zinc-950 mb-1.5">{activeSlide.heading}</h3>
+        )}
         <p className="text-sm sm:text-base text-zinc-700 leading-relaxed font-normal">{activeSlide.subtext}</p>
       </div>
     </section>

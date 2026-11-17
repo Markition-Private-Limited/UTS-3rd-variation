@@ -30,11 +30,21 @@ export const DayBookingPage: React.FC<DayBookingPageProps> = ({
           Your Day, <span className="font-semibold">Driven Around You.</span>
         </h1>
         <p className="text-sm sm:text-base text-zinc-600 max-w-2xl font-normal leading-relaxed">
-          Enjoy the freedom of a dedicated chauffeur for business meetings, private appointments, shopping, and special occasions across London.
+          Enjoy a dedicated private chauffeur in London, with the freedom to move between meetings, appointments and destinations at your own pace.
         </p>
       </div>
 
-      <JourneyPlanner state={state} onUpdateState={onUpdateState} minHours={4} hourOptions={[4, 6, 8, 10, 12, 14]} />
+      <JourneyPlanner
+        state={state}
+        onUpdateState={onUpdateState}
+        minHours={4}
+        hourOptions={[4, 6, 8, 10, 12, 14]}
+        heading="Select Your Chauffeur Schedule"
+        durationLabel="Duration"
+        stopsMode="single"
+        stopsNote="You do not need to plan every stop. Multiple stops are possible during your booked period."
+        notesPlaceholder="Add meeting locations, itinerary details or special requests."
+      />
 
       <SimpleVehicleGrid vehicles={fleet} selectedVehicleId={state.selectedVehicleId} onSelectVehicle={onSelectVehicle}
         serviceType="day-booking" durationHours={state.durationHours} />

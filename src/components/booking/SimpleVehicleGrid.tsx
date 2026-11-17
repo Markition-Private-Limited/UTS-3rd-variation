@@ -27,7 +27,7 @@ export const SimpleVehicleGrid: React.FC<SimpleVehicleGridProps> = ({
       <div className="flex items-center justify-between mb-6">
         <h2 className="text-[24px] font-light leading-[115%] tracking-[-0.03em] text-neutral-900 sm:text-[28px]">Select Your <span className="font-semibold">Vehicle</span></h2>
         <span className="text-xs text-zinc-500 bg-zinc-100/80 px-3 py-1 rounded-full font-medium">
-          Three vehicle classes · Illustrative estimates
+          Three vehicle classes · Illustrative estimates, not confirmed UTS fares
         </span>
       </div>
 
@@ -35,6 +35,7 @@ export const SimpleVehicleGrid: React.FC<SimpleVehicleGridProps> = ({
         {gridVehicles.map((vehicle) => {
           const isSelected = vehicle.id === selectedVehicleId;
           const priceCalc = calculatePrice(serviceType, vehicle, { durationHours });
+          const extraHourRate = vehicle.dayRateHour ?? vehicle.hourlyRateHour;
 
           return (
             <button
@@ -61,7 +62,9 @@ export const SimpleVehicleGrid: React.FC<SimpleVehicleGridProps> = ({
 
                 {priceCalc.ratePerUnit !== null && (
                   <p className="mt-4 min-h-[1.25rem] text-xs text-zinc-500">
-                    £{priceCalc.ratePerUnit.toFixed(2).replace(/\.00$/, '')}/hour × {priceCalc.unitCount} hours
+                    {serviceType === 'day-booking'
+                      ? `${priceCalc.unitCount}-hour estimate · Extra hour £${(extraHourRate ?? priceCalc.ratePerUnit).toFixed(0)}`
+                      : `£${priceCalc.ratePerUnit.toFixed(2).replace(/\.00$/, '')}/hour × ${priceCalc.unitCount} hours`}
                   </p>
                 )}
 
@@ -95,6 +98,10 @@ export const SimpleVehicleGrid: React.FC<SimpleVehicleGridProps> = ({
           );
         })}
       </div>
+
+      <p className="text-[11px] text-zinc-400 mt-4">
+        Indicative capacity only: Business Class and First Class up to 3 passengers, with 2 carry-on OR 2 check-in OR 1 large check-in bag. First Class Van: 6 passengers / 5 bags. Illustrative and subject to vehicle. These are not confirmed fleet specifications.
+      </p>
     </section>
   );
 };

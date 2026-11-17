@@ -63,7 +63,7 @@ export const CapacityLuggage: React.FC<CapacityLuggageProps> = ({
       </div>
 
       <p className="text-xs sm:text-sm text-zinc-500 mb-6 leading-relaxed max-w-3xl">
-        Select a luggage configuration to visualise how your bags may fit. All passenger and luggage capacities shown are indicative only and subject to confirmation with UTS before booking.
+        Select a luggage configuration to visualise how your bags may fit. All passenger and luggage capacities shown are indicative only and subject to confirmation with UTS before booking. Actual capacity depends on the specific vehicle assigned.
       </p>
 
       {activeTab === 'luggage' ? (
@@ -107,6 +107,9 @@ export const CapacityLuggage: React.FC<CapacityLuggageProps> = ({
               </span>
             </div>
           </div>
+          <p className="text-[11px] text-zinc-400 mt-2">
+            {selectedVehicle.name} · {luggageOptions.find((o) => o.id === currentLuggageType)?.label.replace('×', 'x')} shown · Illustrative configuration only
+          </p>
         </>
       ) : (
         <div className="bg-zinc-50 border border-zinc-200 rounded-2xl p-6">

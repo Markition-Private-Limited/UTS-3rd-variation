@@ -34,7 +34,17 @@ export const HourlyChauffeurPage: React.FC<HourlyChauffeurPageProps> = ({
         </p>
       </div>
 
-      <JourneyPlanner state={state} onUpdateState={onUpdateState} minHours={4} hourOptions={[4, 5, 6, 8, 10, 12]} />
+      <JourneyPlanner
+        state={state}
+        onUpdateState={onUpdateState}
+        minHours={4}
+        hourOptions={[4, 5, 6, 8, 10, 12]}
+        heading="Plan Your Journey"
+        durationLabel="Number of Hours"
+        stopsMode="list"
+        stopsNote="You do not need to preplan all stops. Share your plans with your chauffeur."
+        notesPlaceholder="Tell us about your appointments, stops or travel preferences."
+      />
 
       <SimpleVehicleGrid vehicles={fleet} selectedVehicleId={state.selectedVehicleId} onSelectVehicle={onSelectVehicle}
         serviceType="hourly-chauffeur" durationHours={state.durationHours} />
