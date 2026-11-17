@@ -103,14 +103,10 @@ export const BookingHeader: React.FC<BookingHeaderProps> = ({
         </div>
 
         {/* Service badge + route/datetime — grouped so they sit together on the right, never overlapping the logo */}
-        <div className="flex h-full min-w-0 items-center justify-end gap-2 overflow-hidden sm:gap-4">
+        <div className="flex h-full min-w-0 items-center justify-end gap-2 sm:gap-4">
 
         {/* Service badge + dropdown */}
-        <div
-          className="relative flex h-full shrink-0 items-center self-stretch leading-none"
-          onMouseEnter={() => setServiceOpen(true)}
-          onMouseLeave={() => setServiceOpen(false)}
-        >
+        <div className="relative flex h-full shrink-0 items-center self-stretch leading-none">
           <button
             type="button"
             aria-haspopup="menu"
