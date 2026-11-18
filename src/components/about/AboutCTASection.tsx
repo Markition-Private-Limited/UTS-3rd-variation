@@ -1,9 +1,12 @@
+"use client";
+
 import Image from "next/image";
-import Link from "next/link";
 import PillButtonContent from "@/components/ui/PillButtonContent";
 import { Reveal } from "@/components/ui/reveal";
+import { useBookingPanel } from "@/lib/booking-panel-context";
 
 export function AboutCTASection() {
+  const { openBookingPanel } = useBookingPanel();
   return (
     <Reveal>
     <section className="bg-white p-4 pb-8 sm:p-5 sm:pb-10 lg:p-6 lg:pb-14">
@@ -41,13 +44,13 @@ export function AboutCTASection() {
               <p className="mb-8 text-[15px] font-normal leading-[170%] tracking-[-0.01em] text-neutral-300">
                 Whether you are arranging an airport transfer, planning business travel or organising a private journey, United Travel Services is ready to help you explore the available options.
               </p>
-              <Link
-                href="/book"
-                className="group relative inline-flex w-fit items-center justify-between gap-4 overflow-hidden whitespace-nowrap rounded-full border border-white bg-white text-black"
+              <button
+                onClick={() => openBookingPanel("Airport Transfer", true)}
+                className="group relative inline-flex w-fit items-center justify-between gap-4 overflow-hidden whitespace-nowrap rounded-full border border-white bg-white text-black cursor-pointer"
                 style={{ padding: "16px 28px", fontSize: "0.68rem", letterSpacing: "0.2em", fontWeight: 600, textTransform: "uppercase" }}
               >
                 <PillButtonContent fill="black">Book Your Chauffeur</PillButtonContent>
-              </Link>
+              </button>
             </div>
           </div>
         </div>

@@ -2,11 +2,12 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { OriginButton } from "@/components/ui/origin-button";
 import PillButtonContent from "@/components/ui/PillButtonContent";
+import { useBookingPanel } from "@/lib/booking-panel-context";
 
 const NAV_LINKS = [
   { label: "Home", href: "#" },
@@ -18,7 +19,7 @@ const NAV_LINKS = [
 
 export function Navbar() {
   const pathname = usePathname();
-  const router = useRouter();
+  const { openBookingPanel } = useBookingPanel();
   const onHome = pathname === "/";
   const links = onHome
     ? NAV_LINKS
@@ -145,13 +146,7 @@ export function Navbar() {
 
         {/* CTA Button */}
         <button
-          onClick={() => {
-            if (onHome) {
-              window.dispatchEvent(new CustomEvent("openBookingPanel"));
-            } else {
-              router.push("/book");
-            }
-          }}
+          onClick={() => openBookingPanel("Airport Transfer", true)}
           className="group hidden lg:inline-flex relative overflow-hidden whitespace-nowrap items-center justify-between gap-4 text-[11px] font-medium tracking-[0.18em] uppercase px-6 py-3 rounded-full cursor-pointer"
           onMouseEnter={() => setCtaHovered(true)}
           onMouseLeave={() => setCtaHovered(false)}
@@ -259,13 +254,8 @@ export function Navbar() {
             <div style={{ marginTop: "auto", paddingTop: 32 }}>
               <button
                 onClick={() => {
-                  if (onHome) {
-                    setMenuOpen(false);
-                    window.dispatchEvent(new CustomEvent("openBookingPanel"));
-                  } else {
-                    router.push("/book");
-                    setMenuOpen(false);
-                  }
+                  setMenuOpen(false);
+                  openBookingPanel("Airport Transfer", true);
                 }}
                 style={{
                   width: "100%", padding: "16px 0",

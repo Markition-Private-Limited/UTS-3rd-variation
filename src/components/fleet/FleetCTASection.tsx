@@ -2,11 +2,11 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
 import PillButtonContent from "@/components/ui/PillButtonContent";
+import { useBookingPanel } from "@/lib/booking-panel-context";
 
 export function FleetCTASection() {
-  const router = useRouter();
+  const { openBookingPanel } = useBookingPanel();
   const [btnHovered, setBtnHovered] = useState(false);
 
   return (
@@ -48,7 +48,7 @@ export function FleetCTASection() {
             </p>
 
             <button
-              onClick={() => router.push("/contact#enquiry")}
+              onClick={() => openBookingPanel("Airport Transfer", true)}
               onMouseEnter={() => setBtnHovered(true)}
               onMouseLeave={() => setBtnHovered(false)}
               className="group relative inline-flex overflow-hidden whitespace-nowrap items-center justify-between gap-4 text-[11px] font-medium tracking-[0.18em] uppercase px-6 py-3 rounded-full cursor-pointer"
@@ -59,7 +59,7 @@ export function FleetCTASection() {
                 transition: "border-color 300ms",
               }}
             >
-              <PillButtonContent fill="black">Enquire About a Vehicle</PillButtonContent>
+              <PillButtonContent fill="black">Book a Chauffeur</PillButtonContent>
             </button>
           </div>
         </div>

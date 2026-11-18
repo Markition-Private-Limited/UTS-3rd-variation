@@ -55,7 +55,7 @@ export default function BookingTabs({
   }, [activeIdx]);
 
   return (
-    <div className="w-full overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+    <div className="w-full overflow-x-auto px-2 py-2 -mx-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
       <div
         ref={cardRef}
         onMouseMove={handleMouseMove}

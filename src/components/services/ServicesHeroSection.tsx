@@ -6,9 +6,11 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import PillButtonContent from "@/components/ui/PillButtonContent";
 import { Reveal } from "@/components/ui/reveal";
+import { useBookingPanel } from "@/lib/booking-panel-context";
 
 export function ServicesHeroSection() {
   const router = useRouter();
+  const { openBookingPanel } = useBookingPanel();
   const [btn1Hovered, setBtn1Hovered] = useState(false);
   const [btn2Hovered, setBtn2Hovered] = useState(false);
 
@@ -75,7 +77,7 @@ export function ServicesHeroSection() {
             </button>
 
             <button
-              onClick={() => router.push("/contact")}
+              onClick={() => openBookingPanel("Airport Transfer", true)}
               onMouseEnter={() => setBtn2Hovered(true)}
               onMouseLeave={() => setBtn2Hovered(false)}
               className="group relative inline-flex overflow-hidden whitespace-nowrap items-center justify-between gap-4 text-[11px] font-medium tracking-[0.18em] uppercase px-6 py-3 rounded-full cursor-pointer"

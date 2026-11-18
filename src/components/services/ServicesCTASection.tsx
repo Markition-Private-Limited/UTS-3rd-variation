@@ -1,12 +1,13 @@
 "use client";
 
 import Image from "next/image";
-import Link from "next/link";
 import { motion, useReducedMotion } from "motion/react";
 import PillButtonContent from "@/components/ui/PillButtonContent";
+import { useBookingPanel } from "@/lib/booking-panel-context";
 
 export function ServicesCTASection() {
   const reduceMotion = useReducedMotion() ?? false;
+  const { openBookingPanel } = useBookingPanel();
 
   return (
     <section className="bg-white p-4 pb-8 sm:p-5 sm:pb-10 lg:p-6 lg:pb-14">
@@ -47,13 +48,13 @@ export function ServicesCTASection() {
             <p className="mb-6 text-[14px] font-normal leading-[165%] tracking-[-0.01em] text-neutral-300 sm:mb-8 sm:text-[15px] sm:leading-[170%]">
               Tell us about your travel requirements and let United Travel Services help you explore the available chauffeur options.
             </p>
-            <Link
-              href="/contact"
-              className="group relative inline-flex w-fit items-center justify-between gap-4 overflow-hidden whitespace-nowrap rounded-full border border-white bg-white text-black"
+            <button
+              onClick={() => openBookingPanel("Airport Transfer", true)}
+              className="group relative inline-flex w-fit items-center justify-between gap-4 overflow-hidden whitespace-nowrap rounded-full border border-white bg-white text-black cursor-pointer"
               style={{ padding: "16px 28px", fontSize: "0.68rem", letterSpacing: "0.2em", fontWeight: 600, textTransform: "uppercase" }}
             >
               <PillButtonContent fill="black">Book a Chauffeur</PillButtonContent>
-            </Link>
+            </button>
           </div>
         </div>
       </motion.div>

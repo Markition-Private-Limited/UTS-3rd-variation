@@ -157,9 +157,6 @@ function DateField({ label, value, onChange, error, lock }: { label: string; val
 }
 
 function TimeField({ label, value, onChange, error, lock }: { label: string; value: string; onChange: (v: string) => void; error: boolean; lock: (v: boolean) => void }) {
-  // ShadcnTimePicker works on a Date; the form stores "HH:MM". Seed a Date from the
-  // current value (or a sensible default) and only forward onChange after the user
-  // actually interacts, so an untouched field still reads as empty upstream.
   const [internalDate, setInternalDate] = useState<Date>(() => {
     const d = new Date();
     d.setSeconds(0, 0);
@@ -172,6 +169,7 @@ function TimeField({ label, value, onChange, error, lock }: { label: string; val
     return d;
   });
   const mounted = useRef(false);
+  const [hasSelection, setHasSelection] = useState(!!value);
 
   const handleChange = (d: Date) => {
     setInternalDate(d);
@@ -179,6 +177,7 @@ function TimeField({ label, value, onChange, error, lock }: { label: string; val
       mounted.current = true;
       return;
     }
+    setHasSelection(true);
     onChange(`${pad(d.getHours())}:${pad(d.getMinutes())}`);
   };
 
@@ -190,6 +189,7 @@ function TimeField({ label, value, onChange, error, lock }: { label: string; val
         value={internalDate}
         onChange={handleChange}
         hasError={error}
+        placeholder={hasSelection ? undefined : "--:-- --"}
       />
     </div>
   );

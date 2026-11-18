@@ -2,21 +2,9 @@
 // hero
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
-import { useRouter } from "next/navigation";
 import { AnimatePresence, motion } from "motion/react";
 import { type Tab } from "@/components/ui/BookingTabs";
-import HeroBookingPanel, { DURATION_OPTIONS, type HeroForm, type Direction } from "@/components/booking/HeroBookingPanel";
-import { DRAFT_KEY, type BookingDraft, type ServiceType } from "@/lib/booking";
-
-const TAB_TO_SERVICE: Record<Tab, ServiceType> = {
-  "Airport Transfer": "transfer",
-  "Sightseeing Chauffeur": "hourly",
-  "Hourly Chauffeur": "hourly",
-  "Day Service": "day",
-  "City to City": "transfer",
-};
-
-const EMPTY_FORM: HeroForm = { pickup: "", destination: "", date: "", time: "" };
+import { useBookingPanel } from "@/lib/booking-panel-context";
 
 const SLIDES = [
   {
@@ -205,16 +193,7 @@ function ServiceCard({
 
 export function HeroSection() {
   const [index, setIndex] = useState(0);
-  const router = useRouter();
-
-  const [panelOpen, setPanelOpen] = useState(false);
-  const [showTabs, setShowTabs] = useState(false);
-  const [tab, setTab] = useState<Tab>("Airport Transfer");
-  const [direction, setDirection] = useState<Direction>("departure");
-  const [form, setForm] = useState<HeroForm>(EMPTY_FORM);
-  const [touched, setTouched] = useState(false);
-  const [passengers, setPassengers] = useState(1);
-  const [duration, setDuration] = useState(8);
+  const { openBookingPanel } = useBookingPanel();
 
   useEffect(() => {
     const id = setInterval(() => setIndex((i) => (i + 1) % SLIDES.length), SLIDE_MS);
@@ -222,75 +201,6 @@ export function HeroSection() {
   }, []);
 
   const slide = SLIDES[index];
-
-  const getDurationForTab = (t: Tab) => {
-    if (t === "Day Service") return DURATION_OPTIONS["Day Service"][1].value; // 8h default
-    if (t === "Sightseeing Chauffeur") return DURATION_OPTIONS["Sightseeing Chauffeur"][2].value; // 4h default
-    return DURATION_OPTIONS["Hourly Chauffeur"][4].value; // 8h default
-  };
-
-  const openBookingPanel = (nextTab: Tab) => {
-    setTab(nextTab);
-    setShowTabs(false);
-    setDirection("departure");
-    setDuration(getDurationForTab(nextTab));
-    setTouched(false);
-    setPanelOpen(true);
-  };
-
-  const openBookingPanelAllServices = () => {
-    setTab("Airport Transfer");
-    setShowTabs(true);
-    setDirection("departure");
-    setDuration(DURATION_OPTIONS["Hourly Chauffeur"][4].value);
-    setTouched(false);
-    setPanelOpen(true);
-  };
-
-  const closeBookingPanel = () => setPanelOpen(false);
-
-  // Listen for the custom event dispatched by the Navbar "Book Your Chauffeur" button on the homepage.
-  useEffect(() => {
-    const handler = () => openBookingPanelAllServices();
-    window.addEventListener("openBookingPanel", handler);
-    return () => window.removeEventListener("openBookingPanel", handler);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  const updateField = (key: keyof HeroForm) => (e: React.ChangeEvent<HTMLInputElement>) => {
-    setForm((f) => ({ ...f, [key]: e.target.value }));
-  };
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    setTouched(true);
-    const needsDestination = tab === "Airport Transfer" || tab === "City to City";
-    const required: (keyof HeroForm)[] = needsDestination
-      ? ["pickup", "destination", "date", "time"]
-      : ["pickup", "date", "time"];
-    const missing = required.some((k) => !form[k].trim());
-    if (missing) return;
-
-    const draft: BookingDraft = {
-      service: TAB_TO_SERVICE[tab],
-      pickup: form.pickup,
-      dropoff: needsDestination ? form.destination : undefined,
-      date: form.date,
-      time: form.time,
-      passengers,
-      duration: tab === "Airport Transfer" ? undefined : duration,
-    };
-    try {
-      sessionStorage.setItem(DRAFT_KEY, JSON.stringify(draft));
-    } catch {
-      /* storage unavailable — the booking page just starts blank */
-    }
-    setForm(EMPTY_FORM);
-    setTouched(false);
-    setPanelOpen(false);
-    setPassengers(1);
-    router.push("/book");
-  };
 
   return (
     <section data-navbar-theme="dark" className="relative -mx-2 -mt-2 min-h-[calc(100vh-16px)] overflow-hidden rounded-[clamp(14px,1.5vw,20px)]">
@@ -358,61 +268,10 @@ export function HeroSection() {
         {/* Service cards — 2-col mobile, 3-col sm, 5-col lg */}
         <div className="mt-10 sm:mt-16 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">
           {SERVICE_CARDS.map((card) => (
-            <ServiceCard key={card.title} {...card} onBook={openBookingPanel} />
+            <ServiceCard key={card.title} {...card} onBook={(tab) => openBookingPanel(tab, false)} />
           ))}
         </div>
       </div>
-
-      {/* Booking panel overlay — opens when a service card above is clicked */}
-      <AnimatePresence>
-        {panelOpen && (
-          <motion.div
-            className="absolute inset-0 z-[60] flex items-center justify-center bg-black/60 p-4 backdrop-blur-sm"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.25 }}
-            onClick={closeBookingPanel}
-          >
-            <motion.div
-              className="relative w-full max-w-5xl"
-              initial={{ opacity: 0, y: 24 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: 24 }}
-              transition={{ duration: 0.3, ease: [0.25, 0.46, 0.45, 0.94] }}
-              onClick={(e) => e.stopPropagation()}
-            >
-              <button
-                type="button"
-                onClick={closeBookingPanel}
-                aria-label="Close booking panel"
-                className="absolute -top-10 right-0 flex h-8 w-8 items-center justify-center rounded-full border border-white/30 text-white transition-colors hover:bg-white/15 sm:-top-12"
-              >
-                <svg width="14" height="14" viewBox="0 0 12 12" fill="none">
-                  <path d="M1 1l10 10M11 1L1 11" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-                </svg>
-              </button>
-
-              <HeroBookingPanel
-                tab={tab}
-                onTab={(t) => { setTab(t); setDirection("departure"); setDuration(getDurationForTab(t)); }}
-                showTabs={showTabs}
-                direction={direction}
-                onDirection={setDirection}
-                duration={duration}
-                onDuration={setDuration}
-                form={form}
-                onField={updateField}
-                onValue={(k, v) => setForm((f) => ({ ...f, [k]: v }))}
-                passengers={passengers}
-                onPassengers={setPassengers}
-                touched={touched}
-                onSubmit={handleSubmit}
-              />
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
     </section>
   );
 }

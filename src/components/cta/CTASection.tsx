@@ -3,10 +3,12 @@
 import { useState } from "react";
 import { useInView } from "@/hooks/useInView";
 import PillButtonContent from "@/components/ui/PillButtonContent";
+import { useBookingPanel } from "@/lib/booking-panel-context";
 
 export function CTASection() {
   const { ref, isInView } = useInView<HTMLDivElement>();
   const [btnHovered, setBtnHovered] = useState(false);
+  const { openBookingPanel } = useBookingPanel();
 
   return (
     <section className="w-full bg-white px-4 md:px-8 pt-[6.25vw] pb-[6.25vw]">
@@ -73,6 +75,7 @@ export function CTASection() {
           </p>
 
           <button
+            onClick={() => openBookingPanel("Airport Transfer", true)}
             className="group relative overflow-hidden whitespace-nowrap inline-flex items-center justify-between gap-4 w-fit px-6 py-3 text-[13px] sm:px-8 sm:py-5 sm:text-[16px] font-light tracking-[0.15em] text-white uppercase rounded-full bg-[#111111] cursor-pointer"
             onMouseEnter={() => setBtnHovered(true)}
             onMouseLeave={() => setBtnHovered(false)}

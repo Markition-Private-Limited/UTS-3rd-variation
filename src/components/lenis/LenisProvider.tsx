@@ -2,6 +2,7 @@
 
 import { useEffect } from "react";
 import Lenis from "lenis";
+import { registerLenis, unregisterLenis } from "@/lib/lenis-singleton";
 
 export function LenisProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
@@ -10,6 +11,8 @@ export function LenisProvider({ children }: { children: React.ReactNode }) {
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       smoothWheel: true,
     });
+
+    registerLenis(lenis);
 
     function raf(time: number) {
       lenis.raf(time);
@@ -21,6 +24,7 @@ export function LenisProvider({ children }: { children: React.ReactNode }) {
     return () => {
       cancelAnimationFrame(rafId);
       lenis.destroy();
+      unregisterLenis();
     };
   }, []);
 

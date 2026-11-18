@@ -100,13 +100,14 @@ export const BookingSidebar: React.FC<BookingSidebarProps> = ({
 
   return (
     <aside data-lenis-prevent className="no-scrollbar overscroll-contain w-full shrink-0 lg:sticky lg:top-[72px] lg:h-[calc(100vh-88px)] lg:w-[360px] lg:self-start lg:overflow-hidden xl:w-[390px]">
-      <div className="bg-white border border-zinc-200/90 rounded-2xl shadow-sm divide-y divide-zinc-100 lg:flex lg:flex-col lg:h-full lg:overflow-y-auto lg:overscroll-contain lg:[scrollbar-width:none] lg:[&::-webkit-scrollbar]:hidden">
+      <div className="bg-white border border-zinc-200/90 rounded-2xl shadow-sm lg:flex lg:flex-col lg:h-full lg:overflow-hidden">
 
         {isAirport ? (
           <>
+          <div className="divide-y divide-zinc-100 lg:min-h-0 lg:flex-1 lg:overflow-y-auto lg:overscroll-contain lg:[scrollbar-width:none] lg:[&::-webkit-scrollbar]:hidden">
             {/* Route Graphic */}
-            <div className="relative bg-[#f4f4f7] p-4 border-b border-zinc-200/70 lg:shrink-0">
-              <div className="relative rounded-xl overflow-hidden bg-gradient-to-br from-zinc-100 to-zinc-200 border border-zinc-300/60 p-3 flex flex-col justify-between" style={{minHeight: '8rem'}}>
+            <div className="relative bg-[#f4f4f7] p-2.5 border-b border-zinc-200/70 lg:shrink-0">
+              <div className="relative rounded-xl overflow-hidden bg-gradient-to-br from-zinc-100 to-zinc-200 border border-zinc-300/60 p-3 flex flex-col justify-between" style={{minHeight: '10rem'}}>
                 <svg className="absolute inset-0 w-full h-full text-zinc-300/60" viewBox="0 0 300 180" fill="currentColor" preserveAspectRatio="none">
                   <polygon points="20,40 80,20 160,25 240,15 280,60 260,130 190,165 110,160 40,120" />
                 </svg>
@@ -138,8 +139,8 @@ export const BookingSidebar: React.FC<BookingSidebarProps> = ({
             </div>
 
             {/* Price breakdown */}
-            <div className="p-4 sm:p-5 lg:shrink-0">
-              <div className="bg-zinc-50 rounded-xl border border-zinc-200/80 p-3.5 text-xs text-zinc-600 space-y-1.5">
+            <div className="p-3 sm:p-3.5 lg:shrink-0">
+              <div className="bg-zinc-50 rounded-xl border border-zinc-200/80 p-3 text-xs text-zinc-600 space-y-1">
                 <div className="flex items-center justify-between">
                   <span>Base fare (illustrative)</span>
                   <span className="font-semibold text-zinc-900">{priceCalc.baseFare !== null ? `£${priceCalc.baseFare.toFixed(2)}` : 'To be confirmed'}</span>
@@ -158,7 +159,7 @@ export const BookingSidebar: React.FC<BookingSidebarProps> = ({
             </div>
 
             {/* Pickup / Drop-off */}
-            <div className="p-4 sm:p-5 space-y-3.5 lg:shrink-0">
+            <div className="p-3 sm:p-3.5 space-y-2.5 lg:shrink-0">
               <span className="text-[11px] font-bold text-zinc-800 block">Pickup / Drop-off</span>
               <div className="flex items-start gap-2.5">
                 <div className="w-6 h-6 rounded-full bg-zinc-100 flex items-center justify-center shrink-0 mt-0.5">
@@ -197,7 +198,7 @@ export const BookingSidebar: React.FC<BookingSidebarProps> = ({
             </div>
 
             {/* Vehicle */}
-            <div className="p-4 sm:p-5 lg:shrink-0">
+            <div className="p-3 sm:p-3.5 lg:shrink-0">
               <div className="flex items-center justify-between mb-2">
                 <span className="text-[10px] uppercase font-bold tracking-wider text-zinc-400">Selected Vehicle</span>
                 <span className="text-xs font-bold text-zinc-950">
@@ -215,7 +216,7 @@ export const BookingSidebar: React.FC<BookingSidebarProps> = ({
             </div>
 
             {/* Passengers & Luggage + instructions */}
-            <div className="p-4 sm:p-5 space-y-4 lg:shrink-0">
+            <div className="p-3.5 sm:p-4 space-y-3 lg:shrink-0">
               <div>
                 <span className="text-[11px] font-bold text-zinc-800 block mb-3">Passengers &amp; Luggage</span>
                 <div className="grid grid-cols-2 gap-4">
@@ -243,12 +244,14 @@ export const BookingSidebar: React.FC<BookingSidebarProps> = ({
               </div>
             </div>
 
-            <div className="p-4 sm:p-5 bg-zinc-50/50 lg:shrink-0">
+          </div>
+            <div className="p-3.5 sm:p-4 bg-zinc-50/50 lg:shrink-0 border-t border-zinc-100">
               {actions}
             </div>
           </>
         ) : (
           <>
+          <div className="divide-y divide-zinc-100 lg:min-h-0 lg:flex-1 lg:overflow-y-auto lg:overscroll-contain lg:[scrollbar-width:none] lg:[&::-webkit-scrollbar]:hidden">
             {/* Service heading + price */}
             <div className="p-4 sm:p-5">
               <span className="text-[10px] uppercase font-bold tracking-wider text-zinc-400 block">
@@ -352,8 +355,9 @@ export const BookingSidebar: React.FC<BookingSidebarProps> = ({
             <div className="p-4 sm:p-5">
               {renderPassengersLuggage(true)}
             </div>
+          </div>
 
-            <div className="p-4 sm:p-5 space-y-2.5 bg-zinc-50/50">
+            <div className="p-3.5 sm:p-4 space-y-2.5 bg-zinc-50/50 lg:shrink-0 border-t border-zinc-100">
               {actions}
             </div>
           </>

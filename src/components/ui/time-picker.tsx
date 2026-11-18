@@ -46,6 +46,7 @@ export function TimePicker({
   disabled,
   modal,
   hasError,
+  placeholder,
 }: {
   use12HourFormat?: boolean;
   value: Date;
@@ -56,6 +57,7 @@ export function TimePicker({
   className?: string;
   modal?: boolean;
   hasError?: boolean;
+  placeholder?: string;
 }) {
   // hours24h = HH
   // hours12h = hh
@@ -75,20 +77,6 @@ export function TimePicker({
   const [minute, setMinute] = useState(value.getMinutes());
   const [second, setSecond] = useState(value.getSeconds());
 
-  useEffect(() => {
-    onChange(
-      buildTime({
-        use12HourFormat,
-        value,
-        formatStr,
-        hour,
-        minute,
-        second,
-        ampm,
-      })
-    );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [hour, minute, second, ampm, formatStr, use12HourFormat]);
 
   const _hourIn24h = useMemo(() => {
     return use12HourFormat ? (hour % 12) + ampm * 12 : hour;
@@ -160,125 +148,88 @@ export function TimePicker({
   }, [open]);
   const onHourChange = useCallback(
     (v: SimpleTimeOption) => {
+      let newMinute = minute;
+      let newSecond = second;
       if (min) {
-        const newTime = buildTime({
-          use12HourFormat,
-          value,
-          formatStr,
-          hour: v.value,
-          minute,
-          second,
-          ampm,
-        });
+        const newTime = buildTime({ use12HourFormat, value, formatStr, hour: v.value, minute, second, ampm });
         if (newTime < min) {
-          setMinute(min.getMinutes());
-          setSecond(min.getSeconds());
+          newMinute = min.getMinutes();
+          newSecond = min.getSeconds();
+          setMinute(newMinute);
+          setSecond(newSecond);
         }
       }
       if (max) {
-        const newTime = buildTime({
-          use12HourFormat,
-          value,
-          formatStr,
-          hour: v.value,
-          minute,
-          second,
-          ampm,
-        });
+        const newTime = buildTime({ use12HourFormat, value, formatStr, hour: v.value, minute: newMinute, second: newSecond, ampm });
         if (newTime > max) {
-          setMinute(max.getMinutes());
-          setSecond(max.getSeconds());
+          newMinute = max.getMinutes();
+          newSecond = max.getSeconds();
+          setMinute(newMinute);
+          setSecond(newSecond);
         }
       }
       setHour(v.value);
+      onChange(buildTime({ use12HourFormat, value, formatStr, hour: v.value, minute: newMinute, second: newSecond, ampm }));
     },
-    [setHour, use12HourFormat, value, formatStr, minute, second, ampm]
+    [setHour, use12HourFormat, value, formatStr, minute, second, ampm, min, max, onChange]
   );
 
   const onMinuteChange = useCallback(
     (v: SimpleTimeOption) => {
+      let newSecond = second;
       if (min) {
-        const newTime = buildTime({
-          use12HourFormat,
-          value,
-          formatStr,
-          hour: v.value,
-          minute,
-          second,
-          ampm,
-        });
+        const newTime = buildTime({ use12HourFormat, value, formatStr, hour, minute: v.value, second, ampm });
         if (newTime < min) {
-          setSecond(min.getSeconds());
+          newSecond = min.getSeconds();
+          setSecond(newSecond);
         }
       }
       if (max) {
-        const newTime = buildTime({
-          use12HourFormat,
-          value,
-          formatStr,
-          hour: v.value,
-          minute,
-          second,
-          ampm,
-        });
+        const newTime = buildTime({ use12HourFormat, value, formatStr, hour, minute: v.value, second, ampm });
         if (newTime > max) {
-          setSecond(newTime.getSeconds());
+          newSecond = max.getSeconds();
+          setSecond(newSecond);
         }
       }
       setMinute(v.value);
+      onChange(buildTime({ use12HourFormat, value, formatStr, hour, minute: v.value, second: newSecond, ampm }));
     },
-    [setMinute, use12HourFormat, value, formatStr, hour, second, ampm]
+    [setMinute, use12HourFormat, value, formatStr, hour, second, ampm, min, max, onChange]
   );
 
   const onAmpmChange = useCallback(
     (v: SimpleTimeOption) => {
+      let newHour = hour;
+      let newMinute = minute;
+      let newSecond = second;
       if (min) {
-        const newTime = buildTime({
-          use12HourFormat,
-          value,
-          formatStr,
-          hour,
-          minute,
-          second,
-          ampm: v.value,
-        });
+        const newTime = buildTime({ use12HourFormat, value, formatStr, hour, minute, second, ampm: v.value });
         if (newTime < min) {
           const minH = min.getHours() % 12;
-          setHour(minH === 0 ? 12 : minH);
-          setMinute(min.getMinutes());
-          setSecond(min.getSeconds());
+          newHour = minH === 0 ? 12 : minH;
+          newMinute = min.getMinutes();
+          newSecond = min.getSeconds();
+          setHour(newHour);
+          setMinute(newMinute);
+          setSecond(newSecond);
         }
       }
       if (max) {
-        const newTime = buildTime({
-          use12HourFormat,
-          value,
-          formatStr,
-          hour,
-          minute,
-          second,
-          ampm: v.value,
-        });
+        const newTime = buildTime({ use12HourFormat, value, formatStr, hour: newHour, minute: newMinute, second: newSecond, ampm: v.value });
         if (newTime > max) {
           const maxH = max.getHours() % 12;
-          setHour(maxH === 0 ? 12 : maxH);
-          setMinute(max.getMinutes());
-          setSecond(max.getSeconds());
+          newHour = maxH === 0 ? 12 : maxH;
+          newMinute = max.getMinutes();
+          newSecond = max.getSeconds();
+          setHour(newHour);
+          setMinute(newMinute);
+          setSecond(newSecond);
         }
       }
       setAmpm(v.value);
+      onChange(buildTime({ use12HourFormat, value, formatStr, hour: newHour, minute: newMinute, second: newSecond, ampm: v.value }));
     },
-    [
-      setAmpm,
-      use12HourFormat,
-      value,
-      formatStr,
-      hour,
-      minute,
-      second,
-      min,
-      max,
-    ]
+    [setAmpm, use12HourFormat, value, formatStr, hour, minute, second, min, max, onChange]
   );
 
   const display = useMemo(() => {
@@ -298,7 +249,7 @@ export function TimePicker({
           )}
           tabIndex={0}
         >
-          <span className="truncate">{display}</span>
+          <span className={cn("truncate", placeholder && "text-white/50")}>{placeholder ?? display}</span>
           <Clock className="size-3.5 shrink-0 opacity-50" />
         </div>
       </PopoverTrigger>

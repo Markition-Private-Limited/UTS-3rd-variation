@@ -3,6 +3,7 @@ import { LenisProvider } from "@/components/lenis/LenisProvider";
 import { Navbar } from "@/components/navbar";
 import PageLoader from "@/components/ui/PageLoader";
 import { ScrollToTop } from "@/components/ui/ScrollToTop";
+import { BookingPanelProvider, BookingPanelOverlay } from "@/lib/booking-panel-context";
 
 export const metadata: Metadata = {
   title: "United Travel Services — Executive Chauffeur",
@@ -11,11 +12,14 @@ export const metadata: Metadata = {
 
 export default function SiteLayout({ children }: { children: React.ReactNode }) {
   return (
-    <div className="flex flex-col bg-white font-sans">
-      <ScrollToTop />
-      <PageLoader />
-      <Navbar />
-      <LenisProvider>{children}</LenisProvider>
-    </div>
+    <BookingPanelProvider>
+      <div className="relative flex flex-col bg-white font-sans">
+        <ScrollToTop />
+        <PageLoader />
+        <Navbar />
+        <LenisProvider>{children}</LenisProvider>
+        <BookingPanelOverlay />
+      </div>
+    </BookingPanelProvider>
   );
 }
