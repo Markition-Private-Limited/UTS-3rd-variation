@@ -161,6 +161,13 @@ export const BookingFlowModal: React.FC<BookingFlowModalProps> = ({ isOpen, onCl
     }
   }, [isOpen]);
 
+  useEffect(() => {
+    if (!isOpen) return;
+    const prevOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    return () => { document.body.style.overflow = prevOverflow; };
+  }, [isOpen]);
+
   const priceCalc = calculatePrice(state.serviceType, vehicle, {
     distanceKm: state.sampleDistanceKm,
     durationHours: state.durationHours,
