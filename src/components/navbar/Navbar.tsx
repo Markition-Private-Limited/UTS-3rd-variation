@@ -90,8 +90,12 @@ export function Navbar() {
   }, []);
 
   useEffect(() => {
+    document.documentElement.style.overflow = menuOpen ? "hidden" : "";
     document.body.style.overflow = menuOpen ? "hidden" : "";
-    return () => { document.body.style.overflow = ""; };
+    return () => {
+      document.documentElement.style.overflow = "";
+      document.body.style.overflow = "";
+    };
   }, [menuOpen]);
 
   const isDark = theme === "dark";

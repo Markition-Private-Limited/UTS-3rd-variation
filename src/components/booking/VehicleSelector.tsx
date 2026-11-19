@@ -228,7 +228,7 @@ export const VehicleSelector: React.FC<VehicleSelectorProps> = ({
   // peek of the next one on phones, two on tablets, exactly three from
   // desktop up (matching the step/dot controls below).
   const widthForViewport = (w: number) => {
-    if (w < 640) return Math.max(240, Math.floor(w * 0.84));
+    if (w < 640) return Math.max(200, Math.floor(w * 0.74));
     if (w < 1024) return Math.max(260, Math.floor((w - CARD_GAP) / 2) - 1);
     return Math.max(220, Math.floor((w - CARD_GAP * 2) / 3) - 1);
   };
@@ -301,7 +301,7 @@ export const VehicleSelector: React.FC<VehicleSelectorProps> = ({
                   : 'border border-zinc-200/90 hover:border-zinc-400'
               }`}
             >
-              <div className="relative aspect-[9/10] bg-zinc-100 overflow-hidden">
+              <div className="relative aspect-[4/3] sm:aspect-[9/10] bg-zinc-100 overflow-hidden">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src={vehicle.image.replace('-1.webp', '-1-card.webp')}
@@ -312,28 +312,28 @@ export const VehicleSelector: React.FC<VehicleSelectorProps> = ({
                 />
               </div>
 
-              <div className="flex flex-col px-4 pt-4 pb-4">
-                <h3 className="font-bold text-base text-zinc-900 tracking-tight leading-snug transition-colors duration-300 group-hover:text-zinc-600">{vehicle.name}</h3>
-                <p className="text-xs text-zinc-500 mt-1 font-normal">{vehicle.modelExample}</p>
+              <div className="flex flex-col px-3 pt-3 pb-3 sm:px-4 sm:pt-4 sm:pb-4">
+                <h3 className="font-bold text-sm sm:text-base text-zinc-900 tracking-tight leading-snug transition-colors duration-300 group-hover:text-zinc-600">{vehicle.name}</h3>
+                <p className="text-xs text-zinc-500 mt-0.5 sm:mt-1 font-normal">{vehicle.modelExample}</p>
 
-                <p className="text-sm text-zinc-500 mt-3 leading-relaxed line-clamp-2 min-h-[3em]">{vehicle.description}</p>
+                <p className="hidden sm:block text-sm text-zinc-500 mt-3 leading-relaxed line-clamp-2 min-h-[3em]">{vehicle.description}</p>
 
-                {priceCalc.ratePerUnit === null && <p className="mt-4 min-h-[1.25rem]" aria-hidden="true" />}
+                {priceCalc.ratePerUnit === null && <p className="mt-2 sm:mt-4 min-h-[1.25rem]" aria-hidden="true" />}
                 {priceCalc.ratePerUnit !== null && (
-                  <p className="mt-4 min-h-[1.25rem] text-xs text-zinc-500">
+                  <p className="mt-2 sm:mt-4 min-h-[1.25rem] text-xs text-zinc-500">
                     £{priceCalc.ratePerUnit.toFixed(2).replace(/\.00$/, '')}/{priceCalc.unitLabel === 'hours' ? 'hour' : priceCalc.unitLabel} × {priceCalc.unitCount} {priceCalc.unitLabel}
                   </p>
                 )}
 
-                <div className="flex items-center justify-between mt-2">
+                <div className="flex items-center justify-between mt-1.5 sm:mt-2">
                   {priceCalc.total !== null ? (
-                    <span className="text-xl font-bold tracking-tight text-zinc-950">
+                    <span className="text-lg sm:text-xl font-bold tracking-tight text-zinc-950">
                       £{priceCalc.total.toFixed(0)}
                     </span>
                   ) : (
                     <span className="text-xs font-semibold text-zinc-700">Price to be confirmed</span>
                   )}
-                  <div className="flex items-center gap-3 text-xs text-zinc-600 font-medium">
+                  <div className="flex items-center gap-2 sm:gap-3 text-xs text-zinc-600 font-medium">
                     <div className="flex items-center gap-1">
                       <User className="w-3.5 h-3.5 text-zinc-500" />
                       <span>{vehicle.passengers}</span>
@@ -348,7 +348,7 @@ export const VehicleSelector: React.FC<VehicleSelectorProps> = ({
                 <button
                   type="button"
                   onClick={(e) => { e.stopPropagation(); onSelectVehicle(vehicle.id); }}
-                  className={`group/btn relative overflow-hidden w-full mt-3.5 py-2.5 px-4 rounded-full text-xs font-semibold border-[1.5px] transition-all duration-500 inline-flex items-center ${
+                  className={`group/btn relative overflow-hidden w-full mt-2.5 sm:mt-3.5 py-2 sm:py-2.5 px-4 rounded-full text-xs font-semibold border-[1.5px] transition-all duration-500 inline-flex items-center ${
                     isSelected
                       ? 'bg-zinc-950 text-white border-transparent hover:border-white/30'
                       : 'bg-white text-zinc-950 border-zinc-300 hover:border-zinc-950'

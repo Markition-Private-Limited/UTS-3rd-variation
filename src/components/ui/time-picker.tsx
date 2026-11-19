@@ -254,7 +254,7 @@ export function TimePicker({
         </div>
       </PopoverTrigger>
       <PopoverContent
-        className="w-64 rounded-2xl border border-white/20 bg-black/40 p-2 text-white shadow-[0_16px_50px_rgba(0,0,0,0.55),inset_0_1px_0_rgba(255,255,255,0.2)]"
+        className="w-64 rounded-2xl border border-white/15 bg-zinc-900/90 p-2 text-white backdrop-blur-xl shadow-[0_20px_60px_rgba(0,0,0,0.7),inset_0_1px_0_rgba(255,255,255,0.12)]"
         side="top"
         align="start"
         sideOffset={12}

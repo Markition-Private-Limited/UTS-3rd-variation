@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useRef, useEffect } from 'react';
+import { AnimatePresence, motion } from 'motion/react';
 import { useRouter } from 'next/navigation';
 import { X, ChevronRight, Lock, CheckCircle2, CreditCard, User, Calendar, ShieldCheck, Mail, ChevronDown } from 'lucide-react';
 import { FlagImage } from 'react-international-phone';
@@ -163,9 +164,35 @@ export const BookingFlowModal: React.FC<BookingFlowModalProps> = ({ isOpen, onCl
 
   useEffect(() => {
     if (!isOpen) return;
-    const prevOverflow = document.body.style.overflow;
+    const html = document.documentElement;
+    const prevHtmlOverflow = html.style.overflow;
+    const prevBodyOverflow = document.body.style.overflow;
+    html.style.overflow = 'hidden';
     document.body.style.overflow = 'hidden';
-    return () => { document.body.style.overflow = prevOverflow; };
+    return () => {
+      html.style.overflow = prevHtmlOverflow;
+      document.body.style.overflow = prevBodyOverflow;
+    };
+  }, [isOpen]);
+
+  // Keep the backdrop pinned to the TRUE visible area (visualViewport), not the
+  // layout viewport. `position: fixed; inset: 0` tracks the layout viewport, which
+  // can desync from what's actually visible on real mobile browsers while their
+  // toolbar/keyboard is animating — leaving a gap below the modal. visualViewport
+  // reports the real, currently-visible rect, so we size/position off that instead.
+  const [viewportRect, setViewportRect] = useState<{ top: number; height: number } | null>(null);
+  useEffect(() => {
+    if (!isOpen) return;
+    const vv = window.visualViewport;
+    if (!vv) return;
+    const update = () => setViewportRect({ top: vv.offsetTop, height: vv.height });
+    update();
+    vv.addEventListener('resize', update);
+    vv.addEventListener('scroll', update);
+    return () => {
+      vv.removeEventListener('resize', update);
+      vv.removeEventListener('scroll', update);
+    };
   }, [isOpen]);
 
   const priceCalc = calculatePrice(state.serviceType, vehicle, {
@@ -206,247 +233,297 @@ export const BookingFlowModal: React.FC<BookingFlowModalProps> = ({ isOpen, onCl
     setTimeout(() => setStep('success'), 2800);
   };
 
-  if (!isOpen) return null;
-
   const short = (v: string, n = 28) => v.length > n ? v.slice(0, n - 1) + '…' : v;
   const totalStr = priceCalc.total !== null ? `£${priceCalc.total.toFixed(2)}` : 'TBC';
 
   const isProcessingOrSuccess = step === 'processing' || step === 'success';
 
   return (
-    <div
-      className="fixed inset-0 z-50 flex items-end sm:items-center justify-center sm:p-4 bg-black/70 backdrop-blur-sm"
-      onClick={(e) => { if (e.target === e.currentTarget) onClose(); }}
-    >
-      <div className={`bg-white w-full sm:rounded-3xl shadow-2xl overflow-hidden border border-zinc-100 flex flex-col
-        ${isProcessingOrSuccess ? 'sm:max-w-[400px]' : 'sm:max-w-[540px]'}
-        ${step === 'processing' ? 'rounded-t-3xl sm:rounded-3xl' : 'rounded-t-3xl sm:rounded-3xl'}
-        max-h-[96vh] sm:max-h-[90vh]`}>
+    <AnimatePresence>
+      {isOpen && (
+        <motion.div
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm"
+          style={viewportRect ? { top: viewportRect.top, height: viewportRect.height } : undefined}
+          onClick={(e) => { if (e.target === e.currentTarget) onClose(); }}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.25 }}
+        >
+          <motion.div
+            className={`bg-white w-full rounded-3xl shadow-2xl overflow-hidden border border-zinc-100 flex flex-col
+            ${isProcessingOrSuccess ? 'max-w-[400px]' : 'max-w-[540px]'}
+            max-h-[90vh]`}
+            layout
+            initial={{ y: '100vh', opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            exit={{ y: '60vh', opacity: 0, transition: { duration: 0.28, ease: [0.4, 0, 1, 1] } }}
+            transition={{ type: 'spring', damping: 36, stiffness: 340 }}
+          >
 
-        {/* ── Dark header (contact + payment only) ── */}
-        {!isProcessingOrSuccess && (
-          <div className="bg-zinc-950 px-5 sm:px-7 pt-5 sm:pt-6 pb-5 shrink-0">
-            <div className="flex items-center justify-between mb-4">
-              <div className="flex items-center gap-2.5">
-                <div className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-sm font-bold text-white shrink-0">U</div>
-                <div>
-                  <span className="text-[9px] uppercase tracking-widest text-zinc-500 font-bold block">United Travel Services</span>
-                  <span className="text-sm font-bold text-white leading-none">{step === 'contact' ? 'Contact Details' : 'Payment Details'}</span>
-                </div>
-              </div>
-              <button onClick={onClose} className="text-zinc-500 hover:text-white transition-colors p-1.5 rounded-xl hover:bg-white/10 shrink-0 ml-2">
-                <X className="w-4 h-4" />
-              </button>
-            </div>
-
-            {/* Step progress */}
-            <div className="flex items-center gap-2 mb-4">
-              {(['contact', 'payment'] as const).map((s, i) => {
-                const done = step === 'payment' && s === 'contact';
-                const active = step === s;
-                return (
-                  <React.Fragment key={s}>
-                    <div className={`flex items-center gap-1.5 ${active || done ? 'opacity-100' : 'opacity-30'}`}>
-                      <div className={`w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-bold border transition-all ${
-                        done ? 'bg-emerald-500 border-emerald-400 text-white' : active ? 'bg-white border-white text-zinc-950' : 'border-zinc-600 text-zinc-500'
-                      }`}>
-                        {done ? '✓' : i + 1}
-                      </div>
-                      <span className="text-[10px] font-semibold text-zinc-300 capitalize">{s}</span>
+            {/* ── Dark header (contact + payment only) ── */}
+            {!isProcessingOrSuccess && (
+              <div className="bg-zinc-950 px-5 sm:px-7 pt-5 sm:pt-6 pb-5 shrink-0">
+                <div className="flex items-center justify-between mb-4">
+                  <div className="flex items-center gap-2.5">
+                    <div className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-sm font-bold text-white shrink-0">U</div>
+                    <div>
+                      <span className="text-[9px] uppercase tracking-widest text-zinc-500 font-bold block">United Travel Services</span>
+                      <span className="text-sm font-bold text-white leading-none">{step === 'contact' ? 'Contact Details' : 'Payment Details'}</span>
                     </div>
-                    {i === 0 && <div className="flex-1 h-px bg-zinc-700 mx-1" />}
-                  </React.Fragment>
-                );
-              })}
-            </div>
-
-            {/* Journey summary pill */}
-            <div className="bg-white/5 border border-white/10 rounded-2xl px-4 py-3 flex items-center justify-between gap-3">
-              <div className="min-w-0">
-                <span className="text-[9px] uppercase tracking-wider text-zinc-500 font-bold block mb-0.5">Your Journey</span>
-                <span className="text-xs text-white font-medium block truncate">{short(state.pickupAddress, 24)}{(state.destinationAddress) ? ` → ${short(state.destinationAddress, 18)}` : ''}</span>
-                <span className="text-[10px] text-zinc-400">{state.pickupDate} · {state.pickupTime}</span>
-              </div>
-              <div className="text-right shrink-0 pl-2 border-l border-white/10">
-                <span className="text-[9px] uppercase tracking-wider text-zinc-500 font-bold block mb-0.5">Est. Total</span>
-                <span className="text-lg font-black text-white leading-none">{totalStr}</span>
-              </div>
-            </div>
-          </div>
-        )}
-
-        {/* ── Contact step ── */}
-        {step === 'contact' && (
-          <div className="overflow-y-auto flex-1 px-5 sm:px-7 py-5 space-y-4">
-            <div>
-              <label className={LABEL}>Full Name</label>
-              <div className="relative">
-                <User className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-400 pointer-events-none" />
-                <input className={`${INPUT} pl-10 ${errors.name ? 'border-red-300 focus:ring-red-200' : ''}`}
-                  placeholder="e.g. James Harrison" value={contact.name}
-                  onChange={e => setContact(c => ({ ...c, name: e.target.value }))} />
-              </div>
-              {errors.name && <p className="text-xs text-red-500 mt-1">{errors.name}</p>}
-            </div>
-
-            <div>
-              <label className={LABEL}>Email Address</label>
-              <div className="relative">
-                <Mail className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-400 pointer-events-none" />
-                <input className={`${INPUT} pl-10 ${errors.email ? 'border-red-300 focus:ring-red-200' : ''}`}
-                  type="email" placeholder="e.g. james@example.com" value={contact.email}
-                  onChange={e => setContact(c => ({ ...c, email: e.target.value }))} />
-              </div>
-              {errors.email && <p className="text-xs text-red-500 mt-1">{errors.email}</p>}
-            </div>
-
-            <div className="relative">
-              <PhoneInput
-                value={contact.phone}
-                onChange={v => setContact(c => ({ ...c, phone: v }))}
-                error={errors.phone}
-              />
-            </div>
-
-            <p className="text-[11px] text-zinc-400 leading-relaxed pb-1">
-              Your details are used solely to confirm and coordinate your booking. We never share your information with third parties.
-            </p>
-          </div>
-        )}
-
-        {/* ── Payment step ── */}
-        {step === 'payment' && (
-          <div className="overflow-y-auto flex-1 px-5 sm:px-7 py-5 space-y-4">
-            <div>
-              <label className={LABEL}>Card Number</label>
-              <div className="relative">
-                <CreditCard className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-400 pointer-events-none" />
-                <input className={`${INPUT} pl-10 font-mono tracking-wider ${errors.cardNumber ? 'border-red-300' : ''}`}
-                  placeholder="0000 0000 0000 0000" value={payment.cardNumber} inputMode="numeric"
-                  onChange={e => setPayment(p => ({ ...p, cardNumber: formatCard(e.target.value) }))} />
-              </div>
-              {errors.cardNumber && <p className="text-xs text-red-500 mt-1">{errors.cardNumber}</p>}
-            </div>
-
-            <div className="grid grid-cols-2 gap-3">
-              <div>
-                <label className={LABEL}>Expiry</label>
-                <div className="relative">
-                  <Calendar className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-400 pointer-events-none" />
-                  <input className={`${INPUT} pl-9 font-mono ${errors.expiry ? 'border-red-300' : ''}`}
-                    placeholder="MM/YY" inputMode="numeric" value={payment.expiry}
-                    onChange={e => setPayment(p => ({ ...p, expiry: formatExpiry(e.target.value) }))} />
+                  </div>
+                  <button onClick={onClose} className="text-zinc-500 hover:text-white transition-colors p-1.5 rounded-xl hover:bg-white/10 shrink-0 ml-2">
+                    <X className="w-4 h-4" />
+                  </button>
                 </div>
-                {errors.expiry && <p className="text-xs text-red-500 mt-1">{errors.expiry}</p>}
-              </div>
-              <div>
-                <label className={LABEL}>CVC</label>
-                <div className="relative">
-                  <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-400 pointer-events-none" />
-                  <input className={`${INPUT} pl-9 font-mono ${errors.cvc ? 'border-red-300' : ''}`}
-                    placeholder="123" inputMode="numeric" maxLength={4} value={payment.cvc}
-                    onChange={e => setPayment(p => ({ ...p, cvc: e.target.value.replace(/\D/g, '').slice(0, 4) }))} />
+
+                {/* Step progress */}
+                <div className="flex items-center gap-2 mb-4">
+                  {(['contact', 'payment'] as const).map((s, i) => {
+                    const done = step === 'payment' && s === 'contact';
+                    const active = step === s;
+                    return (
+                      <React.Fragment key={s}>
+                        <div className={`flex items-center gap-1.5 ${active || done ? 'opacity-100' : 'opacity-30'}`}>
+                          <div className={`w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-bold border transition-all ${
+                            done ? 'bg-emerald-500 border-emerald-400 text-white' : active ? 'bg-white border-white text-zinc-950' : 'border-zinc-600 text-zinc-500'
+                          }`}>
+                            {done ? '✓' : i + 1}
+                          </div>
+                          <span className="text-[10px] font-semibold text-zinc-300 capitalize">{s}</span>
+                        </div>
+                        {i === 0 && <div className="flex-1 h-px bg-zinc-700 mx-1" />}
+                      </React.Fragment>
+                    );
+                  })}
                 </div>
-                {errors.cvc && <p className="text-xs text-red-500 mt-1">{errors.cvc}</p>}
-              </div>
-            </div>
 
-            <div>
-              <label className={LABEL}>Cardholder Name</label>
-              <div className="relative">
-                <User className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-400 pointer-events-none" />
-                <input className={`${INPUT} pl-10 ${errors.cardholder ? 'border-red-300' : ''}`}
-                  placeholder="As it appears on your card" value={payment.cardholder}
-                  onChange={e => setPayment(p => ({ ...p, cardholder: e.target.value }))} />
-              </div>
-              {errors.cardholder && <p className="text-xs text-red-500 mt-1">{errors.cardholder}</p>}
-            </div>
-
-            <div className="flex items-start gap-2.5 bg-emerald-50 border border-emerald-100 rounded-xl px-3.5 py-2.5">
-              <ShieldCheck className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
-              <p className="text-[11px] text-emerald-800 leading-relaxed">256-bit SSL encryption · Prototype only — no charge will be made</p>
-            </div>
-
-            <div className="bg-zinc-50 border border-zinc-200 rounded-2xl p-4 space-y-2">
-              <div className="flex justify-between text-xs text-zinc-600">
-                <span>Base fare (illustrative)</span>
-                <span className="font-semibold text-zinc-900">{priceCalc.baseFare !== null ? `£${priceCalc.baseFare.toFixed(2)}` : 'TBC'}</span>
-              </div>
-              <div className="flex justify-between text-xs text-zinc-600">
-                <span>Booking fee</span>
-                <span className="font-semibold text-zinc-900">£{priceCalc.bookingFee.toFixed(2)}</span>
-              </div>
-              <div className="border-t border-zinc-200 pt-2 flex justify-between items-baseline">
-                <span className="font-bold text-sm text-zinc-950">Total</span>
-                <span className="font-black text-xl text-zinc-950">{totalStr}</span>
-              </div>
-            </div>
-          </div>
-        )}
-
-        {/* ── Processing ── */}
-        {step === 'processing' && <ProcessingScreen />}
-
-        {/* ── Success ── */}
-        {step === 'success' && (
-          <div className="flex-1 flex flex-col items-center justify-center py-10 px-6 sm:px-8 gap-5 text-center">
-            <div className="relative w-20 h-20">
-              <div className="absolute inset-0 rounded-full bg-emerald-50 border-2 border-emerald-100" />
-              <div className="absolute inset-0 flex items-center justify-center">
-                <CheckCircle2 className="w-10 h-10 text-emerald-500" />
-              </div>
-            </div>
-            <div className="space-y-2">
-              <p className="text-2xl font-bold text-zinc-950">Booking Confirmed!</p>
-              <p className="text-sm text-zinc-500 max-w-xs leading-relaxed">
-                Thank you, <span className="font-semibold text-zinc-700">{contact.name || 'valued guest'}</span>. A confirmation has been sent to{' '}
-                <span className="font-semibold text-zinc-700">{contact.email || 'your email'}</span>.
-              </p>
-            </div>
-
-            <div className="w-full bg-zinc-50 border border-zinc-200 rounded-2xl p-4 text-left space-y-2.5">
-              <div className="flex items-start gap-2.5">
-                <div className="w-2 h-2 rounded-full bg-zinc-900 mt-1.5 shrink-0" />
-                <div className="min-w-0">
-                  <span className="text-[9px] uppercase tracking-wider font-bold text-zinc-400 block">Pickup</span>
-                  <span className="text-xs font-medium text-zinc-900 break-words">{state.pickupAddress}</span>
+                {/* Journey summary pill */}
+                <div className="bg-white/5 border border-white/10 rounded-2xl px-4 py-3 flex items-center justify-between gap-3">
+                  <div className="min-w-0">
+                    <span className="text-[9px] uppercase tracking-wider text-zinc-500 font-bold block mb-0.5">Your Journey</span>
+                    <span className="text-xs text-white font-medium block truncate">{short(state.pickupAddress, 24)}{(state.destinationAddress) ? ` → ${short(state.destinationAddress, 18)}` : ''}</span>
+                    <span className="text-[10px] text-zinc-400">{state.pickupDate} · {state.pickupTime}</span>
+                  </div>
+                  <div className="text-right shrink-0 pl-2 border-l border-white/10">
+                    <span className="text-[9px] uppercase tracking-wider text-zinc-500 font-bold block mb-0.5">Est. Total</span>
+                    <span className="text-lg font-black text-white leading-none">{totalStr}</span>
+                  </div>
                 </div>
               </div>
-              <div className="flex flex-wrap items-center gap-x-2 gap-y-0.5 text-xs text-zinc-500 pt-1 border-t border-zinc-100">
-                <span>{state.pickupDate}</span>
-                <span>·</span>
-                <span>{state.pickupTime}</span>
-                <span>·</span>
-                <span className="font-semibold text-zinc-700">{vehicle.name}</span>
-              </div>
-            </div>
-
-            <button onClick={() => router.push('/')}
-              className="w-full py-3.5 rounded-2xl bg-zinc-950 text-white text-sm font-bold tracking-wide hover:bg-zinc-800 transition-colors shadow-lg">
-              Back to Home
-            </button>
-            <p className="text-[11px] text-zinc-400">Prototype only · No actual booking has been made</p>
-          </div>
-        )}
-
-        {/* ── Footer CTAs ── */}
-        {(step === 'contact' || step === 'payment') && (
-          <div className="shrink-0 px-5 sm:px-7 py-4 bg-zinc-50 border-t border-zinc-100 flex items-center gap-3">
-            {step === 'payment' && (
-              <button onClick={() => { setErrors({}); setStep('contact'); }}
-                className="px-4 py-3 rounded-xl text-xs font-semibold text-zinc-600 border border-zinc-200 bg-white hover:bg-zinc-100 transition-colors">
-                Back
-              </button>
             )}
-            <button onClick={step === 'contact' ? handleContactNext : handlePaymentSubmit}
-              className="flex-1 py-3 rounded-xl bg-zinc-950 text-white text-sm font-bold tracking-wide hover:bg-zinc-800 active:scale-[0.98] transition-all flex items-center justify-center gap-2 shadow-md">
-              {step === 'contact' ? 'Continue to Payment' : `Confirm & Pay ${totalStr}`}
-              <ChevronRight className="w-4 h-4" />
-            </button>
-          </div>
-        )}
 
-      </div>
-    </div>
+            {/* ── Animated step content ── */}
+            <AnimatePresence mode="wait" initial={false}>
+
+              {/* Contact step */}
+              {step === 'contact' && (
+                <motion.div
+                  key="contact"
+                  className="overflow-y-auto flex-1 px-5 sm:px-7 py-5 space-y-4"
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -10 }}
+                  transition={{ duration: 0.15, ease: [0.4, 0, 0.2, 1] }}
+                >
+                  <div>
+                    <label className={LABEL}>Full Name</label>
+                    <div className="relative">
+                      <User className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-400 pointer-events-none" />
+                      <input className={`${INPUT} pl-10 ${errors.name ? 'border-red-300 focus:ring-red-200' : ''}`}
+                        placeholder="e.g. James Harrison" value={contact.name}
+                        onChange={e => setContact(c => ({ ...c, name: e.target.value }))} />
+                    </div>
+                    {errors.name && <p className="text-xs text-red-500 mt-1">{errors.name}</p>}
+                  </div>
+
+                  <div>
+                    <label className={LABEL}>Email Address</label>
+                    <div className="relative">
+                      <Mail className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-400 pointer-events-none" />
+                      <input className={`${INPUT} pl-10 ${errors.email ? 'border-red-300 focus:ring-red-200' : ''}`}
+                        type="email" placeholder="e.g. james@example.com" value={contact.email}
+                        onChange={e => setContact(c => ({ ...c, email: e.target.value }))} />
+                    </div>
+                    {errors.email && <p className="text-xs text-red-500 mt-1">{errors.email}</p>}
+                  </div>
+
+                  <div className="relative">
+                    <PhoneInput
+                      value={contact.phone}
+                      onChange={v => setContact(c => ({ ...c, phone: v }))}
+                      error={errors.phone}
+                    />
+                  </div>
+
+                  <p className="text-[11px] text-zinc-400 leading-relaxed pb-1">
+                    Your details are used solely to confirm and coordinate your booking. We never share your information with third parties.
+                  </p>
+                </motion.div>
+              )}
+
+              {/* Payment step */}
+              {step === 'payment' && (
+                <motion.div
+                  key="payment"
+                  className="overflow-y-auto flex-1 px-5 sm:px-7 py-5 space-y-4"
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -10 }}
+                  transition={{ duration: 0.15, ease: [0.4, 0, 0.2, 1] }}
+                >
+                  <div>
+                    <label className={LABEL}>Card Number</label>
+                    <div className="relative">
+                      <CreditCard className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-400 pointer-events-none" />
+                      <input className={`${INPUT} pl-10 font-mono tracking-wider ${errors.cardNumber ? 'border-red-300' : ''}`}
+                        placeholder="0000 0000 0000 0000" value={payment.cardNumber} inputMode="numeric"
+                        onChange={e => setPayment(p => ({ ...p, cardNumber: formatCard(e.target.value) }))} />
+                    </div>
+                    {errors.cardNumber && <p className="text-xs text-red-500 mt-1">{errors.cardNumber}</p>}
+                  </div>
+
+                  <div className="grid grid-cols-2 gap-3">
+                    <div>
+                      <label className={LABEL}>Expiry</label>
+                      <div className="relative">
+                        <Calendar className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-400 pointer-events-none" />
+                        <input className={`${INPUT} pl-9 font-mono ${errors.expiry ? 'border-red-300' : ''}`}
+                          placeholder="MM/YY" inputMode="numeric" value={payment.expiry}
+                          onChange={e => setPayment(p => ({ ...p, expiry: formatExpiry(e.target.value) }))} />
+                      </div>
+                      {errors.expiry && <p className="text-xs text-red-500 mt-1">{errors.expiry}</p>}
+                    </div>
+                    <div>
+                      <label className={LABEL}>CVC</label>
+                      <div className="relative">
+                        <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-400 pointer-events-none" />
+                        <input className={`${INPUT} pl-9 font-mono ${errors.cvc ? 'border-red-300' : ''}`}
+                          placeholder="123" inputMode="numeric" maxLength={4} value={payment.cvc}
+                          onChange={e => setPayment(p => ({ ...p, cvc: e.target.value.replace(/\D/g, '').slice(0, 4) }))} />
+                      </div>
+                      {errors.cvc && <p className="text-xs text-red-500 mt-1">{errors.cvc}</p>}
+                    </div>
+                  </div>
+
+                  <div>
+                    <label className={LABEL}>Cardholder Name</label>
+                    <div className="relative">
+                      <User className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-400 pointer-events-none" />
+                      <input className={`${INPUT} pl-10 ${errors.cardholder ? 'border-red-300' : ''}`}
+                        placeholder="As it appears on your card" value={payment.cardholder}
+                        onChange={e => setPayment(p => ({ ...p, cardholder: e.target.value }))} />
+                    </div>
+                    {errors.cardholder && <p className="text-xs text-red-500 mt-1">{errors.cardholder}</p>}
+                  </div>
+
+                  <div className="flex items-start gap-2.5 bg-emerald-50 border border-emerald-100 rounded-xl px-3.5 py-2.5">
+                    <ShieldCheck className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
+                    <p className="text-[11px] text-emerald-800 leading-relaxed">256-bit SSL encryption · Prototype only — no charge will be made</p>
+                  </div>
+
+                  <div className="bg-zinc-50 border border-zinc-200 rounded-2xl p-4 space-y-2">
+                    <div className="flex justify-between text-xs text-zinc-600">
+                      <span>Base fare (illustrative)</span>
+                      <span className="font-semibold text-zinc-900">{priceCalc.baseFare !== null ? `£${priceCalc.baseFare.toFixed(2)}` : 'TBC'}</span>
+                    </div>
+                    <div className="flex justify-between text-xs text-zinc-600">
+                      <span>Booking fee</span>
+                      <span className="font-semibold text-zinc-900">£{priceCalc.bookingFee.toFixed(2)}</span>
+                    </div>
+                    <div className="border-t border-zinc-200 pt-2 flex justify-between items-baseline">
+                      <span className="font-bold text-sm text-zinc-950">Total</span>
+                      <span className="font-black text-xl text-zinc-950">{totalStr}</span>
+                    </div>
+                  </div>
+                </motion.div>
+              )}
+
+              {/* Processing step */}
+              {step === 'processing' && (
+                <motion.div
+                  key="processing"
+                  className="flex-1 flex flex-col"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.15 }}
+                >
+                  <ProcessingScreen />
+                </motion.div>
+              )}
+
+              {/* Success step */}
+              {step === 'success' && (
+                <motion.div
+                  key="success"
+                  className="flex-1 flex flex-col items-center justify-center pt-10 px-6 sm:px-8 pb-[max(2.5rem,env(safe-area-inset-bottom))] gap-5 text-center"
+                  initial={{ opacity: 0, y: 12 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.2, ease: [0.4, 0, 0.2, 1] }}
+                >
+                  <div className="relative w-20 h-20">
+                    <div className="absolute inset-0 rounded-full bg-emerald-50 border-2 border-emerald-100" />
+                    <div className="absolute inset-0 flex items-center justify-center">
+                      <CheckCircle2 className="w-10 h-10 text-emerald-500" />
+                    </div>
+                  </div>
+                  <div className="space-y-2">
+                    <p className="text-2xl font-bold text-zinc-950">Booking Confirmed!</p>
+                    <p className="text-sm text-zinc-500 max-w-xs leading-relaxed">
+                      Thank you, <span className="font-semibold text-zinc-700">{contact.name || 'valued guest'}</span>. A confirmation has been sent to{' '}
+                      <span className="font-semibold text-zinc-700">{contact.email || 'your email'}</span>.
+                    </p>
+                  </div>
+
+                  <div className="w-full bg-zinc-50 border border-zinc-200 rounded-2xl p-4 text-left space-y-2.5">
+                    <div className="flex items-start gap-2.5">
+                      <div className="w-2 h-2 rounded-full bg-zinc-900 mt-1.5 shrink-0" />
+                      <div className="min-w-0">
+                        <span className="text-[9px] uppercase tracking-wider font-bold text-zinc-400 block">Pickup</span>
+                        <span className="text-xs font-medium text-zinc-900 break-words">{state.pickupAddress}</span>
+                      </div>
+                    </div>
+                    <div className="flex flex-wrap items-center gap-x-2 gap-y-0.5 text-xs text-zinc-500 pt-1 border-t border-zinc-100">
+                      <span>{state.pickupDate}</span>
+                      <span>·</span>
+                      <span>{state.pickupTime}</span>
+                      <span>·</span>
+                      <span className="font-semibold text-zinc-700">{vehicle.name}</span>
+                    </div>
+                  </div>
+
+                  <button onClick={() => router.push('/')}
+                    className="w-full py-3.5 rounded-2xl bg-zinc-950 text-white text-sm font-bold tracking-wide hover:bg-zinc-800 transition-colors shadow-lg">
+                    Back to Home
+                  </button>
+                  <p className="text-[11px] text-zinc-400">Prototype only · No actual booking has been made</p>
+                </motion.div>
+              )}
+
+            </AnimatePresence>
+
+            {/* ── Footer CTAs ── */}
+            {(step === 'contact' || step === 'payment') && (
+              <div className="shrink-0 px-5 sm:px-7 pt-4 pb-[max(1rem,env(safe-area-inset-bottom))] bg-zinc-50 border-t border-zinc-100 flex items-center gap-3">
+                {step === 'payment' && (
+                  <button onClick={() => { setErrors({}); setStep('contact'); }}
+                    className="px-4 py-3 rounded-xl text-xs font-semibold text-zinc-600 border border-zinc-200 bg-white hover:bg-zinc-100 transition-colors">
+                    Back
+                  </button>
+                )}
+                <button onClick={step === 'contact' ? handleContactNext : handlePaymentSubmit}
+                  className="flex-1 py-3 rounded-xl bg-zinc-950 text-white text-sm font-bold tracking-wide hover:bg-zinc-800 active:scale-[0.98] transition-all flex items-center justify-center gap-2 shadow-md">
+                  {step === 'contact' ? 'Continue to Payment' : `Confirm & Pay ${totalStr}`}
+                  <ChevronRight className="w-4 h-4" />
+                </button>
+              </div>
+            )}
+
+          </motion.div>
+        </motion.div>
+      )}
+    </AnimatePresence>
   );
 };
