@@ -2,9 +2,9 @@
 
 import React, { useState, useEffect } from 'react';
 import { BookmarkCheck } from 'lucide-react';
-import { FLEET } from '@/data/fleet';
+import { useFleet } from '@/hooks/useFleet';
 import { DRAFT_KEY, type BookingDraft } from '@/lib/booking';
-import { BookingState, ServiceType, VehicleTier } from '@/types/booking';
+import { BookingState, ServiceType } from '@/types/booking';
 import { BookingHeader } from '@/components/booking/BookingHeader';
 import { BookingSidebar } from '@/components/booking/BookingSidebar';
 import { FooterSection } from '@/components/footer/FooterSection';
@@ -38,7 +38,7 @@ export default function BookingApp() {
 
   const [bookingState, setBookingState] = useState<BookingState>({
     serviceType: 'airport-transfer',
-    selectedVehicleId: 'business',
+    selectedVehicleId: 'business-class',
     transferDirection: 'departure',
     sampleDistanceKm: 28,
     flightNumber: '',
@@ -95,9 +95,10 @@ export default function BookingApp() {
   // keep the booking state's own serviceType in sync without a syncing effect.
   const derivedState: BookingState = { ...bookingState, serviceType: currentService };
 
-  const selectedVehicle = FLEET.find((v) => v.id === bookingState.selectedVehicleId) || FLEET[0];
+  const { vehicles: fleet, loading: fleetLoading, error: fleetError } = useFleet();
+  const selectedVehicle = fleet.find((v) => v.id === bookingState.selectedVehicleId) ?? fleet[0];
 
-  const handleSelectVehicle = (id: VehicleTier) => {
+  const handleSelectVehicle = (id: string) => {
     updateBookingState({ selectedVehicleId: id });
   };
 
@@ -163,24 +164,47 @@ export default function BookingApp() {
 
       <main className="flex-1 max-w-[1520px] w-full mx-auto px-4 sm:px-6 lg:px-8 pb-8 sm:pb-10">
         <div className="flex flex-col items-stretch gap-4 lg:flex-row lg:items-start xl:gap-6">
-          <div className="flex-1 pt-6 sm:pt-10 min-w-0">
-            {currentService === 'airport-transfer' && (
-              <AirportTransferPage state={bookingState} fleet={FLEET} selectedVehicle={selectedVehicle}
-                onSelectVehicle={handleSelectVehicle} onUpdateState={updateBookingState} />
-            )}
-            {currentService === 'day-booking' && (
-              <DayBookingPage state={bookingState} fleet={FLEET} selectedVehicle={selectedVehicle}
-                onSelectVehicle={handleSelectVehicle} onUpdateState={updateBookingState} />
-            )}
-            {currentService === 'hourly-chauffeur' && (
-              <HourlyChauffeurPage state={bookingState} fleet={FLEET} selectedVehicle={selectedVehicle}
-                onSelectVehicle={handleSelectVehicle} onUpdateState={updateBookingState} />
-            )}
-          </div>
+          {fleetLoading ? (
+            <div className="flex-1 pt-6 sm:pt-10 min-w-0 flex items-center justify-center min-h-[400px]">
+              <div className="text-center space-y-3">
+                <div className="w-8 h-8 rounded-full border-2 border-zinc-200 border-t-zinc-900 animate-spin mx-auto" />
+                <p className="text-sm text-zinc-400">Loading vehicles…</p>
+              </div>
+            </div>
+          ) : fleetError ? (
+            <div className="flex-1 pt-6 sm:pt-10 min-w-0 flex items-center justify-center min-h-[400px]">
+              <div className="text-center space-y-3 max-w-sm px-4">
+                <p className="text-sm font-semibold text-zinc-900">Fleet unavailable</p>
+                <p className="text-sm text-zinc-500">{fleetError}</p>
+                <p className="text-xs text-zinc-400">Please refresh the page or contact UTS directly to arrange your booking.</p>
+              </div>
+            </div>
+          ) : fleet.length === 0 ? (
+            <div className="flex-1 pt-6 sm:pt-10 min-w-0 flex items-center justify-center min-h-[400px]">
+              <p className="text-sm text-zinc-500 text-center px-4">No vehicles are currently available. Please contact UTS to arrange your booking.</p>
+            </div>
+          ) : selectedVehicle ? (
+            <>
+              <div className="flex-1 pt-6 sm:pt-10 min-w-0">
+                {currentService === 'airport-transfer' && (
+                  <AirportTransferPage state={bookingState} fleet={fleet} selectedVehicle={selectedVehicle}
+                    onSelectVehicle={handleSelectVehicle} onUpdateState={updateBookingState} />
+                )}
+                {currentService === 'day-booking' && (
+                  <DayBookingPage state={bookingState} fleet={fleet} selectedVehicle={selectedVehicle}
+                    onSelectVehicle={handleSelectVehicle} onUpdateState={updateBookingState} />
+                )}
+                {currentService === 'hourly-chauffeur' && (
+                  <HourlyChauffeurPage state={bookingState} fleet={fleet} selectedVehicle={selectedVehicle}
+                    onSelectVehicle={handleSelectVehicle} onUpdateState={updateBookingState} />
+                )}
+              </div>
 
-          <BookingSidebar state={derivedState} selectedVehicle={selectedVehicle}
-            onUpdateState={updateBookingState}
-            onContinue={handleContinueToBooking} />
+              <BookingSidebar state={derivedState} selectedVehicle={selectedVehicle}
+                onUpdateState={updateBookingState}
+                onContinue={handleContinueToBooking} />
+            </>
+          ) : null}
         </div>
       </main>
 
@@ -188,8 +212,10 @@ export default function BookingApp() {
         <FooterSection />
       </div>
 
-      <BookingFlowModal isOpen={reviewModalOpen} onClose={() => setReviewModalOpen(false)}
-        state={derivedState} vehicle={selectedVehicle} />
+      {selectedVehicle && (
+        <BookingFlowModal isOpen={reviewModalOpen} onClose={() => setReviewModalOpen(false)}
+          state={derivedState} vehicle={selectedVehicle} />
+      )}
     </div>
   );
 }

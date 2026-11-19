@@ -2,14 +2,15 @@
 
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
-import { FLEET_VEHICLES } from "@/components/fleet-data";
 import { Reveal } from "@/components/ui/reveal";
 
 const AUTO_SPEED = 25; // idle drift speed, px/sec — slow and steady
 const MAX_SPIN_SPEED = 3000;
 const SPIN_FRICTION = 0.94;
 
-function FleetCard({ car }: { car: (typeof FLEET_VEHICLES)[number] }) {
+type MarqueeVehicle = { id: string; tier: string; name: string; description: string; image: string };
+
+function FleetCard({ car }: { car: MarqueeVehicle }) {
   return (
     <Link
       href="/#fleet"
@@ -46,6 +47,20 @@ function FleetCard({ car }: { car: (typeof FLEET_VEHICLES)[number] }) {
 }
 
 export function AirportTransfersFleetSection() {
+  const [vehicles, setVehicles] = useState<MarqueeVehicle[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [fetchError, setFetchError] = useState<string | null>(null);
+
+  useEffect(() => {
+    let cancelled = false;
+    fetch('/api/fleet')
+      .then((res) => { if (!res.ok) throw new Error(`HTTP ${res.status}`); return res.json(); })
+      .then((data: { vehicles: MarqueeVehicle[] }) => { if (!cancelled) setVehicles(data.vehicles); })
+      .catch((err: Error) => { if (!cancelled) setFetchError(err.message); })
+      .finally(() => { if (!cancelled) setLoading(false); });
+    return () => { cancelled = true; };
+  }, []);
+
   const trackRef = useRef<HTMLDivElement>(null);
   const draggingRef = useRef(false);
   const pausedRef = useRef(false);
@@ -154,22 +169,33 @@ export function AirportTransfersFleetSection() {
         </div>
       </div>
 
-      <div
-        ref={trackRef}
-        onPointerDown={onPointerDown}
-        onPointerMove={onPointerMove}
-        onPointerUp={endDrag}
-        onPointerLeave={endDrag}
-        onMouseEnter={() => (pausedRef.current = true)}
-        onMouseLeave={() => (pausedRef.current = false)}
-        className={`flex gap-8 overflow-x-auto px-6 pb-2 select-none sm:px-10 lg:px-16 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden ${
-          dragging ? "cursor-grabbing" : "cursor-grab"
-        }`}
-      >
-        {[...FLEET_VEHICLES, ...FLEET_VEHICLES].map((car, i) => (
-          <FleetCard key={`${car.slug}-${i}`} car={car} />
-        ))}
-      </div>
+      {loading ? (
+        <div className="px-6 py-10 text-center text-sm text-neutral-400 sm:px-10 lg:px-16">Loading vehicles…</div>
+      ) : fetchError ? (
+        <div className="px-6 py-10 text-center sm:px-10 lg:px-16">
+          <p className="text-sm font-semibold text-neutral-900">Fleet unavailable</p>
+          <p className="text-sm text-neutral-500">Please try again shortly or contact us directly.</p>
+        </div>
+      ) : vehicles.length === 0 ? (
+        <div className="px-6 py-10 text-center text-sm text-neutral-500 sm:px-10 lg:px-16">No vehicles are currently available.</div>
+      ) : (
+        <div
+          ref={trackRef}
+          onPointerDown={onPointerDown}
+          onPointerMove={onPointerMove}
+          onPointerUp={endDrag}
+          onPointerLeave={endDrag}
+          onMouseEnter={() => (pausedRef.current = true)}
+          onMouseLeave={() => (pausedRef.current = false)}
+          className={`flex gap-8 overflow-x-auto px-6 pb-2 select-none sm:px-10 lg:px-16 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden ${
+            dragging ? "cursor-grabbing" : "cursor-grab"
+          }`}
+        >
+          {[...vehicles, ...vehicles].map((car, i) => (
+            <FleetCard key={`${car.id}-${i}`} car={car} />
+          ))}
+        </div>
+      )}
     </section>
     </Reveal>
   );

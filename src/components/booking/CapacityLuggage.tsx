@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import { Users } from 'lucide-react';
 import { ServiceType, Vehicle } from '@/types/booking';
-import { getLuggageImage } from '@/data/fleet';
+import { getLuggageImageBySlug } from '@/lib/fleet-enhancements';
 
 interface CapacityLuggageProps {
   selectedVehicle: Vehicle;
@@ -93,7 +93,7 @@ export const CapacityLuggage: React.FC<CapacityLuggageProps> = ({
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               key={`${selectedVehicle.id}-${currentLuggageType}`}
-              src={getLuggageImage(selectedVehicle.id, currentLuggageType)}
+              src={getLuggageImageBySlug(selectedVehicle.id, currentLuggageType)}
               alt={`${selectedVehicle.name} luggage capacity — ${luggageOptions.find((o) => o.id === currentLuggageType)?.label}`}
               className="w-full h-full object-cover"
             />
@@ -130,7 +130,7 @@ export const CapacityLuggage: React.FC<CapacityLuggageProps> = ({
             <div className="p-3 bg-white rounded-xl border border-zinc-200/80">
               <span className="font-bold text-zinc-900 block mb-1">Cabin Configuration</span>
               <p className="text-zinc-600">
-                {selectedVehicle.id === 'first-class-van' || selectedVehicle.id === 'van'
+                {selectedVehicle.id === 'first-class-van' || selectedVehicle.id === 'business-class-van'
                   ? 'Conference or forward-facing club seating with generous legroom.'
                   : 'Individual executive rear seats with armrest controls and footwells.'}
               </p>

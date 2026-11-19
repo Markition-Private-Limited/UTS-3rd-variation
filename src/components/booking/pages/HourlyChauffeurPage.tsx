@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { BookingState, Vehicle, VehicleTier } from '@/types/booking';
+import { BookingState, Vehicle } from '@/types/booking';
 import { VehicleSelector } from '@/components/booking/VehicleSelector';
 import { ShowcaseCarousel } from '@/components/booking/ShowcaseCarousel';
 import { WhatsIncluded } from '@/components/booking/WhatsIncluded';
@@ -12,7 +12,7 @@ interface HourlyChauffeurPageProps {
   state: BookingState;
   fleet: Vehicle[];
   selectedVehicle: Vehicle;
-  onSelectVehicle: (id: VehicleTier) => void;
+  onSelectVehicle: (id: string) => void;
   onUpdateState: (updates: Partial<BookingState>) => void;
 }
 

@@ -2,7 +2,7 @@
 
 import React, { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { User, Briefcase, ChevronLeft, ChevronRight, ChevronsUpDown } from 'lucide-react';
-import { Vehicle, VehicleTier, ServiceType } from '@/types/booking';
+import { Vehicle, ServiceType } from '@/types/booking';
 import { calculatePrice } from '@/data/fleet';
 function CardArrow({ className }: { className?: string }) {
   return (
@@ -18,8 +18,8 @@ const DRAG_THRESHOLD = 5;
 
 interface VehicleSelectorProps {
   vehicles: Vehicle[];
-  selectedVehicleId: VehicleTier;
-  onSelectVehicle: (id: VehicleTier) => void;
+  selectedVehicleId: string;
+  onSelectVehicle: (id: string) => void;
   serviceType: ServiceType;
   distanceKm: number;
   durationHours: number;

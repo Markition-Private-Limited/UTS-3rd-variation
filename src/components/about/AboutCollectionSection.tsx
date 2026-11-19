@@ -6,10 +6,24 @@ import Link from "next/link";
 import { useInView } from "@/hooks/useInView";
 import DotsNav from "@/components/ui/DotsNav";
 import PillButtonContent from "@/components/ui/PillButtonContent";
-import { FLEET_VEHICLES } from "@/components/fleet-data";
+
+type MarqueeVehicle = { id: string; tier: string; name: string; description: string; image: string };
 
 export function AboutCollectionSection() {
   const { ref, isInView } = useInView<HTMLElement>();
+  const [vehicles, setVehicles] = useState<MarqueeVehicle[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [fetchError, setFetchError] = useState<string | null>(null);
+
+  useEffect(() => {
+    let cancelled = false;
+    fetch('/api/fleet')
+      .then((res) => { if (!res.ok) throw new Error(`HTTP ${res.status}`); return res.json(); })
+      .then((data: { vehicles: MarqueeVehicle[] }) => { if (!cancelled) setVehicles(data.vehicles); })
+      .catch((err: Error) => { if (!cancelled) setFetchError(err.message); })
+      .finally(() => { if (!cancelled) setLoading(false); });
+    return () => { cancelled = true; };
+  }, []);
 
   const trackRef = useRef<HTMLDivElement>(null);
   const [edge, setEdge] = useState({ start: true, end: false, page: 0, pages: 1 });
@@ -110,59 +124,72 @@ export function AboutCollectionSection() {
 
       {/* Carousel — full-bleed, edge-to-edge, no side padding, no arrows */}
       <div className="relative">
-        <div
-          ref={trackRef}
-          onScroll={updateEdge}
-          onMouseEnter={() => (pausedRef.current = true)}
-          onMouseLeave={() => (pausedRef.current = false)}
-          className="mx-auto flex max-w-[1800px] gap-10 overflow-x-auto px-4 sm:px-10 lg:px-16 snap-x snap-mandatory [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
-        >
-            {FLEET_VEHICLES.map((car, i) => (
-              <motion.div
-                key={car.slug}
-                className="min-w-0 shrink-0 basis-[calc(100%-32px)] snap-center sm:basis-[calc((100%-40px)/2)] sm:snap-start lg:basis-[calc((100%-120px)/4)]"
-                initial={{ opacity: 0, y: 24 }}
-                animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 24 }}
-                transition={{ duration: 0.55, delay: i * 0.08, ease: [0.25, 0.1, 0.25, 1] }}
-              >
-                <Link
-                  href={`/fleet#${car.slug}`}
-                  className="group/card flex h-full flex-col overflow-hidden rounded-2xl transition-all duration-500 ease-in-out hover:-translate-y-1 hover:shadow-xl"
+        {loading ? (
+          <div className="px-6 py-10 text-center text-sm text-neutral-400 sm:px-10 lg:px-16">Loading vehicles…</div>
+        ) : fetchError ? (
+          <div className="px-6 py-10 text-center sm:px-10 lg:px-16">
+            <p className="text-sm font-semibold text-neutral-900">Fleet unavailable</p>
+            <p className="text-sm text-neutral-500">Please try again shortly or contact us directly.</p>
+          </div>
+        ) : vehicles.length === 0 ? (
+          <div className="px-6 py-10 text-center text-sm text-neutral-500 sm:px-10 lg:px-16">No vehicles are currently available.</div>
+        ) : (
+          <>
+            <div
+              ref={trackRef}
+              onScroll={updateEdge}
+              onMouseEnter={() => (pausedRef.current = true)}
+              onMouseLeave={() => (pausedRef.current = false)}
+              className="mx-auto flex max-w-[1800px] gap-10 overflow-x-auto px-4 sm:px-10 lg:px-16 snap-x snap-mandatory [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+            >
+              {vehicles.map((car, i) => (
+                <motion.div
+                  key={car.id}
+                  className="min-w-0 shrink-0 basis-[calc(100%-32px)] snap-center sm:basis-[calc((100%-40px)/2)] sm:snap-start lg:basis-[calc((100%-120px)/4)]"
+                  initial={{ opacity: 0, y: 24 }}
+                  animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 24 }}
+                  transition={{ duration: 0.55, delay: i * 0.08, ease: [0.25, 0.1, 0.25, 1] }}
                 >
-                  <div className="relative w-full overflow-hidden" style={{ aspectRatio: "571/330" }}>
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img
-                      src={car.image}
-                      alt={car.name}
-                      className="h-full w-full object-cover transition-transform duration-700 ease-in-out group-hover/card:scale-105"
-                      draggable={false}
-                    />
-                  </div>
-                  <div className="flex flex-1 flex-col px-6 py-6" style={{ background: "#F5F5F5" }}>
-                    <span className="mb-3 block text-[11px] font-medium tracking-[0.2em] text-neutral-400">
-                      {car.tier.toUpperCase()}
-                    </span>
-                    <h3 className="mb-3 truncate text-[16px] font-bold tracking-[-0.02em] text-neutral-900">
-                      {car.name}
-                    </h3>
-                    <p className="mb-5 line-clamp-2 text-[14px] leading-[160%] text-neutral-500">
-                      {car.description}
-                    </p>
-                    <span
-                      className="group relative mt-auto inline-flex w-full items-center justify-between gap-4 overflow-hidden whitespace-nowrap rounded-full border border-transparent bg-black text-white transition-colors duration-300 hover:border-white/40"
-                      style={{ padding: "16px 28px", fontSize: "0.68rem", letterSpacing: "0.2em", fontWeight: 600, textTransform: "uppercase" }}
-                    >
-                      <PillButtonContent fill="white">View Vehicle</PillButtonContent>
-                    </span>
-                  </div>
-                </Link>
-              </motion.div>
-            ))}
-        </div>
+                  <Link
+                    href={`/fleet#${car.id}`}
+                    className="group/card flex h-full flex-col overflow-hidden rounded-2xl transition-all duration-500 ease-in-out hover:-translate-y-1 hover:shadow-xl"
+                  >
+                    <div className="relative w-full overflow-hidden" style={{ aspectRatio: "571/330" }}>
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img
+                        src={car.image}
+                        alt={car.name}
+                        className="h-full w-full object-cover transition-transform duration-700 ease-in-out group-hover/card:scale-105"
+                        draggable={false}
+                      />
+                    </div>
+                    <div className="flex flex-1 flex-col px-6 py-6" style={{ background: "#F5F5F5" }}>
+                      <span className="mb-3 block text-[11px] font-medium tracking-[0.2em] text-neutral-400">
+                        {car.tier.toUpperCase()}
+                      </span>
+                      <h3 className="mb-3 truncate text-[16px] font-bold tracking-[-0.02em] text-neutral-900">
+                        {car.name}
+                      </h3>
+                      <p className="mb-5 line-clamp-2 text-[14px] leading-[160%] text-neutral-500">
+                        {car.description}
+                      </p>
+                      <span
+                        className="group relative mt-auto inline-flex w-full items-center justify-between gap-4 overflow-hidden whitespace-nowrap rounded-full border border-transparent bg-black text-white transition-colors duration-300 hover:border-white/40"
+                        style={{ padding: "16px 28px", fontSize: "0.68rem", letterSpacing: "0.2em", fontWeight: 600, textTransform: "uppercase" }}
+                      >
+                        <PillButtonContent fill="white">View Vehicle</PillButtonContent>
+                      </span>
+                    </div>
+                  </Link>
+                </motion.div>
+              ))}
+            </div>
 
-        <div className="mx-auto max-w-[1800px] px-6 sm:px-10 lg:px-16">
-          <DotsNav count={edge.pages} activeIndex={edge.page} onDotClick={goToPage} className="mt-8" />
-        </div>
+            <div className="mx-auto max-w-[1800px] px-6 sm:px-10 lg:px-16">
+              <DotsNav count={edge.pages} activeIndex={edge.page} onDotClick={goToPage} className="mt-8" />
+            </div>
+          </>
+        )}
       </div>
     </section>
   );

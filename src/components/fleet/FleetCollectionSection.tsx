@@ -49,16 +49,24 @@ export function FleetCollectionSection() {
     return () => observer.disconnect();
   }, []);
 
+  const [fetchError, setFetchError] = useState<string | null>(null);
+
   useEffect(() => {
     fetch("/api/fleet")
-      .then((res) => res.json())
+      .then((res) => {
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        return res.json();
+      })
       .then((data: { categories: string[]; vehicles: FleetVehicle[] }) => {
         const mapped = data.categories.map((c) => (c === "All" ? "All Vehicles" : c));
         tabsRef.current = mapped;
         setTabs(mapped);
         setFleet(data.vehicles);
       })
-      .catch(console.error)
+      .catch((err: Error) => {
+        console.error("[FleetCollectionSection]", err);
+        setFetchError("Fleet data is temporarily unavailable. Please try again shortly.");
+      })
       .finally(() => setLoading(false));
   }, []);
 
@@ -126,6 +134,15 @@ export function FleetCollectionSection() {
       {/* Vehicle list */}
       {loading ? (
         <div className="py-20 text-center text-sm text-neutral-400">Loading fleet…</div>
+      ) : fetchError ? (
+        <div className="py-20 text-center space-y-2">
+          <p className="text-sm font-semibold text-neutral-900">Fleet unavailable</p>
+          <p className="text-sm text-neutral-500">{fetchError}</p>
+        </div>
+      ) : fleet.length === 0 ? (
+        <div className="py-20 text-center">
+          <p className="text-sm text-neutral-500">No vehicles are currently listed. Please contact us directly.</p>
+        </div>
       ) : (
         <AnimatePresence mode="wait">
         <motion.div

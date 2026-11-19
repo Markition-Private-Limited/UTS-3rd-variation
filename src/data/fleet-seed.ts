@@ -13,20 +13,20 @@ export const CATEGORIES = [
 // Rates transcribed from "UTS Fleet & Rate Card - Rate Card.pdf".
 // City to City is blank on the source card — stored as tbd/null until priced.
 function ratesFor(tier: "Economy" | "Business" | "Business Van" | "First" | "MPV" | "1st class Van" | "Standard Van") {
-  const TABLE: Record<string, { airport: number; day: number; hourly: number; note?: string }> = {
+  const TABLE: Record<string, { airport: number; day: number; hourly: number }> = {
     "Economy":        { airport: 2.00, day: 30.00, hourly: 30.00 },
-    "Business":        { airport: 2.50, day: 50.00, hourly: 50.00 },
-    "Business Van":    { airport: 3.00, day: 65.00, hourly: 60.00 },
-    "First":           { airport: 3.50, day: 80.00, hourly: 70.00 },
-    "MPV":             { airport: 2.66, day: 39.90, hourly: 39.90, note: "Economy rate x 1.33" },
-    "1st class Van":   { airport: 3.50, day: 80.00, hourly: 70.00 },
-    "Standard Van":    { airport: 2.80, day: 60.00, hourly: 55.00 },
+    "Business":       { airport: 2.50, day: 50.00, hourly: 50.00 },
+    "Business Van":   { airport: 3.00, day: 65.00, hourly: 60.00 },
+    "First":          { airport: 3.50, day: 80.00, hourly: 70.00 },
+    "MPV":            { airport: 2.50, day: 55.00, hourly: 45.00 },
+    "1st class Van":  { airport: 3.50, day: 80.00, hourly: 70.00 },
+    "Standard Van":   { airport: 2.80, day: 60.00, hourly: 55.00 },
   }
   const r = TABLE[tier]
   return [
-    { service: "Airport Transfer", amount: r.airport, unit: "per_km", notes: r.note ?? "" },
-    { service: "Day Booking", amount: r.day, unit: "per_hour_min_4hr", notes: r.note ? `${r.note}, 4-hour minimum` : "4-hour minimum" },
-    { service: "Hourly Chauffeur", amount: r.hourly, unit: "per_hour", notes: r.note ?? "" },
+    { service: "Airport Transfer", amount: r.airport, unit: "per_km", notes: "" },
+    { service: "Day Booking", amount: r.day, unit: "per_hour_min_4hr", notes: "4-hour minimum" },
+    { service: "Hourly Chauffeur", amount: r.hourly, unit: "per_hour_min_4hr", notes: "4-hour minimum" },
     { service: "City to City", amount: null, unit: "tbd", notes: "Not yet priced" },
   ]
 }
@@ -34,7 +34,7 @@ function ratesFor(tier: "Economy" | "Business" | "Business Van" | "First" | "MPV
 export const VEHICLES = [
   {
     slug: "economy-saloon",
-    tier: "Economy saloon",
+    tier: "Economy",
     categories: ["Economy saloon"],
     name: "VW Passat / Kia Niro or similar",
     description: "Reliable, comfortable saloon travel at an accessible rate — ideal for everyday transfers.",

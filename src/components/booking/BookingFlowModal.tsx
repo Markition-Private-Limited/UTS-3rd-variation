@@ -7,7 +7,7 @@ import { FlagImage } from 'react-international-phone';
 import { BookingState, Vehicle } from '@/types/booking';
 import { calculatePrice } from '@/data/fleet';
 
-type Step = 'contact' | 'payment' | 'processing' | 'success';
+type Step = 'contact' | 'payment' | 'processing' | 'success' | 'error';
 
 interface BookingFlowModalProps {
   isOpen: boolean;
@@ -147,6 +147,8 @@ export const BookingFlowModal: React.FC<BookingFlowModalProps> = ({ isOpen, onCl
   const [contact, setContact] = useState({ name: '', email: '', phone: '' });
   const [payment, setPayment] = useState({ cardNumber: '', expiry: '', cvc: '', cardholder: '' });
   const [errors, setErrors] = useState<Record<string, string>>({});
+  const [bookingResult, setBookingResult] = useState<{ ref: string; price: number; currency: string; vehicleName: string } | null>(null);
+  const [apiError, setApiError] = useState('');
 
   // Reset to the contact step and clear form state whenever the modal is opened.
   // Without this, React preserves state across open/close cycles (the component
@@ -158,6 +160,8 @@ export const BookingFlowModal: React.FC<BookingFlowModalProps> = ({ isOpen, onCl
       setContact({ name: '', email: '', phone: '' });
       setPayment({ cardNumber: '', expiry: '', cvc: '', cardholder: '' });
       setErrors({});
+      setBookingResult(null);
+      setApiError('');
     }
   }, [isOpen]);
 
@@ -199,11 +203,47 @@ export const BookingFlowModal: React.FC<BookingFlowModalProps> = ({ isOpen, onCl
   };
 
   const handleContactNext = () => { if (validateContact()) { setErrors({}); setStep('payment'); } };
-  const handlePaymentSubmit = () => {
+  const handlePaymentSubmit = async () => {
     if (!validatePayment()) return;
     setErrors({});
     setStep('processing');
-    setTimeout(() => setStep('success'), 2800);
+    try {
+      const res = await fetch('/api/bookings', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          serviceType: state.serviceType,
+          vehicleSlug: vehicle.id,
+          pickup: state.pickupAddress,
+          dropoff: state.destinationAddress?.trim() || state.pickupAddress,
+          date: state.pickupDate,
+          time: state.pickupTime,
+          flightNumber: state.flightNumber || undefined,
+          tripType: state.transferDirection || undefined,
+          durationHours:
+            state.serviceType === 'day-booking' || state.serviceType === 'hourly-chauffeur'
+              ? state.durationHours
+              : undefined,
+          passengerName: contact.name,
+          passengerEmail: contact.email,
+          passengerPhone: contact.phone,
+          passengerCount: state.passengers,
+          luggageCount: state.luggageCount,
+          notes: state.specialInstructions || undefined,
+        }),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        setApiError(data.error ?? 'Booking could not be created. Please try again.');
+        setStep('error');
+        return;
+      }
+      setBookingResult(data);
+      setStep('success');
+    } catch {
+      setApiError('A network error occurred. Please check your connection and try again.');
+      setStep('error');
+    }
   };
 
   if (!isOpen) return null;
@@ -211,7 +251,7 @@ export const BookingFlowModal: React.FC<BookingFlowModalProps> = ({ isOpen, onCl
   const short = (v: string, n = 28) => v.length > n ? v.slice(0, n - 1) + '…' : v;
   const totalStr = priceCalc.total !== null ? `£${priceCalc.total.toFixed(2)}` : 'TBC';
 
-  const isProcessingOrSuccess = step === 'processing' || step === 'success';
+  const isProcessingOrSuccess = step === 'processing' || step === 'success' || step === 'error';
 
   return (
     <div
@@ -404,20 +444,30 @@ export const BookingFlowModal: React.FC<BookingFlowModalProps> = ({ isOpen, onCl
               </p>
             </div>
 
-            <div className="w-full bg-zinc-50 border border-zinc-200 rounded-2xl p-4 text-left space-y-2.5">
-              <div className="flex items-start gap-2.5">
-                <div className="w-2 h-2 rounded-full bg-zinc-900 mt-1.5 shrink-0" />
-                <div className="min-w-0">
-                  <span className="text-[9px] uppercase tracking-wider font-bold text-zinc-400 block">Pickup</span>
-                  <span className="text-xs font-medium text-zinc-900 break-words">{state.pickupAddress}</span>
-                </div>
+            <div className="w-full bg-zinc-50 border border-zinc-200 rounded-2xl p-4 space-y-3">
+              <div className="text-center pb-3 border-b border-zinc-100">
+                <span className="text-[9px] uppercase tracking-wider font-bold text-zinc-400 block mb-1">Booking Reference</span>
+                <span className="text-base font-black text-zinc-950 font-mono tracking-wide">{bookingResult?.ref}</span>
               </div>
-              <div className="flex flex-wrap items-center gap-x-2 gap-y-0.5 text-xs text-zinc-500 pt-1 border-t border-zinc-100">
-                <span>{state.pickupDate}</span>
-                <span>·</span>
-                <span>{state.pickupTime}</span>
-                <span>·</span>
-                <span className="font-semibold text-zinc-700">{vehicle.name}</span>
+              <div className="text-center pb-3 border-b border-zinc-100">
+                <span className="text-[9px] uppercase tracking-wider font-bold text-zinc-400 block mb-1">Confirmed Price</span>
+                <span className="text-xl font-black text-zinc-950">£{bookingResult?.price.toFixed(2)}</span>
+              </div>
+              <div className="text-left space-y-2.5">
+                <div className="flex items-start gap-2.5">
+                  <div className="w-2 h-2 rounded-full bg-zinc-900 mt-1.5 shrink-0" />
+                  <div className="min-w-0">
+                    <span className="text-[9px] uppercase tracking-wider font-bold text-zinc-400 block">Pickup</span>
+                    <span className="text-xs font-medium text-zinc-900 break-words">{state.pickupAddress}</span>
+                  </div>
+                </div>
+                <div className="flex flex-wrap items-center gap-x-2 gap-y-0.5 text-xs text-zinc-500 pt-1 border-t border-zinc-100">
+                  <span>{state.pickupDate}</span>
+                  <span>·</span>
+                  <span>{state.pickupTime}</span>
+                  <span>·</span>
+                  <span className="font-semibold text-zinc-700">{vehicle.name}</span>
+                </div>
               </div>
             </div>
 
@@ -425,7 +475,25 @@ export const BookingFlowModal: React.FC<BookingFlowModalProps> = ({ isOpen, onCl
               className="w-full py-3.5 rounded-2xl bg-zinc-950 text-white text-sm font-bold tracking-wide hover:bg-zinc-800 transition-colors shadow-lg">
               Back to Home
             </button>
-            <p className="text-[11px] text-zinc-400">Prototype only · No actual booking has been made</p>
+          </div>
+        )}
+
+        {/* ── Error ── */}
+        {step === 'error' && (
+          <div className="flex-1 flex flex-col items-center justify-center py-10 px-6 sm:px-8 gap-5 text-center">
+            <div className="w-16 h-16 rounded-full bg-red-50 border-2 border-red-100 flex items-center justify-center">
+              <X className="w-8 h-8 text-red-400" />
+            </div>
+            <div className="space-y-2">
+              <p className="text-xl font-bold text-zinc-950">Booking Failed</p>
+              <p className="text-sm text-zinc-500 max-w-xs leading-relaxed">{apiError}</p>
+            </div>
+            <button
+              onClick={() => { setApiError(''); setStep('payment'); }}
+              className="w-full py-3.5 rounded-2xl bg-zinc-950 text-white text-sm font-bold tracking-wide hover:bg-zinc-800 transition-colors shadow-lg"
+            >
+              Try Again
+            </button>
           </div>
         )}
 

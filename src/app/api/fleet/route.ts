@@ -9,6 +9,14 @@ type FleetPayload = {
   vehicles: Record<string, unknown>[]
 }
 
+function ratesFor(rates: { service: string; amount: number | null }[]) {
+  return {
+    airportRateKm: rates.find((r) => r.service === 'Airport Transfer')?.amount ?? null,
+    dayRateHour: rates.find((r) => r.service === 'Day Booking')?.amount ?? null,
+    hourlyRateHour: rates.find((r) => r.service === 'Hourly Chauffeur')?.amount ?? null,
+  }
+}
+
 function fallbackPayload(): FleetPayload {
   return {
     categories: CATEGORIES,
@@ -23,6 +31,7 @@ function fallbackPayload(): FleetPayload {
       luggage: v.luggage,
       rates: v.rates,
       showInAll: 'showInAll' in v ? v.showInAll : true,
+      ...ratesFor(v.rates),
     })),
   }
 }
@@ -53,6 +62,7 @@ export async function GET() {
         luggage: v.luggage,
         rates: v.rates,
         showInAll: v.showInAll,
+        ...ratesFor(v.rates as { service: string; amount: number | null }[]),
       })),
     })
   } catch (err) {

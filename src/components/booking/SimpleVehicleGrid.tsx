@@ -2,15 +2,15 @@
 
 import React from 'react';
 import { User, Briefcase } from 'lucide-react';
-import { Vehicle, VehicleTier, ServiceType } from '@/types/booking';
+import { Vehicle, ServiceType } from '@/types/booking';
 import { calculatePrice } from '@/data/fleet';
 
-const GRID_VEHICLE_IDS: VehicleTier[] = ['business', 'first', 'first-class-van'];
+const GRID_VEHICLE_IDS: string[] = ['business-class', 'first-class', 'first-class-van'];
 
 interface SimpleVehicleGridProps {
   vehicles: Vehicle[];
-  selectedVehicleId: VehicleTier;
-  onSelectVehicle: (id: VehicleTier) => void;
+  selectedVehicleId: string;
+  onSelectVehicle: (id: string) => void;
   serviceType: ServiceType;
   durationHours: number;
 }

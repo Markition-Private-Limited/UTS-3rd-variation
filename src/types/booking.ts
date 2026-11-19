@@ -3,7 +3,7 @@ export type ServiceType = 'airport-transfer' | 'day-booking' | 'hourly-chauffeur
 export type VehicleTier = 'economy' | 'business' | 'first' | 'mpv' | 'first-class-van' | 'van' | 'standard-van';
 
 export interface Vehicle {
-  id: VehicleTier;
+  id: string;  // DB slug or legacy VehicleTier value
   name: string;
   categoryName: string;
   modelExample: string;
@@ -28,7 +28,7 @@ export interface ItineraryStop {
 
 export interface BookingState {
   serviceType: ServiceType;
-  selectedVehicleId: VehicleTier;
+  selectedVehicleId: string;  // DB slug
   transferDirection: 'departure' | 'arrival';
   sampleDistanceKm: number;
   flightNumber: string;
